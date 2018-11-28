@@ -17,7 +17,6 @@
       "path": "dist/dist.js"
     }
   ],
-  "preloadedCss": [],
   "preloadedDependencies": [
     {
       "machineName": "FontAwesome",
