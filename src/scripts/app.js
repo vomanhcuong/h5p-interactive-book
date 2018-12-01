@@ -26,7 +26,7 @@ export default class DigiBook extends H5P.EventDispatcher {
     this.doesCoverExist = () => {
       if (this.cover && this.cover.div) {
         return true;
-      } 
+      }
       return false;
     };
 
@@ -61,7 +61,7 @@ export default class DigiBook extends H5P.EventDispatcher {
 
     /**
      * Compare the current hash with the currently redirected hash.
-     * 
+     *
      * Used for checking if the user attempts to redirect to the same section twice
      * @param {object} hashObj - the object that should be compared to the hash
      * @param {String} hashObj.chapter
@@ -93,7 +93,7 @@ export default class DigiBook extends H5P.EventDispatcher {
     });
 
     /**
-     * 
+     *
      */
     this.on('newChapter', (event) => {
       if (this.animationInProgress) {
@@ -124,7 +124,7 @@ export default class DigiBook extends H5P.EventDispatcher {
 
     /**
      * Check if the current chapter is read
-     * 
+     *
      * @returns {boolean}
      */
     this.isCurrentChapterRead = () => {
@@ -141,8 +141,8 @@ export default class DigiBook extends H5P.EventDispatcher {
 
     /**
      * Update statistics on the main chapter
-     * 
-     * @param {number} targetChapter 
+     *
+     * @param {number} targetChapter
      */
     this.updateChapterProgress = function (targetChapter) {
       if (!this.behaviour.progressIndicators || !this.behaviour.progressAuto) {
@@ -173,14 +173,14 @@ export default class DigiBook extends H5P.EventDispatcher {
 
     /**
      * Check if the content height exceeds the window
-     * @param {div} chapterHeight 
+     * @param {div} chapterHeight
      */
     this.shouldFooterBeVisible = (chapterHeight) => {
       return chapterHeight <= window.outerHeight;
     };
 
     /**
-     * Resize all child instances. 
+     * Resize all child instances.
      */
     this.resizeChildInstances = function () {
       this.instances[this.activeChapter].childInstances.forEach(x => {
@@ -215,7 +215,7 @@ export default class DigiBook extends H5P.EventDispatcher {
         top.location.hash = event.data.newHash;
       }
     });
-    
+
     H5P.externalDispatcher.on('xAPI', function (event) {
       if (event.getVerb() === 'answered') {
         if (self.behaviour.progressIndicators) {
@@ -232,12 +232,12 @@ export default class DigiBook extends H5P.EventDispatcher {
       if (!this.newHandler.redirectFromComponent) {
         let tmpEvent;
         tmpEvent = event;
-        // Assert that the handler actually is from this content type. 
+        // Assert that the handler actually is from this content type.
         if (tmpEvent.h5pbookid && parseInt(tmpEvent.h5pbookid) === self.contentId) {
           self.newHandler = tmpEvent;
-        /** 
+        /**
          * H5p-context switch on no newhash = history backwards
-         * Redirect to first chapter 
+         * Redirect to first chapter
          */
         }
         else {
@@ -252,9 +252,9 @@ export default class DigiBook extends H5P.EventDispatcher {
 
     /**
      * Set a section progress indicator
-     * 
-     * @param {string} targetId 
-     * @param {string} targetChapter 
+     *
+     * @param {string} targetId
+     * @param {string} targetChapter
      */
     this.setSectionStatusByID = function (targetId, targetChapter) {
       for (let i = 0; i < this.instances[targetChapter].childInstances.length; i++) {
@@ -286,8 +286,11 @@ export default class DigiBook extends H5P.EventDispatcher {
         $wrapper.get(0).appendChild(this.cover.div);
       }
       $wrapper.get(0).appendChild(this.statusBar.header);
-      this.pageContent.div.prepend(this.sideBar.div);
 
+      const first = this.pageContent.div.firstChild;
+      if (first) {
+        this.pageContent.div.insertBefore(this.sideBar.div, first);
+      }
 
       $wrapper.get(0).appendChild(this.pageContent.div);
       $wrapper.get(0).appendChild(this.statusBar.footer);
@@ -340,7 +343,7 @@ export default class DigiBook extends H5P.EventDispatcher {
     if (this.doesCoverExist()) {
 
       this.hideAllElements(true);
-      
+
       this.on('coverRemoved', () => {
         this.hideAllElements(false);
 
