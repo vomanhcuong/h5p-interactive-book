@@ -152,7 +152,17 @@ class PageContent extends H5P.EventDispatcher {
   }
 
   findChapterIndex(id) {
-    return this.columnElements.findIndex(x => x.id === id);
+    let position = -1;
+    this.columnElements.forEach((element, index) => {
+      if (position !== -1) {
+        return; // Skip
+      }
+      if (element.id === id) {
+        position = index;
+      }
+    });
+
+    return position;
   }
 
   /**
