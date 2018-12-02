@@ -200,7 +200,8 @@ class PageContent extends H5P.EventDispatcher {
           oldPageProgrss = 'right';
         }
         // Set up the slides
-        targetChapter.classList.add('h5p-digibook-animate-new', 'h5p-digibook-offset-' + newPageProgress);
+        targetChapter.classList.add('h5p-digibook-animate-new');
+        targetChapter.classList.add('h5p-digibook-offset-' + newPageProgress);
         targetChapter.classList.remove('h5p-content-hidden');
 
         // Play the animation
@@ -234,14 +235,17 @@ class PageContent extends H5P.EventDispatcher {
         // Remove all animation-related classes
         const inactiveElems = this.columnElements.filter(x => x !== this.columnElements[activeChapter]);
         inactiveElems.forEach(x => {
-          x.classList.remove('h5p-digibook-offset-right', 'h5p-digibook-offset-left');
+          x.classList.remove('h5p-digibook-offset-right');
+          x.classList.remove('h5p-digibook-offset-left');
           x.classList.add('h5p-content-hidden');
         });
 
         const activeElem = this.columnElements[activeChapter];
         this.parent.resizeChildInstances();
 
-        activeElem.classList.remove('h5p-digibook-offset-right', 'h5p-digibook-offset-left', 'h5p-digibook-animate-new');
+        activeElem.classList.remove('h5p-digibook-offset-right');
+        activeElem.classList.remove('h5p-digibook-offset-left');
+        activeElem.classList.remove('h5p-digibook-animate-new');
 
         let footerStatus = this.parent.shouldFooterBeVisible(activeElem.clientHeight);
         this.parent.statusBar.editFooterVisibillity(footerStatus);

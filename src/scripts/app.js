@@ -306,13 +306,15 @@ export default class DigiBook extends H5P.EventDispatcher {
 
       if (hideElements) {
         targetElements.forEach(x => {
-          x.classList.add('h5p-content-hidden', 'digibook-cover-present');
+          x.classList.add('h5p-content-hidden');
+          x.classList.add('digibook-cover-present');
         });
       }
 
       else {
         targetElements.forEach(x => {
-          x.classList.remove('h5p-content-hidden', 'digibook-cover-present');
+          x.classList.remove('h5p-content-hidden');
+          x.classList.remove('digibook-cover-present');
         });
       }
     };

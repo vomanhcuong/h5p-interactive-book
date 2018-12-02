@@ -151,15 +151,18 @@ class SideBar extends H5P.EventDispatcher {
     targetElem = targetElem.getElementsByClassName('h5p-digibook-navigation-chapter-progress')[0];
 
     if (status === 'BLANK') {
-      targetElem.classList.remove('icon-chapter-started', 'icon-chapter-done');
+      targetElem.classList.remove('icon-chapter-started');
+      targetElem.classList.remove('icon-chapter-done');
       targetElem.classList.add('icon-chapter-blank');
     }
     else if (status === 'DONE') {
-      targetElem.classList.remove('icon-chapter-blank', 'icon-chapter-started');
+      targetElem.classList.remove('icon-chapter-blank');
+      targetElem.classList.remove('icon-chapter-started');
       targetElem.classList.add('icon-chapter-done');
     }
     else if (status === 'STARTED') {
-      targetElem.classList.remove('icon-chapter-blank', 'icon-chapter-done');
+      targetElem.classList.remove('icon-chapter-blank');
+      targetElem.classList.remove('icon-chapter-done');
       targetElem.classList.add('icon-chapter-started');
     }
   }
@@ -200,9 +203,11 @@ class SideBar extends H5P.EventDispatcher {
     const arrowIcon = document.createElement('span');
     const circleIcon = document.createElement('span');
 
-    arrowIcon.classList.add('icon-collapsed', 'h5p-digibook-navigation-chapter-accordion');
+    arrowIcon.classList.add('icon-collapsed');
+    arrowIcon.classList.add('h5p-digibook-navigation-chapter-accordion');
     if (this.behaviour.progressIndicators) {
-      circleIcon.classList.add('icon-chapter-blank', 'h5p-digibook-navigation-chapter-progress');
+      circleIcon.classList.add('icon-chapter-blank');
+      circleIcon.classList.add('h5p-digibook-navigation-chapter-progress');
     }
 
     titleDiv.appendChild(arrowIcon);
