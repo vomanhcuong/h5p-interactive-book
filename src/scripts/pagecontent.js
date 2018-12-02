@@ -241,7 +241,6 @@ class PageContent extends H5P.EventDispatcher {
         });
 
         const activeElem = this.columnElements[activeChapter];
-        this.parent.resizeChildInstances();
 
         activeElem.classList.remove('h5p-digibook-offset-right');
         activeElem.classList.remove('h5p-digibook-offset-left');
@@ -253,6 +252,8 @@ class PageContent extends H5P.EventDispatcher {
         //Focus on section only after the page scrolling is finished
         this.parent.animationInProgress = false;
         this.redirectSection(this.targetPage.section);
+
+        this.parent.resizeChildInstances();
       }
     });
   }
