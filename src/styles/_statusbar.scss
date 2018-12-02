@@ -10,7 +10,7 @@
   margin: 0;
   overflow: hidden;
   div {
-    align-self: center;
+    align-items: center;
     display: flex;
   }
 }
@@ -36,7 +36,7 @@
   border-radius: 2px;
   background-color: $background-color;
   background-size: cover;
-  
+
   a {
     margin: auto;
     font-size: 1.35em;
@@ -145,4 +145,3 @@
     display:none;
   }
 }
-
