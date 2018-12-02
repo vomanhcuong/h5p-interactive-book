@@ -68,7 +68,7 @@ class PageContent extends H5P.EventDispatcher {
   injectSectionId(H5PInstance, columnElement) {
     const colContent = columnElement.getElementsByClassName('h5p-column-content');
 
-    for (let i = 0; i < H5PInstance.childInstances.length; i++) {      
+    for (let i = 0; i < H5PInstance.childInstances.length; i++) {
       colContent[i].id = H5PInstance.childInstances[i].subContentId;
     }
   }
@@ -85,12 +85,12 @@ class PageContent extends H5P.EventDispatcher {
       newColumn.id = newInstance.subContentId;
       newInstance.title = config.chapters[i].metadata.title;
       newInstance.completed = false;
-      
+
       if (this.behaviour.progressIndicators && !this.behaviour.progressAuto) {
         const checkPage = this.createPageReadMark();
         newColumn.appendChild(checkPage.div);
       }
-      
+
 
       //Find sections with tasks and tracks them
       newInstance.tasksLeft = 0;
@@ -106,12 +106,12 @@ class PageContent extends H5P.EventDispatcher {
       newInstance.maxTasks = newInstance.tasksLeft;
 
       this.injectSectionId(newInstance, newColumn);
-      
+
       //Register both the HTML-element and the H5P-element
       this.instances.push(newInstance);
       this.columnElements.push(newColumn);
     }
-    
+
     //First chapter should be visible, except if the url says otherwise.
     let chosenChapter = this.columnElements[0].id;
     if (redirObject.chapter && redirObject.h5pbookid == this.parent.contentId) {
@@ -166,7 +166,7 @@ class PageContent extends H5P.EventDispatcher {
   }
 
   /**
-   * Input in targetPage should be: 
+   * Input in targetPage should be:
    * @param {int} chapter - The given chapter that should be opened
    * @param {int} section - The given section to redirect
    */
@@ -174,7 +174,7 @@ class PageContent extends H5P.EventDispatcher {
     if (this.parent.animationInProgress) {
       return;
     }
-    
+
     this.targetPage = newHandler;
     const oldChapterNum = this.parent.getActiveChapter();
     const newChapterNum = this.findChapterIndex(this.targetPage.chapter);
@@ -182,12 +182,12 @@ class PageContent extends H5P.EventDispatcher {
     if (newChapterNum < this.columnElements.length) {
       const oldChapter = this.columnElements[oldChapterNum];
       const targetChapter = this.columnElements[newChapterNum];
-      
+
       if (oldChapterNum !== newChapterNum && !redirectOnLoad) {
         this.parent.animationInProgress = true;
         this.parent.setActiveChapter(newChapterNum);
-        
-        
+
+
         var newPageProgress = '';
         var oldPageProgrss = '';
         // The pages will progress from right to left
@@ -202,7 +202,7 @@ class PageContent extends H5P.EventDispatcher {
         // Set up the slides
         targetChapter.classList.add('h5p-digibook-animate-new', 'h5p-digibook-offset-' + newPageProgress);
         targetChapter.classList.remove('h5p-content-hidden');
-        
+
         // Play the animation
         setTimeout(() => {
           oldChapter.classList.add('h5p-digibook-offset-' + oldPageProgrss);
@@ -239,13 +239,13 @@ class PageContent extends H5P.EventDispatcher {
         });
 
         const activeElem = this.columnElements[activeChapter];
-        this.parent.resizeChildInstances();  
+        this.parent.resizeChildInstances();
 
         activeElem.classList.remove('h5p-digibook-offset-right', 'h5p-digibook-offset-left', 'h5p-digibook-animate-new');
-        
+
         let footerStatus = this.parent.shouldFooterBeVisible(activeElem.clientHeight);
         this.parent.statusBar.editFooterVisibillity(footerStatus);
-        
+
         //Focus on section only after the page scrolling is finished
         this.parent.animationInProgress = false;
         this.redirectSection(this.targetPage.section);
