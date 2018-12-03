@@ -63,7 +63,8 @@ class SideBar extends H5P.EventDispatcher {
     for (let j = 0; j < sections.length; j++) {
       try {
         const content = sections[j].content;
-        const title = content.metadata.title;
+        const isLink = (content.library.split(' ')[0] === 'H5P.Link');
+        const title = (isLink ? (content.params.title ? content.params.title : 'New link') : content.metadata.title);
         const id = content.subContentId;
         tmp.push({
           title,
