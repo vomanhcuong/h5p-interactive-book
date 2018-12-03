@@ -205,11 +205,18 @@ class SideBar extends H5P.EventDispatcher {
     const arrowIcon = document.createElement('span');
     const circleIcon = document.createElement('span');
 
-    arrowIcon.classList.add('icon-collapsed');
     arrowIcon.classList.add('h5p-digibook-navigation-chapter-accordion');
     if (this.behaviour.progressIndicators) {
       circleIcon.classList.add('icon-chapter-blank');
       circleIcon.classList.add('h5p-digibook-navigation-chapter-progress');
+    }
+
+    if (this.parent.activeChapter !== chapterIndex) {
+      chapterDiv.classList.add('h5p-digibook-navigation-closed');
+      arrowIcon.classList.add('icon-collapsed');
+    }
+    else {
+      arrowIcon.classList.add('icon-expanded');
     }
 
     titleDiv.appendChild(arrowIcon);
