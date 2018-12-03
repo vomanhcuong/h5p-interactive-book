@@ -80,6 +80,17 @@ class PageContent extends H5P.EventDispatcher {
     for (let i = 0; i < config.chapters.length; i++) {
       const newColumn = document.createElement('div');
       const newInstance = H5P.newRunnable(config.chapters[i], contentId, H5P.jQuery(newColumn), contentData);
+      newInstance.on('resize', (e) => {
+        // Prevent sending event back down
+        this.parent.bubblingUpwards = true;
+
+        // Resize ourself
+        this.parent.trigger('resize', e);
+
+        // Reset
+        this.parent.bubblingUpwards = false;
+      });
+
       newInstance.childInstances = newInstance.getInstances();
       newColumn.classList.add('h5p-digibook-chapter');
       newColumn.id = newInstance.subContentId;
@@ -111,6 +122,19 @@ class PageContent extends H5P.EventDispatcher {
       this.instances.push(newInstance);
       this.columnElements.push(newColumn);
     }
+
+    this.parent.on('resize', (e) => {
+      if (this.parent.bubblingUpwards) {
+        return; // Prevent sending back down.
+      }
+
+      for (var i = 0; i < this.instances.length; i++) {
+        // Only resize the visible column
+        if (this.columnElements[i].offsetParent !== null) {
+          this.instances[i].trigger('resize', e);
+        }
+      }
+    });
 
     //First chapter should be visible, except if the url says otherwise.
     let chosenChapter = this.columnElements[0].id;
@@ -253,7 +277,7 @@ class PageContent extends H5P.EventDispatcher {
         this.parent.animationInProgress = false;
         this.redirectSection(this.targetPage.section);
 
-        this.parent.resizeChildInstances();
+        this.parent.trigger('resize');
       }
     });
   }

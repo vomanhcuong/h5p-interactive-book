@@ -180,16 +180,6 @@ export default class DigiBook extends H5P.EventDispatcher {
     };
 
     /**
-     * Resize all child instances.
-     */
-    this.resizeChildInstances = function () {
-      this.instances[this.activeChapter].childInstances.forEach(x => {
-        x.trigger('resize');
-      });
-      this.trigger('resize');
-    };
-
-    /**
      * Change the current active chapter
      * @param {boolean} redirectOnLoad - Is this a redirect which happens immediately?
      */
@@ -348,8 +338,7 @@ export default class DigiBook extends H5P.EventDispatcher {
 
       this.on('coverRemoved', () => {
         this.hideAllElements(false);
-
-        this.resizeChildInstances();
+        this.trigger('resize');
       });
     }
 

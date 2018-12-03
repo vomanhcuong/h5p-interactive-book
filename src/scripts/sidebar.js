@@ -180,6 +180,7 @@ class SideBar extends H5P.EventDispatcher {
     const x = element.currentTarget.parentElement;
     const bool = !(x.classList.contains('h5p-digibook-navigation-closed'));
     this.editChapterStatus(x, bool);
+    this.parent.trigger('resize');
   }
 
 
@@ -275,7 +276,7 @@ class SideBar extends H5P.EventDispatcher {
   addTransformListener() {
     this.div.addEventListener('transitionend', (event) => {
       if (event.propertyName === "flex-basis") {
-        this.parent.resizeChildInstances();
+        this.parent.trigger('resize');
       }
     });
   }
