@@ -207,9 +207,9 @@ export default class DigiBook extends H5P.EventDispatcher {
     });
 
     H5P.externalDispatcher.on('xAPI', function (event) {
-      if (event.getVerb() === 'answered') {
+      if (event.getVerb() === 'answered' || event.getVerb() === 'completed') {
         if (self.behaviour.progressIndicators) {
-          self.setSectionStatusByID(this.contentData.subContentId, self.activeChapter);
+          self.setSectionStatusByID(this.subContentId || this.contentData.subContentId, self.activeChapter);
         }
       }
     });
