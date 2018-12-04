@@ -25,17 +25,17 @@ class Cover extends H5P.EventDispatcher {
     }
 
     this.div.appendChild(this.title);
-    
+
     if (this.description) {
       this.div.appendChild(this.description);
     }
     this.div.appendChild(this.button);
-  } 
+  }
 
   /**
    * Create an element which contains both the cover image and a background bar
-   * 
-   * @param {string} coverImage - A relative path to an image 
+   *
+   * @param {string} coverImage - A relative path to an image
    * @param {number} contentId
    */
   createVisualsElement(coverImage, contentId) {
@@ -45,10 +45,10 @@ class Cover extends H5P.EventDispatcher {
       div.classList.add('h5p-digibook-cover-graphics');
       const visuals = this.parseImage(coverImage.path, contentId);
       const backBorder = this.createBackBorder();
-      
+
       div.appendChild(visuals);
       div.appendChild(backBorder);
-      
+
       return div;
     }
     else {
@@ -78,8 +78,8 @@ class Cover extends H5P.EventDispatcher {
 
   /**
    * Create a button-element
-   * 
-   * @param {string} input - Button-text  
+   *
+   * @param {string} input - Button-text
    */
   createReadButton(input) {
     const buttonElem = document.createElement('div');
@@ -97,9 +97,9 @@ class Cover extends H5P.EventDispatcher {
   }
 
   /**
-   * 
-   * @param {string} path - relative image path   
-   * @param {Number} id - Content id 
+   *
+   * @param {string} path - relative image path
+   * @param {Number} id - Content id
    */
   parseImage(path, id) {
     const img = document.createElement('img');
@@ -112,11 +112,11 @@ class Cover extends H5P.EventDispatcher {
   }
 
   removeCover() {
-    this.div.remove();
+    this.div.parentElement.removeChild(this.div);
     this.div.hidden = true;
     this.parent.trigger('coverRemoved');
   }
-  /** 
+  /**
    * @param {String} input - Text that will go inside the title-element
    */
   parseTitle(input) {
@@ -131,8 +131,8 @@ class Cover extends H5P.EventDispatcher {
   }
 
   /**
-   * 
-   * @param {String} input - Text that will go inside the description-element 
+   *
+   * @param {String} input - Text that will go inside the description-element
    */
   parseDescription(input) {
     if (input) {
@@ -141,9 +141,9 @@ class Cover extends H5P.EventDispatcher {
       descElem.classList.add('h5p-digibook-cover-description');
       const desc = document.createElement('p');
       desc.innerHTML = input;
-      
+
       descElem.appendChild(desc);
-      
+
       return descElem;
     }
     else {
