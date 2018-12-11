@@ -17,11 +17,153 @@ export default class DigiBook extends H5P.EventDispatcher {
     this.contentId = contentId;
     this.activeChapter = 0;
     this.newHandler = {};
-    this.behaviour = config.behaviour;
+
+    this.params = config;
+    this.params.behaviour = this.params.behaviour || {};
+
+    /*
+     * this.params.behaviour.enableSolutionsButton and this.params.behaviour.enableRetry
+     * are used by H5P's question type contract.
+     * @see {@link https://h5p.org/documentation/developers/contracts#guides-header-8}
+     * @see {@link https://h5p.org/documentation/developers/contracts#guides-header-9}
+     */
+    this.params.behaviour.enableSolutionsButton = false;
+    this.params.behaviour.enableRetry = false;
+
     this.animationInProgress = false;
 
     // H5P-instances (columns)
     this.instances = [];
+
+    /**
+     * Check if result has been submitted or input has been given.
+     *
+     * @return {boolean} True, if answer was given.
+     * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-1}
+     */
+    this.getAnswerGiven = () => this.instances.reduce((accu, current) => {
+      if (typeof current.getAnswerGiven === 'function') {
+        return accu || current.getAnswerGiven();
+      }
+      return false;
+    }, false);
+
+    /**
+     * Get latest score.
+     *
+     * @return {number} Latest score.
+     * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-2}
+     */
+    this.getScore = () => this.instances.reduce((accu, current) => {
+      if (typeof current.getScore === 'function') {
+        return accu + current.getScore();
+      }
+      return 0;
+    }, 0);
+
+    /**
+     * Get maximum possible score.
+     *
+     * @return {number} Score necessary for mastering.
+     * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-3}
+     */
+    this.getMaxScore = () => this.instances.reduce((accu, current) => {
+      if (typeof current.getMaxScore === 'function') {
+        return accu + current.getMaxScore();
+      }
+      return 0;
+    }, 0);
+
+    /**
+     * Show solutions.
+     *
+     * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-4}
+     */
+    this.showSolutions = () => {
+      this.instances.forEach(instance => {
+        if (typeof instance.toggleReadSpeaker === 'function') {
+          instance.toggleReadSpeaker(true);
+        }
+        if (typeof instance.showSolutions === 'function') {
+          instance.showSolutions();
+        }
+        if (typeof instance.toggleReadSpeaker === 'function') {
+          instance.toggleReadSpeaker(false);
+        }
+      });
+    };
+
+    /**
+     * Reset task.
+     *
+     * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-5}
+     */
+    this.resetTask = () => {
+      this.instances.forEach(instance => {
+        if (typeof instance.resetTask === 'function') {
+          instance.resetTask();
+        }
+      });
+
+      this.sideBar.resetIndicators();
+    };
+
+    /**
+     * Get xAPI data.
+     *
+     * @return {Object} xAPI statement.
+     * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-6}
+     */
+    this.getXAPIData = () => {
+      const xAPIEvent = this.createXAPIEventTemplate('answered');
+      this.addQuestionToXAPI(xAPIEvent);
+      xAPIEvent.setScoredResult(this.getScore(),
+        this.getMaxScore(),
+        this,
+        true,
+        this.getScore() === this.getMaxScore()
+      );
+
+      return {
+        statement: xAPIEvent.data.statement,
+        children: this.getXAPIDataFromChildren(this.instances)
+      };
+    };
+
+    /**
+     * Get xAPI data from sub content types.
+     *
+     * @param {Object[]} instances H5P instances.
+     * @return {Object[]} xAPI data objects used to build a report.
+     */
+    this.getXAPIDataFromChildren = instances => {
+      return instances.map(instance => {
+        if (typeof instance.getXAPIData === 'function') {
+          return instance.getXAPIData();
+        }
+      }).filter(data => !!data);
+    };
+
+    /**
+     * Add question itself to the definition part of an xAPIEvent.
+     *
+     * @param {H5P.XAPIEvent} xAPIEvent.
+     */
+    this.addQuestionToXAPI = xAPIEvent => {
+      const definition = xAPIEvent.getVerifiedStatementValue(['object', 'definition']);
+      H5P.jQuery.extend(definition, this.getxAPIDefinition());
+    };
+
+    /**
+     * Generate xAPI object definition used in xAPI statements.
+     *
+     * @return {Object} xAPI definition.
+     */
+    this.getxAPIDefinition = () => ({
+      interactionType: 'compound',
+      type: 'http://adlnet.gov/expapi/activities/cmi.interaction',
+      description: {'en-US': ''}
+    });
 
     this.doesCoverExist = () => {
       if (this.cover && this.cover.div) {
@@ -145,7 +287,7 @@ export default class DigiBook extends H5P.EventDispatcher {
      * @param {number} targetChapter
      */
     this.updateChapterProgress = function (targetChapter) {
-      if (!this.behaviour.progressIndicators || !this.behaviour.progressAuto) {
+      if (!this.params.behaviour.progressIndicators || !this.params.behaviour.progressAuto) {
         return;
       }
       const chapter = this.instances[targetChapter];
@@ -208,7 +350,7 @@ export default class DigiBook extends H5P.EventDispatcher {
 
     H5P.externalDispatcher.on('xAPI', function (event) {
       if (event.getVerb() === 'answered' || event.getVerb() === 'completed') {
-        if (self.behaviour.progressIndicators) {
+        if (self.params.behaviour.progressIndicators) {
           self.setSectionStatusByID(this.subContentId || this.contentData.subContentId, self.activeChapter);
         }
       }
@@ -253,7 +395,7 @@ export default class DigiBook extends H5P.EventDispatcher {
           element.taskDone = true;
           this.sideBar.setSectionMarker(targetChapter, i);
           this.instances[targetChapter].tasksLeft -= 1;
-          if (this.behaviour.progressAuto) {
+          if (this.params.behaviour.progressAuto) {
             this.updateChapterProgress(targetChapter);
           }
         }
@@ -318,7 +460,7 @@ export default class DigiBook extends H5P.EventDispatcher {
       l10n: {
         markAsFinished: config.markAsFinished
       },
-      behaviour: this.behaviour
+      behaviour: this.params.behaviour
     });
 
     this.sideBar = new SideBar(config, contentId, contentData.metadata.title, this);
@@ -329,7 +471,7 @@ export default class DigiBook extends H5P.EventDispatcher {
         previousPage: config.previousPage,
         navigateToTop: config.navigateToTop
       },
-      behaviour: this.behaviour
+      behaviour: this.params.behaviour
     });
 
     if (this.doesCoverExist()) {

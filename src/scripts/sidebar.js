@@ -131,6 +131,26 @@ class SideBar extends H5P.EventDispatcher {
   }
 
   /**
+   * Reset indicators.
+   */
+  resetIndicators() {
+    this.chapterElems.forEach((element, index) => {
+      // Reset chapter
+      this.updateChapterProgressIndicator(index, 'BLANK');
+
+      // Reset sections
+      const sections = element.getElementsByClassName('h5p-digibook-navigation-section');
+      for (let section of sections) {
+        const icon = section.getElementsByTagName('span')[0];
+        if (icon) {
+          icon.classList.remove('icon-question-answered');
+          icon.classList.add('icon-chapter-blank');
+        }
+      }
+    });
+  }
+
+  /**
    * Manually set the target chapter as complete
    * @param {number} current - Current chapter
    */
