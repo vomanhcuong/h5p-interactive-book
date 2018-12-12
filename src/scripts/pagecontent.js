@@ -270,9 +270,7 @@ class PageContent extends H5P.EventDispatcher {
         activeElem.classList.remove('h5p-digibook-offset-right');
         activeElem.classList.remove('h5p-digibook-offset-left');
         activeElem.classList.remove('h5p-digibook-animate-new');
-
-        let footerStatus = this.parent.shouldFooterBeVisible(activeElem.clientHeight);
-        this.parent.statusBar.editFooterVisibillity(footerStatus);
+        this.updateFooter();
 
         //Focus on section only after the page scrolling is finished
         this.parent.animationInProgress = false;
@@ -281,6 +279,13 @@ class PageContent extends H5P.EventDispatcher {
         this.parent.trigger('resize');
       }
     });
+  }
+
+  updateFooter() {
+    const activeChapter = this.parent.getActiveChapter();
+    const column = this.columnElements[activeChapter];
+    const shouldFooterBeVisible = this.parent.shouldFooterBeVisible(column.clientHeight);
+    this.parent.statusBar.editFooterVisibillity(shouldFooterBeVisible);
   }
 }
 

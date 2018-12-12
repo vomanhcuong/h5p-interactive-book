@@ -495,5 +495,6 @@ export default class DigiBook extends H5P.EventDispatcher {
 
     //Kickstart the statusbar
     this.statusBar.updateStatusBar();
+    this.pageContent.updateFooter();
   }
 }
