@@ -43,10 +43,10 @@ export default class DigiBook extends H5P.EventDispatcher {
      */
     this.getAnswerGiven = () => this.instances.reduce((accu, current) => {
       if (typeof current.getAnswerGiven === 'function') {
-        return accu || current.getAnswerGiven();
+        return accu && current.getAnswerGiven();
       }
       return accu;
-    }, false);
+    }, true);
 
     /**
      * Get latest score.
