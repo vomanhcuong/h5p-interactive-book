@@ -32,18 +32,15 @@ export default class DigiBook extends H5P.EventDispatcher {
 
     this.animationInProgress = false;
 
-    // H5P-instances (columns)
-    this.instances = [];
-
     /**
      * Check if result has been submitted or input has been given.
      *
      * @return {boolean} True, if answer was given.
      * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-1}
      */
-    this.getAnswerGiven = () => this.instances.reduce((accu, current) => {
-      if (typeof current.getAnswerGiven === 'function') {
-        return accu && current.getAnswerGiven();
+    this.getAnswerGiven = () => this.chapters.reduce((accu, current) => {
+      if (typeof current.instance.getAnswerGiven === 'function') {
+        return accu && current.instance.getAnswerGiven();
       }
       return accu;
     }, true);
@@ -54,9 +51,9 @@ export default class DigiBook extends H5P.EventDispatcher {
      * @return {number} Latest score.
      * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-2}
      */
-    this.getScore = () => this.instances.reduce((accu, current) => {
-      if (typeof current.getScore === 'function') {
-        return accu + current.getScore();
+    this.getScore = () => this.chapters.reduce((accu, current) => {
+      if (typeof current.instance.getScore === 'function') {
+        return accu + current.instance.getScore();
       }
       return accu;
     }, 0);
@@ -67,9 +64,9 @@ export default class DigiBook extends H5P.EventDispatcher {
      * @return {number} Score necessary for mastering.
      * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-3}
      */
-    this.getMaxScore = () => this.instances.reduce((accu, current) => {
-      if (typeof current.getMaxScore === 'function') {
-        return accu + current.getMaxScore();
+    this.getMaxScore = () => this.chapters.reduce((accu, current) => {
+      if (typeof current.instance.getMaxScore === 'function') {
+        return accu + current.instance.getMaxScore();
       }
       return accu;
     }, 0);
@@ -80,15 +77,15 @@ export default class DigiBook extends H5P.EventDispatcher {
      * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-4}
      */
     this.showSolutions = () => {
-      this.instances.forEach(instance => {
-        if (typeof instance.toggleReadSpeaker === 'function') {
-          instance.toggleReadSpeaker(true);
+      this.chapters.forEach(chapter => {
+        if (typeof chapter.instance.toggleReadSpeaker === 'function') {
+          chapter.instance.toggleReadSpeaker(true);
         }
-        if (typeof instance.showSolutions === 'function') {
-          instance.showSolutions();
+        if (typeof chapter.instance.showSolutions === 'function') {
+          chapter.instance.showSolutions();
         }
-        if (typeof instance.toggleReadSpeaker === 'function') {
-          instance.toggleReadSpeaker(false);
+        if (typeof chapter.instance.toggleReadSpeaker === 'function') {
+          chapter.instance.toggleReadSpeaker(false);
         }
       });
     };
@@ -99,9 +96,9 @@ export default class DigiBook extends H5P.EventDispatcher {
      * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-5}
      */
     this.resetTask = () => {
-      this.instances.forEach(instance => {
-        if (typeof instance.resetTask === 'function') {
-          instance.resetTask();
+      this.chapters.forEach(chapter => {
+        if (typeof chapter.instance.resetTask === 'function') {
+          chapter.instance.resetTask();
         }
       });
 
@@ -126,7 +123,7 @@ export default class DigiBook extends H5P.EventDispatcher {
 
       return {
         statement: xAPIEvent.data.statement,
-        children: this.getXAPIDataFromChildren(this.instances)
+        children: this.getXAPIDataFromChildren(this.chapters.map(chapter => chapter.instance))
       };
     };
 
@@ -270,14 +267,14 @@ export default class DigiBook extends H5P.EventDispatcher {
      * @returns {boolean}
      */
     this.isCurrentChapterRead = () => {
-      return this.instances[this.activeChapter].completed;
+      return this.chapters[this.activeChapter].completed;
     };
 
     /**
      * Set the current chapter as completed
      */
     this.setCurrentChapterRead = () => {
-      this.instances[this.activeChapter].completed = true;
+      this.chapters[this.activeChapter].completed = true;
       this.sideBar.setChapterIndicatorComplete(this.activeChapter);
     };
 
@@ -290,7 +287,7 @@ export default class DigiBook extends H5P.EventDispatcher {
       if (!this.params.behaviour.progressIndicators || !this.params.behaviour.progressAuto) {
         return;
       }
-      const chapter = this.instances[targetChapter];
+      const chapter = this.chapters[targetChapter];
       let status;
       if (chapter.maxTasks) {
         if (chapter.tasksLeft === chapter.maxTasks) {
@@ -308,7 +305,7 @@ export default class DigiBook extends H5P.EventDispatcher {
       }
 
       if (status === 'DONE') {
-        chapter.triggerXAPIScored(chapter.getScore(), chapter.getMaxScore(), 'completed');
+        chapter.instance.triggerXAPIScored(chapter.instance.getScore(), chapter.instance.getMaxScore(), 'completed');
       }
       this.sideBar.updateChapterProgressIndicator(targetChapter, status);
     };
@@ -374,7 +371,7 @@ export default class DigiBook extends H5P.EventDispatcher {
         }
         else {
           self.newHandler = {
-            chapter: self.instances[0].subContentId,
+            chapter: self.chapters[0].instance.subContentId,
             h5pbookid: self.h5pbookid
           };
         }
@@ -389,12 +386,12 @@ export default class DigiBook extends H5P.EventDispatcher {
      * @param {string} targetChapter
      */
     this.setSectionStatusByID = function (targetId, targetChapter) {
-      for (let i = 0; i < this.instances[targetChapter].childInstances.length; i++) {
-        const element = this.instances[targetChapter].childInstances[i];
+      for (let i = 0; i < this.chapters[targetChapter].sectionInstances.length; i++) {
+        const element = this.chapters[targetChapter].sectionInstances[i];
         if (element.subContentId === targetId && !element.taskDone) {
           element.taskDone = true;
           this.sideBar.setSectionMarker(targetChapter, i);
-          this.instances[targetChapter].tasksLeft -= 1;
+          this.chapters[targetChapter].tasksLeft -= 1;
           if (this.params.behaviour.progressAuto) {
             this.updateChapterProgress(targetChapter);
           }
@@ -462,6 +459,7 @@ export default class DigiBook extends H5P.EventDispatcher {
       },
       behaviour: this.params.behaviour
     });
+    this.chapters = this.pageContent.getChapters();
 
     this.sideBar = new SideBar(config, contentId, contentData.metadata.title, this);
 

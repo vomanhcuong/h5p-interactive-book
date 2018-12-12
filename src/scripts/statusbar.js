@@ -90,13 +90,13 @@ class StatusBar extends H5P.EventDispatcher {
       }
 
       if (event.data.direction === 'next') {
-        if (this.parent.activeChapter+1 < this.parent.instances.length) {
-          eventInput.chapter = this.parent.instances[this.parent.activeChapter+1].subContentId;
+        if (this.parent.activeChapter+1 < this.parent.chapters.length) {
+          eventInput.chapter = this.parent.chapters[this.parent.activeChapter+1].instance.subContentId;
         }
       }
       else if (event.data.direction === 'prev') {
         if (this.parent.activeChapter > 0) {
-          eventInput.chapter = this.parent.instances[this.parent.activeChapter-1].subContentId;
+          eventInput.chapter = this.parent.chapters[this.parent.activeChapter-1].instance.subContentId;
         }
       }
       if (eventInput.chapter) {
@@ -117,7 +117,7 @@ class StatusBar extends H5P.EventDispatcher {
   updateStatusBar() {
     const currChapter = this.parent.getActiveChapter()+1;
 
-    const chapterTitle =  this.parent.instances[this.parent.getActiveChapter()].title;
+    const chapterTitle =  this.parent.chapters[this.parent.getActiveChapter()].title;
 
     this.headerStatus.current.innerHTML = currChapter;
     this.footerStatus.current.innerHTML = currChapter;

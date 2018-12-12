@@ -15,13 +15,10 @@ class PageContent extends H5P.EventDispatcher {
     this.targetPage = {};
     this.targetPage.redirectFromComponent = false;
 
-    // H5P-instances (columns)
-    this.instances = [];
     // Div-elements of the abovementioned h5p-instances
     this.columnElements = [];
 
-    this.createColumns(config, contentId, contentData);
-    this.parent.instances = this.instances;
+    this.chapters = this.createColumns(config, contentId, contentData);
 
     this.div = document.createElement('div');
     this.div.classList.add('h5p-digibook-main');
@@ -29,8 +26,16 @@ class PageContent extends H5P.EventDispatcher {
     this.content = this.createPageContent();
     this.addcontentListener();
 
-
     this.div.appendChild(this.content);
+  }
+
+  /**
+   * Get chapters.
+   *
+   * @return {Object[]} Chapters.
+   */
+  getChapters() {
+    return this.chapters;
   }
 
   createPageContent() {
@@ -65,16 +70,25 @@ class PageContent extends H5P.EventDispatcher {
     };
   }
 
-  injectSectionId(H5PInstance, columnElement) {
+  injectSectionId(sectionInstances, columnElement) {
     const colContent = columnElement.getElementsByClassName('h5p-column-content');
 
-    for (let i = 0; i < H5PInstance.childInstances.length; i++) {
-      colContent[i].id = H5PInstance.childInstances[i].subContentId;
+    for (let i = 0; i < sectionInstances.length; i++) {
+      colContent[i].id = sectionInstances[i].subContentId;
     }
   }
 
+  /**
+   * Create Column instances.
+   *
+   * @param {Object} config Parameters.
+   * @param {number} contentId Content id.
+   * @param {Object} contentData Content data.
+   * @return {Object[]} Column instances.
+   */
   createColumns(config, contentId, contentData) {
     const redirObject = this.parent.retrieveHashFromUrl();
+    const chapters = [];
 
     //Go through all columns and initialise them
     for (let i = 0; i < config.chapters.length; i++) {
@@ -91,35 +105,38 @@ class PageContent extends H5P.EventDispatcher {
         this.parent.bubblingUpwards = false;
       });
 
-      newInstance.childInstances = newInstance.getInstances();
+      const chapter = {
+        instance: newInstance,
+        sectionInstances: newInstance.getInstances(),
+        title: config.chapters[i].metadata.title,
+        completed: false,
+        tasksLeft: 0
+      };
+
       newColumn.classList.add('h5p-digibook-chapter');
       newColumn.id = newInstance.subContentId;
-      newInstance.title = config.chapters[i].metadata.title;
-      newInstance.completed = false;
 
       if (this.behaviour.progressIndicators && !this.behaviour.progressAuto) {
         const checkPage = this.createPageReadMark();
         newColumn.appendChild(checkPage.div);
       }
 
-
       //Find sections with tasks and tracks them
-      newInstance.tasksLeft = 0;
       if (this.behaviour.progressIndicators) {
-        newInstance.childInstances.forEach(x => {
-          if (this.isH5PTask(x)) {
-            x.isTask = true;
-            x.taskDone = false;
-            newInstance.tasksLeft += 1;
+        chapter.sectionInstances.forEach(child => {
+          if (this.isH5PTask(child)) {
+            child.isTask = true;
+            child.taskDone = false;
+            chapter.tasksLeft += 1;
           }
         });
       }
-      newInstance.maxTasks = newInstance.tasksLeft;
+      chapter.maxTasks = chapter.tasksLeft;
 
-      this.injectSectionId(newInstance, newColumn);
+      this.injectSectionId(chapter.sectionInstances, newColumn);
 
       //Register both the HTML-element and the H5P-element
-      this.instances.push(newInstance);
+      chapters.push(chapter);
       this.columnElements.push(newColumn);
     }
 
@@ -128,10 +145,10 @@ class PageContent extends H5P.EventDispatcher {
         return; // Prevent sending back down.
       }
 
-      for (var i = 0; i < this.instances.length; i++) {
+      for (var i = 0; i < this.chapters.length; i++) {
         // Only resize the visible column
         if (this.columnElements[i].offsetParent !== null) {
-          this.instances[i].trigger('resize', e);
+          this.chapters[i].instance.trigger('resize', e);
         }
       }
     });
@@ -152,6 +169,8 @@ class PageContent extends H5P.EventDispatcher {
 
     this.columnElements.filter(x => x.id !== chosenChapter)
       .forEach(x => x.classList.add('h5p-content-hidden'));
+
+    return chapters;
   }
 
   isH5PTask(H5PObject) {
