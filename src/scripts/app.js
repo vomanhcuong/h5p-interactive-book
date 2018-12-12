@@ -346,7 +346,7 @@ export default class DigiBook extends H5P.EventDispatcher {
      */
     H5P.on(this, 'respondChangeHash', () => {
       const payload = self.retrieveHashFromUrl(top.location.hash);
-      if (payload.h5pbookid) {
+      if (payload.h5pbookid && parseInt(payload.h5pbookid) === self.contentId) {
         this.redirectChapter(payload);
       }
     });
