@@ -21,6 +21,26 @@ $background-color: #ffffff;
   display: none;
 }
 
+.h5p-fullscreen {
+  #h5p-digibook {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .h5p-digibook-main {
+    flex: 1;
+    overflow: auto;
+
+    .h5p-digibook-content {
+      overflow: auto;
+    }
+  }
+
+  .h5p-digibook-status-footer {
+    display: none;
+  }
+}
+
 @import 'pagecontent';
 @import 'statusbar';
 @import 'navigationbar';
