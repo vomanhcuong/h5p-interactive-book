@@ -262,7 +262,7 @@ class SideBar extends H5P.EventDispatcher {
       span.classList.add('digibook-sectiontitle');
       icon.classList.add('icon-chapter-blank');
 
-      if (this.parent.chapters[chapterIndex].sectionInstances[i].isTask) {
+      if (this.parent.chapters[chapterIndex].sections[i].isTask) {
         icon.classList.add('h5p-digibook-navigation-section-task');
       }
       a.appendChild(icon);

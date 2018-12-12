@@ -70,11 +70,11 @@ class PageContent extends H5P.EventDispatcher {
     };
   }
 
-  injectSectionId(sectionInstances, columnElement) {
+  injectSectionId(sections, columnElement) {
     const colContent = columnElement.getElementsByClassName('h5p-column-content');
 
-    for (let i = 0; i < sectionInstances.length; i++) {
-      colContent[i].id = sectionInstances[i].subContentId;
+    for (let i = 0; i < sections.length; i++) {
+      colContent[i].id = sections[i].instance.subContentId;
     }
   }
 
@@ -107,10 +107,14 @@ class PageContent extends H5P.EventDispatcher {
 
       const chapter = {
         instance: newInstance,
-        sectionInstances: newInstance.getInstances(),
+        // sectionInstances: newInstance.getInstances(), // TODO: Remove this line
         title: config.chapters[i].metadata.title,
         completed: false,
-        tasksLeft: 0
+        tasksLeft: 0,
+        sections: newInstance.getInstances().map(instance => ({
+          instance: instance,
+          isTask: false
+        }))
       };
 
       newColumn.classList.add('h5p-digibook-chapter');
@@ -123,17 +127,17 @@ class PageContent extends H5P.EventDispatcher {
 
       //Find sections with tasks and tracks them
       if (this.behaviour.progressIndicators) {
-        chapter.sectionInstances.forEach(child => {
-          if (this.isH5PTask(child)) {
-            child.isTask = true;
-            child.taskDone = false;
+        chapter.sections.forEach(section => {
+          if (this.isH5PTask(section.instance)) {
+            section.isTask = true;
+            section.taskDone = false;
             chapter.tasksLeft += 1;
           }
         });
       }
       chapter.maxTasks = chapter.tasksLeft;
 
-      this.injectSectionId(chapter.sectionInstances, newColumn);
+      this.injectSectionId(chapter.sections, newColumn);
 
       //Register both the HTML-element and the H5P-element
       chapters.push(chapter);

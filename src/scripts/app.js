@@ -395,17 +395,17 @@ export default class DigiBook extends H5P.EventDispatcher {
      * @param {string} targetChapter
      */
     this.setSectionStatusByID = function (targetId, targetChapter) {
-      for (let i = 0; i < this.chapters[targetChapter].sectionInstances.length; i++) {
-        const element = this.chapters[targetChapter].sectionInstances[i];
-        if (element.subContentId === targetId && !element.taskDone) {
-          element.taskDone = true;
-          this.sideBar.setSectionMarker(targetChapter, i);
+      this.chapters[targetChapter].sections.forEach((section, index) => {
+        const sectionInstance = section.instance;
+        if (sectionInstance.subContentId === targetId && !section.taskDone) {
+          section.taskDone = true;
+          this.sideBar.setSectionMarker(targetChapter, index);
           this.chapters[targetChapter].tasksLeft -= 1;
           if (this.params.behaviour.progressAuto) {
             this.updateChapterProgress(targetChapter);
           }
         }
-      }
+      });
     };
 
     top.addEventListener('hashchange', (event) => {
