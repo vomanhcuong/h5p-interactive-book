@@ -143,8 +143,9 @@ export default class DigiBook extends H5P.EventDispatcher {
      * Update statistics on the main chapter
      *
      * @param {number} targetChapter
+     * @param {boolean} hasChangedChapter
      */
-    this.updateChapterProgress = function (targetChapter) {
+    this.updateChapterProgress = function (targetChapter, hasChangedChapter = false) {
       if (!this.behaviour.progressIndicators || !this.behaviour.progressAuto) {
         return;
       }
@@ -159,6 +160,14 @@ export default class DigiBook extends H5P.EventDispatcher {
         }
         else {
           status = 'STARTED';
+        }
+      }
+      else if (chapter.maxTasks === 0) {
+        if (hasChangedChapter) {
+          status = 'DONE';
+        }
+        else {
+          status = 'BLANK';
         }
       }
       else {

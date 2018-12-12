@@ -206,8 +206,9 @@ class PageContent extends H5P.EventDispatcher {
     if (newChapterNum < this.columnElements.length) {
       const oldChapter = this.columnElements[oldChapterNum];
       const targetChapter = this.columnElements[newChapterNum];
+      const hasChangedChapter = oldChapterNum !== newChapterNum;
 
-      if (oldChapterNum !== newChapterNum && !redirectOnLoad) {
+      if (hasChangedChapter && !redirectOnLoad) {
         this.parent.animationInProgress = true;
         this.parent.setActiveChapter(newChapterNum);
 
@@ -248,7 +249,7 @@ class PageContent extends H5P.EventDispatcher {
 
       this.parent.sideBar.redirectHandler(newChapterNum);
       if (!redirectOnLoad) {
-        this.parent.updateChapterProgress(oldChapterNum);
+        this.parent.updateChapterProgress(oldChapterNum, hasChangedChapter);
       }
     }
   }
