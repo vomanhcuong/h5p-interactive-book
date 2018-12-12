@@ -56,7 +56,7 @@ class PageContent extends H5P.EventDispatcher {
     markRead.setAttribute('type', 'checkbox');
     div.classList.add('h5p-digibook-status-progress-marker');
     markRead.onclick = () => {
-      this.parent.setCurrentChapterRead();
+      this.parent.setChapterRead();
       markRead.disabled = true;
     };
 

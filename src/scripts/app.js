@@ -18,6 +18,8 @@ export default class DigiBook extends H5P.EventDispatcher {
     this.activeChapter = 0;
     this.newHandler = {};
 
+    this.completed = false;
+
     this.params = config;
     this.params.behaviour = this.params.behaviour || {};
 
@@ -258,6 +260,18 @@ export default class DigiBook extends H5P.EventDispatcher {
           return;
         }
       }
+
+      /*
+       * Set final chapter read on entering automatically if it doesn't
+       * contain tasks and if all other chapters have been completed
+       */
+      if (this.params.behaviour.progressAuto) {
+        const id = this.getChapterId(this.newHandler.chapter);
+        if (this.isFinalChapterWithoutTask(id)) {
+          this.setChapterRead(id);
+        }
+      }
+
       H5P.trigger(this, "changeHash", event.data);
     });
 
@@ -271,11 +285,23 @@ export default class DigiBook extends H5P.EventDispatcher {
     };
 
     /**
+     * Check if chapter is final one, has no tasks and all other chapters are done.
+     *
+     * @param {number} id Chapter id.
+     * @return {boolean} True, if final chapter without tasks and other chapters done.
+     */
+    this.isFinalChapterWithoutTask = function (id) {
+      return id === this.chapters.length - 1 &&
+        this.chapters[id].maxTasks === 0 &&
+        this.chapters.slice(0, this.chapters.length - 1).every(chapter => chapter.completed);
+    };
+
+    /**
      * Set the current chapter as completed
      */
-    this.setCurrentChapterRead = () => {
-      this.chapters[this.activeChapter].completed = true;
-      this.sideBar.setChapterIndicatorComplete(this.activeChapter);
+    this.setChapterRead = (id = this.activeChapter) => {
+      this.handleChapterCompletion(id);
+      this.sideBar.updateChapterProgressIndicator(id, 'DONE');
     };
 
     /**
@@ -288,6 +314,7 @@ export default class DigiBook extends H5P.EventDispatcher {
       if (!this.params.behaviour.progressIndicators || !this.params.behaviour.progressAuto) {
         return;
       }
+
       const chapter = this.chapters[targetChapter];
       let status;
       if (chapter.maxTasks) {
@@ -314,9 +341,47 @@ export default class DigiBook extends H5P.EventDispatcher {
       }
 
       if (status === 'DONE') {
-        chapter.instance.triggerXAPIScored(chapter.instance.getScore(), chapter.instance.getMaxScore(), 'completed');
+        this.handleChapterCompletion(targetChapter);
       }
       this.sideBar.updateChapterProgressIndicator(targetChapter, status);
+    };
+
+    /**
+     * Get id of chapter.
+     *
+     * @param {string} chapterString Identifier string/subContentId.
+     * @return {number} Id of chapter.
+     */
+    this.getChapterId = function (chapterString) {
+      return this.chapters.map(chapter => chapter.instance.subContentId).indexOf(chapterString);
+    };
+
+    /**
+     * Handle chapter completion, e.g. trigger xAPI statements
+     *
+     * @param {number} chapterId Id of the chapter that was completed.
+     */
+    this.handleChapterCompletion = function (chapterId) {
+      const chapter = this.chapters[chapterId];
+
+      // New chapter completed
+      if (!chapter.completed) {
+        chapter.completed = true;
+        chapter.instance.triggerXAPIScored(chapter.instance.getScore(), chapter.instance.getMaxScore(), 'completed');
+      }
+
+      // All chapters completed
+      if (!this.completed && this.chapters.every(chapter => chapter.completed)) {
+        this.completed = true;
+
+        const xAPIData = this.getXAPIData();
+        const xAPIEvent = new H5P.XAPIEvent();
+        xAPIEvent.data.statement = xAPIData.statement;
+        xAPIEvent.data.children = xAPIData.children;
+        xAPIEvent.setVerb('completed');
+
+        this.trigger(xAPIEvent);
+      }
     };
 
     /**
@@ -356,7 +421,7 @@ export default class DigiBook extends H5P.EventDispatcher {
 
     H5P.externalDispatcher.on('xAPI', function (event) {
       if (event.getVerb() === 'answered' || event.getVerb() === 'completed') {
-        if (self.params.behaviour.progressIndicators) {
+        if (self.params.behaviour.progressIndicators && self !== this) {
           self.setSectionStatusByID(this.subContentId || this.contentData.subContentId, self.activeChapter);
         }
       }
