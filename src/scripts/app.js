@@ -291,9 +291,9 @@ export default class DigiBook extends H5P.EventDispatcher {
      * @return {boolean} True, if final chapter without tasks and other chapters done.
      */
     this.isFinalChapterWithoutTask = function (id) {
-      return id === this.chapters.length - 1 &&
-        this.chapters[id].maxTasks === 0 &&
-        this.chapters.slice(0, this.chapters.length - 1).every(chapter => chapter.completed);
+      return this.chapters[id].maxTasks === 0 &&
+        this.chapters.slice(0, id).concat(this.chapters.slice(id + 1))
+          .every(chapter => chapter.completed);
     };
 
     /**
