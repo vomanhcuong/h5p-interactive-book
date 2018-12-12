@@ -45,7 +45,7 @@ export default class DigiBook extends H5P.EventDispatcher {
       if (typeof current.getAnswerGiven === 'function') {
         return accu || current.getAnswerGiven();
       }
-      return false;
+      return accu;
     }, false);
 
     /**
@@ -58,7 +58,7 @@ export default class DigiBook extends H5P.EventDispatcher {
       if (typeof current.getScore === 'function') {
         return accu + current.getScore();
       }
-      return 0;
+      return accu;
     }, 0);
 
     /**
@@ -71,7 +71,7 @@ export default class DigiBook extends H5P.EventDispatcher {
       if (typeof current.getMaxScore === 'function') {
         return accu + current.getMaxScore();
       }
-      return 0;
+      return accu;
     }, 0);
 
     /**
