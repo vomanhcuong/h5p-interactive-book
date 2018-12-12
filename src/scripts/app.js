@@ -282,8 +282,9 @@ export default class DigiBook extends H5P.EventDispatcher {
      * Update statistics on the main chapter
      *
      * @param {number} targetChapter
+     * @param {boolean} hasChangedChapter
      */
-    this.updateChapterProgress = function (targetChapter) {
+    this.updateChapterProgress = function (targetChapter, hasChangedChapter = false) {
       if (!this.params.behaviour.progressIndicators || !this.params.behaviour.progressAuto) {
         return;
       }
@@ -298,6 +299,14 @@ export default class DigiBook extends H5P.EventDispatcher {
         }
         else {
           status = 'STARTED';
+        }
+      }
+      else if (chapter.maxTasks === 0) {
+        if (hasChangedChapter) {
+          status = 'DONE';
+        }
+        else {
+          status = 'BLANK';
         }
       }
       else {
@@ -334,7 +343,7 @@ export default class DigiBook extends H5P.EventDispatcher {
      */
     H5P.on(this, 'respondChangeHash', () => {
       const payload = self.retrieveHashFromUrl(top.location.hash);
-      if (payload.h5pbookid) {
+      if (payload.h5pbookid && parseInt(payload.h5pbookid) === self.contentId) {
         this.redirectChapter(payload);
       }
     });
@@ -484,5 +493,6 @@ export default class DigiBook extends H5P.EventDispatcher {
 
     //Kickstart the statusbar
     this.statusBar.updateStatusBar();
+    this.pageContent.updateFooter();
   }
 }

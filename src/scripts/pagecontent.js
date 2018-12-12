@@ -225,8 +225,9 @@ class PageContent extends H5P.EventDispatcher {
     if (newChapterNum < this.columnElements.length) {
       const oldChapter = this.columnElements[oldChapterNum];
       const targetChapter = this.columnElements[newChapterNum];
+      const hasChangedChapter = oldChapterNum !== newChapterNum;
 
-      if (oldChapterNum !== newChapterNum && !redirectOnLoad) {
+      if (hasChangedChapter && !redirectOnLoad) {
         this.parent.animationInProgress = true;
         this.parent.setActiveChapter(newChapterNum);
 
@@ -267,7 +268,7 @@ class PageContent extends H5P.EventDispatcher {
 
       this.parent.sideBar.redirectHandler(newChapterNum);
       if (!redirectOnLoad) {
-        this.parent.updateChapterProgress(oldChapterNum);
+        this.parent.updateChapterProgress(oldChapterNum, hasChangedChapter);
       }
     }
   }
@@ -288,9 +289,7 @@ class PageContent extends H5P.EventDispatcher {
         activeElem.classList.remove('h5p-digibook-offset-right');
         activeElem.classList.remove('h5p-digibook-offset-left');
         activeElem.classList.remove('h5p-digibook-animate-new');
-
-        let footerStatus = this.parent.shouldFooterBeVisible(activeElem.clientHeight);
-        this.parent.statusBar.editFooterVisibillity(footerStatus);
+        this.updateFooter();
 
         //Focus on section only after the page scrolling is finished
         this.parent.animationInProgress = false;
@@ -299,6 +298,13 @@ class PageContent extends H5P.EventDispatcher {
         this.parent.trigger('resize');
       }
     });
+  }
+
+  updateFooter() {
+    const activeChapter = this.parent.getActiveChapter();
+    const column = this.columnElements[activeChapter];
+    const shouldFooterBeVisible = this.parent.shouldFooterBeVisible(column.clientHeight);
+    this.parent.statusBar.editFooterVisibillity(shouldFooterBeVisible);
   }
 }
 
