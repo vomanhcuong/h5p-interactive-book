@@ -76,7 +76,7 @@ class StatusBar extends H5P.EventDispatcher {
         h5pbookid: this.parent.contentId
       };
       if (event.data.toTop) {
-        eventInput.section = "top";
+        eventInput.section = 'top';
       }
 
       if (event.data.direction === 'next') {
@@ -101,7 +101,7 @@ class StatusBar extends H5P.EventDispatcher {
    * @param {number} chapterId Chapter Id.
    */
   updateProgressBar(chapter) {
-    let barWidth = ((chapter / this.totalChapters)*100)+"%";
+    const barWidth = `${chapter / this.totalChapters * 100}%`;
 
     this.headerProgressBar.progress.style.width = barWidth;
     this.footerProgressBar.progress.style.width = barWidth;
@@ -111,7 +111,7 @@ class StatusBar extends H5P.EventDispatcher {
    * Update status bar.
    */
   updateStatusBar() {
-    const currChapter = this.parent.getActiveChapter()+1;
+    const currChapter = this.parent.getActiveChapter() + 1;
 
     const chapterTitle =  this.parent.chapters[this.parent.getActiveChapter()].title;
 
@@ -119,7 +119,6 @@ class StatusBar extends H5P.EventDispatcher {
     this.footerStatus.current.innerHTML = currChapter;
 
     this.updateProgressBar(currChapter);
-
 
     this.headerChapterTitle.p.innerHTML = chapterTitle;
     this.footerChapterTitle.p.innerHTML = chapterTitle;
@@ -134,7 +133,7 @@ class StatusBar extends H5P.EventDispatcher {
     else {
       this.editButtonStatus('Prev', false);
     }
-    if ((this.parent.activeChapter+1) >= this.totalChapters) {
+    if ((this.parent.activeChapter + 1) >= this.totalChapters) {
       this.editButtonStatus('Next', true);
     }
     else {
@@ -338,13 +337,12 @@ class StatusBar extends H5P.EventDispatcher {
     divider.classList.add('h5p-digibook-status-progress-divider');
     total.classList.add('h5p-digibook-status-progress-number');
 
-    divider.innerHTML = " / ";
+    divider.innerHTML = ' / ';
     total.innerHTML = this.totalChapters;
 
     p.appendChild(current);
     p.appendChild(divider);
     p.appendChild(total);
-
 
     div.appendChild(p);
     return {

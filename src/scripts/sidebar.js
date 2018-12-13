@@ -121,18 +121,17 @@ class SideBar extends H5P.EventDispatcher {
    * @param {boolean} collapse If true, will collapse chapter.
    */
   editChapterStatus(element, collapse) {
+    const arrow = element.getElementsByClassName('icon-collapsed')[0];
+
     if (collapse === true) {
       element.classList.add('h5p-digibook-navigation-closed');
-      const arrow = element.getElementsByClassName('icon-expanded')[0];
       if (arrow) {
         arrow.classList.remove('icon-expanded');
         arrow.classList.add('icon-collapsed');
       }
-
     }
     else {
       element.classList.remove('h5p-digibook-navigation-closed');
-      const arrow = element.getElementsByClassName('icon-collapsed')[0];
       if (arrow) {
         arrow.classList.remove('icon-collapsed');
         arrow.classList.add('icon-expanded');
@@ -182,7 +181,6 @@ class SideBar extends H5P.EventDispatcher {
    * @param {string} status Status.
    */
   updateChapterProgressIndicator(chapterId, status) {
-
     let targetElem = this.chapterElems[chapterId].getElementsByClassName('h5p-digibook-navigation-chapter-title')[0];
     targetElem = targetElem.getElementsByClassName('h5p-digibook-navigation-chapter-progress')[0];
 
@@ -252,7 +250,7 @@ class SideBar extends H5P.EventDispatcher {
     sectionsDiv.classList.add('h5p-digibook-navigation-sectionlist');
 
     title.innerHTML = chapter.title;
-    title.setAttribute("title", chapter.title);
+    title.setAttribute('title', chapter.title);
 
     const arrowIcon = document.createElement('span');
     const circleIcon = document.createElement('span');
@@ -316,7 +314,6 @@ class SideBar extends H5P.EventDispatcher {
     }
     chapterDiv.appendChild(sectionsDiv);
 
-
     return {
       chapterDiv,
       sectionsDiv
@@ -343,7 +340,8 @@ class SideBar extends H5P.EventDispatcher {
    */
   addTransformListener() {
     this.div.addEventListener('transitionend', (event) => {
-      if (event.propertyName === "flex-basis") {
+      if (event.propertyName === 'flex-basis') {
+        // TODO: Check what this check is used for
         this.parent.trigger('resize');
       }
     });

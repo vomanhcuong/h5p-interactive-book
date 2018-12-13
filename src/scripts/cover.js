@@ -36,7 +36,7 @@ class Cover extends H5P.EventDispatcher {
    * Create an element which contains both the cover image and a background bar.
    *
    * @param {object} coverImage Image object.
-   * @param {number} contentId
+   * @param {number} contentId Content Id.
    */
   createVisualsElement(coverImage, contentId) {
     if (coverImage) {

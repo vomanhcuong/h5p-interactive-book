@@ -170,21 +170,14 @@ export default class DigiBook extends H5P.EventDispatcher {
      *
      * @return {boolean} True, if there's a cover.
      */
-    this.doesCoverExist = () => {
-      if (this.cover && this.cover.div) {
-        return true;
-      }
-      return false;
-    };
+    this.doesCoverExist = () => this.cover && this.cover.div;
 
     /**
      * Get number of active chapter.
      *
      * @return {number} Number of active chapter.
      */
-    this.getActiveChapter = () => {
-      return this.activeChapter;
-    };
+    this.getActiveChapter = () => this.activeChapter;
 
     /**
      * Set number of active chapter.
@@ -194,7 +187,7 @@ export default class DigiBook extends H5P.EventDispatcher {
     this.setActiveChapter = (chapterId) => {
       chapterId = parseInt(chapterId);
       if (!isNaN(chapterId)) {
-        this.activeChapter = parseInt(chapterId);
+        this.activeChapter = chapterId;
       }
     };
 
@@ -257,7 +250,7 @@ export default class DigiBook extends H5P.EventDispatcher {
         }
       }
 
-      H5P.trigger(this, "changeHash", event.data);
+      H5P.trigger(this, 'changeHash', event.data);
     });
 
     /**
@@ -265,9 +258,7 @@ export default class DigiBook extends H5P.EventDispatcher {
      *
      * @returns {boolean} True, if current chapter was read.
      */
-    this.isCurrentChapterRead = () => {
-      return this.chapters[this.activeChapter].completed;
-    };
+    this.isCurrentChapterRead = () => this.chapters[this.activeChapter].completed;
 
     /**
      * Check if chapter is final one, has no tasks and all other chapters are done.
@@ -275,7 +266,7 @@ export default class DigiBook extends H5P.EventDispatcher {
      * @param {number} chapterId Chapter id.
      * @return {boolean} True, if final chapter without tasks and other chapters done.
      */
-    this.isFinalChapterWithoutTask = function (chapterId) {
+    this.isFinalChapterWithoutTask = (chapterId) => {
       return this.chapters[chapterId].maxTasks === 0 &&
         this.chapters.slice(0, chapterId).concat(this.chapters.slice(chapterId + 1))
           .every(chapter => chapter.completed);
@@ -297,7 +288,7 @@ export default class DigiBook extends H5P.EventDispatcher {
      * @param {number} chapterId Chapter Id.
      * @param {boolean} hasChangedChapter
      */
-    this.updateChapterProgress = function (chapterId, hasChangedChapter = false) {
+    this.updateChapterProgress = (chapterId, hasChangedChapter = false) => {
       if (!this.params.behaviour.progressIndicators || !this.params.behaviour.progressAuto) {
         return;
       }
@@ -339,8 +330,9 @@ export default class DigiBook extends H5P.EventDispatcher {
      * @param {string} chapterUUID ChapterUUID.
      * @return {number} Chapter Id.
      */
-    this.getChapterId = function (chapterUUID) {
-      return this.chapters.map(chapter => chapter.instance.subContentId).indexOf(chapterUUID);
+    this.getChapterId = (chapterUUID) => {
+      return this.chapters
+        .map(chapter => chapter.instance.subContentId).indexOf(chapterUUID);
     };
 
     /**
@@ -348,7 +340,7 @@ export default class DigiBook extends H5P.EventDispatcher {
      *
      * @param {number} chapterId Id of the chapter that was completed.
      */
-    this.handleChapterCompletion = function (chapterId) {
+    this.handleChapterCompletion = (chapterId) => {
       const chapter = this.chapters[chapterId];
 
       // New chapter completed
@@ -372,9 +364,9 @@ export default class DigiBook extends H5P.EventDispatcher {
     };
 
     /**
-     * Check if the content height exceeds the window
+     * Check if the content height exceeds the window.
      *
-     * @param {number} chapterHeight
+     * @param {number} chapterHeight Chapter height.
      */
     this.shouldFooterBeVisible = (chapterHeight) => {
       return chapterHeight <= window.outerHeight;
@@ -402,7 +394,7 @@ export default class DigiBook extends H5P.EventDispatcher {
       }
     });
 
-    H5P.on(this, 'changeHash', function (event) {
+    H5P.on(this, 'changeHash', (event) => {
       if (event.data.h5pbookid === this.contentId) {
         top.location.hash = event.data.newHash;
       }
@@ -424,17 +416,16 @@ export default class DigiBook extends H5P.EventDispatcher {
      * @param {string} target.chapter Chapter UUID.
      * @param {string} target.section Section UUID.
      */
-    this.redirectChapter = function (target) {
+    this.redirectChapter = (target) => {
       /**
        * If true, we already have information regarding redirect in newHandler
        * When using browser history, a convert is neccecary
        */
       if (!this.newHandler.redirectFromComponent) {
-        let tmpEvent;
-        tmpEvent = target;
+
         // Assert that the handler actually is from this content type.
-        if (tmpEvent.h5pbookid && parseInt(tmpEvent.h5pbookid) === self.contentId) {
-          self.newHandler = tmpEvent;
+        if (target.h5pbookid && parseInt(target.h5pbookid) === self.contentId) {
+          self.newHandler = target;
         /**
          * H5p-context switch on no newhash = history backwards
          * Redirect to first chapter
@@ -456,7 +447,7 @@ export default class DigiBook extends H5P.EventDispatcher {
      * @param {string} sectionUUID UUID of target section.
      * @param {number} chapterId Number of targetchapter.
      */
-    this.setSectionStatusByID = function (sectionUUID, chapterId) {
+    this.setSectionStatusByID = (sectionUUID, chapterId) => {
       this.chapters[chapterId].sections.forEach((section, index) => {
         const sectionInstance = section.instance;
         if (sectionInstance.subContentId === sectionUUID && !section.taskDone) {
@@ -478,10 +469,10 @@ export default class DigiBook extends H5P.EventDispatcher {
      * Attach library to wrapper
      * @param {jQuery} $wrapper
      */
-    this.attach = function ($wrapper) {
+    this.attach = ($wrapper) => {
       $wrapper[0].classList.add('h5p-scrollable-fullscreen');
       // Needed to enable scrolling in fullscreen
-      $wrapper[0].id = "h5p-digibook";
+      $wrapper[0].id = 'h5p-digibook';
       if (this.cover) {
         $wrapper.get(0).appendChild(this.cover.div);
       }
@@ -496,21 +487,24 @@ export default class DigiBook extends H5P.EventDispatcher {
       $wrapper.get(0).appendChild(this.statusBar.footer);
     };
 
-    this.hideAllElements = function (hideElements) {
-
+    /**
+     * Hide all elements.
+     *
+     * @param {boolean} hide True to hide elements.
+     */
+    this.hideAllElements = function (hide) {
       const targetElements = [
         this.statusBar.header,
         this.statusBar.footer,
         this.pageContent.div
       ];
 
-      if (hideElements) {
+      if (hide) {
         targetElements.forEach(x => {
           x.classList.add('h5p-content-hidden');
           x.classList.add('digibook-cover-present');
         });
       }
-
       else {
         targetElements.forEach(x => {
           x.classList.remove('h5p-content-hidden');

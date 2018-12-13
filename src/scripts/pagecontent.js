@@ -113,12 +113,12 @@ class PageContent extends H5P.EventDispatcher {
     for (let i = 0; i < config.chapters.length; i++) {
       const newColumn = document.createElement('div');
       const newInstance = H5P.newRunnable(config.chapters[i], contentId, H5P.jQuery(newColumn), contentData);
-      newInstance.on('resize', (e) => {
+      newInstance.on('resize', (event) => {
         // Prevent sending event back down
         this.parent.bubblingUpwards = true;
 
         // Resize ourself
-        this.parent.trigger('resize', e);
+        this.parent.trigger('resize', event);
 
         // Reset
         this.parent.bubblingUpwards = false;
@@ -126,7 +126,6 @@ class PageContent extends H5P.EventDispatcher {
 
       const chapter = {
         instance: newInstance,
-        // sectionInstances: newInstance.getInstances(), // TODO: Remove this line
         title: config.chapters[i].metadata.title,
         completed: false,
         tasksLeft: 0,
@@ -163,7 +162,7 @@ class PageContent extends H5P.EventDispatcher {
       this.columnElements.push(newColumn);
     }
 
-    this.parent.on('resize', (e) => {
+    this.parent.on('resize', (event) => {
       if (this.parent.bubblingUpwards) {
         return; // Prevent sending back down.
       }
@@ -171,12 +170,12 @@ class PageContent extends H5P.EventDispatcher {
       for (var i = 0; i < this.chapters.length; i++) {
         // Only resize the visible column
         if (this.columnElements[i].offsetParent !== null) {
-          this.chapters[i].instance.trigger('resize', e);
+          this.chapters[i].instance.trigger('resize', event);
         }
       }
     });
 
-    //First chapter should be visible, except if the url says otherwise.
+    // First chapter should be visible, except if the URL says otherwise.
     let chosenChapter = this.columnElements[0].id;
     if (redirObject.chapter && redirObject.h5pbookid == this.parent.contentId) {
       const chapterIndex = this.findChapterIndex(redirObject.chapter);
@@ -233,13 +232,13 @@ class PageContent extends H5P.EventDispatcher {
    * @param {string} chapterUUID Chapter UUID.
    * @return {number} Chapter id.
    */
-  findChapterIndex(id) {
+  findChapterIndex(chapterUUID) {
     let position = -1;
     this.columnElements.forEach((element, index) => {
       if (position !== -1) {
         return; // Skip
       }
-      if (element.id === id) {
+      if (element.id === chapterUUID) {
         position = index;
       }
     });
@@ -260,7 +259,7 @@ class PageContent extends H5P.EventDispatcher {
 
     this.targetPage = target;
     const oldChapterNum = this.parent.getActiveChapter();
-    const newChapterNum = this.findChapterIndex(this.targetPage.chapter);
+    const newChapterNum = this.parent.getChapterId(this.targetPage.chapter);
 
     if (newChapterNum < this.columnElements.length) {
       const oldChapter = this.columnElements[oldChapterNum];
@@ -271,30 +270,21 @@ class PageContent extends H5P.EventDispatcher {
         this.parent.animationInProgress = true;
         this.parent.setActiveChapter(newChapterNum);
 
+        // The pages will progress from right to left or vice versa.
+        const newPageProgress = (oldChapterNum < newChapterNum) ? 'right' : 'left';
+        const oldPageProgress = (oldChapterNum < newChapterNum) ? 'left' : 'right';
 
-        var newPageProgress = '';
-        var oldPageProgrss = '';
-        // The pages will progress from right to left
-        if (oldChapterNum < newChapterNum) {
-          newPageProgress = 'right';
-          oldPageProgrss = 'left';
-        }
-        else {
-          newPageProgress = 'left';
-          oldPageProgrss = 'right';
-        }
         // Set up the slides
         targetChapter.classList.add('h5p-digibook-animate-new');
-        targetChapter.classList.add('h5p-digibook-offset-' + newPageProgress);
+        targetChapter.classList.add(`h5p-digibook-offset-${newPageProgress}`);
         targetChapter.classList.remove('h5p-content-hidden');
 
         // Play the animation
         setTimeout(() => {
-          oldChapter.classList.add('h5p-digibook-offset-' + oldPageProgrss);
-          targetChapter.classList.remove('h5p-digibook-offset-' + newPageProgress);
+          oldChapter.classList.add(`h5p-digibook-offset-${oldPageProgress}`);
+          targetChapter.classList.remove(`h5p-digibook-offset-${newPageProgress}`);
         }, 50);
       }
-
       else {
         if (this.parent.cover && !this.parent.cover.div.hidden) {
           this.parent.on('coverRemoved', () => {
@@ -319,6 +309,7 @@ class PageContent extends H5P.EventDispatcher {
   addcontentListener() {
     this.content.addEventListener('transitionend', (event) => {
       const activeChapter = this.parent.getActiveChapter();
+
       if (event.propertyName === 'transform' && event.target === this.columnElements[activeChapter]) {
         // Remove all animation-related classes
         const inactiveElems = this.columnElements.filter(x => x !== this.columnElements[activeChapter]);
