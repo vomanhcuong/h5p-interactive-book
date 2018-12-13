@@ -1,3 +1,4 @@
+import URLTools from './urltools';
 import SideBar from './sidebar';
 import StatusBar from './statusbar';
 import Cover from './cover';
@@ -184,35 +185,6 @@ export default class DigiBook extends H5P.EventDispatcher {
     };
 
     /**
-     * Extract fragments from browser URL.
-     *
-     * @return {Object} Fragments.
-     */
-    this.extractFragmentsFromURL = (validate) => {
-      if (!top.location.hash) {
-        return {};
-      }
-
-      // Convert fragment string to object with properties
-      const fragments = {};
-      top.location.hash.replace('#', '').split('&')
-        .forEach(fragment => {
-          if (fragment.indexOf('=') === -1) {
-            return; // Skip if incomplete pair
-          }
-          const argPair = fragment.split('=');
-          fragments[argPair[0]] = argPair[1];
-        });
-
-      // Optionally validate and ignore fragments
-      if (typeof validate === 'function' && !validate(fragments)) {
-        return {};
-      }
-
-      return fragments;
-    };
-
-    /**
      * Validate fragments.
      *
      * @param {Object} fragments Fragments object from URL.
@@ -221,28 +193,6 @@ export default class DigiBook extends H5P.EventDispatcher {
     this.validateFragments = (fragments) => {
       return fragments.chapter !== undefined &&
         parseInt(fragments.h5pbookid) === self.contentId;
-    };
-
-    /**
-     * Compare the current hash with the currently redirected hash.
-     *
-     * Used for checking if the user attempts to redirect to the same section twice
-     * @param {object} hashObj - the object that should be compared to the hash
-     * @param {String} hashObj.chapter
-     * @param {String} hashObj.section
-     * @param {number} hashObj.h5pbookid
-     */
-    this.isCurrentHashSameAsRedirect = (hashObj) => {
-      const temp = this.extractFragmentsFromURL(this.validateFragments);
-      for (const key in temp) {
-        if (temp.hasOwnProperty(key)) {
-          const element = temp[key];
-          if (element != hashObj[key]) {
-            return false;
-          }
-        }
-      }
-      return true;
     };
 
     /**
@@ -266,14 +216,20 @@ export default class DigiBook extends H5P.EventDispatcher {
       this.newHandler = event.data;
 
       // Create the new hash
-      event.data.newHash = this.createFragmentsString(this.newHandler);
+      event.data.newHash = URLTools.createFragmentsString(this.newHandler);
 
-      //Assert that the module itself is asking for a redirect
+      // Assert that the module itself is asking for a redirect
       this.newHandler.redirectFromComponent = true;
 
-      if (event.data.chapter === this.activeChapter) {
-        if (this.isCurrentHashSameAsRedirect(event.data)) {
-          //only trigger section redirect without changing hash
+      if (this.getChapterId(event.data.chapter) === this.activeChapter) {
+        const fragmentsEqual = URLTools.areFragmentsEqual(
+          event.data,
+          URLTools.extractFragmentsFromURL(this.validateFragments),
+          ['h5pbookid', 'chapter', 'section']
+        );
+
+        if (fragmentsEqual) {
+          // only trigger section redirect without changing hash
           this.pageContent.changeChapter(false, event.data);
           return;
         }
@@ -292,20 +248,6 @@ export default class DigiBook extends H5P.EventDispatcher {
 
       H5P.trigger(this, "changeHash", event.data);
     });
-
-    /**
-     * Create fragments string from fragments object.
-     *
-     * @param {Object} fragments Fragments.
-     * @return {string} Fragments string.
-     */
-    this.createFragmentsString = (fragments) => {
-      let parts = [];
-      for (let fragment in fragments) {
-        parts.push(`${fragment}=${fragments[fragment]}`);
-      }
-      return `#${parts.join('&')}`;
-    };
 
     /**
      * Check if the current chapter is read
@@ -439,7 +381,7 @@ export default class DigiBook extends H5P.EventDispatcher {
      * Triggers whenever the hash changes, indicating that a chapter redirect is happening
      */
     H5P.on(this, 'respondChangeHash', () => {
-      const payload = self.extractFragmentsFromURL(self.validateFragments);
+      const payload = URLTools.extractFragmentsFromURL(self.validateFragments);
       if (payload.h5pbookid && parseInt(payload.h5pbookid) === self.contentId) {
         this.redirectChapter(payload);
       }

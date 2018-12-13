@@ -1,3 +1,5 @@
+import URLTools from './urltools';
+
 class PageContent extends H5P.EventDispatcher {
   /**
    * @constructor
@@ -87,7 +89,7 @@ class PageContent extends H5P.EventDispatcher {
    * @return {Object[]} Column instances.
    */
   createColumns(config, contentId, contentData) {
-    const redirObject = this.parent.extractFragmentsFromURL(this.parent.validateFragments);
+    const redirObject = URLTools.extractFragmentsFromURL(this.parent.validateFragments);
     const chapters = [];
 
     //Go through all columns and initialise them
