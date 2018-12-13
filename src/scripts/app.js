@@ -183,21 +183,44 @@ export default class DigiBook extends H5P.EventDispatcher {
       }
     };
 
-    this.retrieveHashFromUrl = () => {
-      const rawparams = top.location.hash.replace('#', "").split('&').map(el => el.split("="));
-      const redirObj = {};
-
-      //Split up the hash parametres and assign to an object
-      rawparams.forEach(argPair => {
-        redirObj[argPair[0]] = argPair[1];
-      });
-
-      if (redirObj.h5pbookid == self.contentId && redirObj.chapter) {
-        if (!redirObj.chapter) {
-          return;
-        }
+    /**
+     * Extract fragments from browser URL.
+     *
+     * @return {Object} Fragments.
+     */
+    this.extractFragmentsFromURL = (validate) => {
+      if (!top.location.hash) {
+        return {};
       }
-      return redirObj;
+
+      // Convert fragment string to object with properties
+      const fragments = {};
+      top.location.hash.replace('#', '').split('&')
+        .forEach(fragment => {
+          if (fragment.indexOf('=') === -1) {
+            return; // Skip if incomplete pair
+          }
+          const argPair = fragment.split('=');
+          fragments[argPair[0]] = argPair[1];
+        });
+
+      // Optionally validate and ignore fragments
+      if (typeof validate === 'function' && !validate(fragments)) {
+        return {};
+      }
+
+      return fragments;
+    };
+
+    /**
+     * Validate fragments.
+     *
+     * @param {Object} fragments Fragments object from URL.
+     * @return {boolean} True, if fragments are valid.
+     */
+    this.validateFragments = (fragments) => {
+      return fragments.chapter !== undefined &&
+        parseInt(fragments.h5pbookid) === self.contentId;
     };
 
     /**
@@ -210,7 +233,7 @@ export default class DigiBook extends H5P.EventDispatcher {
      * @param {number} hashObj.h5pbookid
      */
     this.isCurrentHashSameAsRedirect = (hashObj) => {
-      const temp = this.retrieveHashFromUrl();
+      const temp = this.extractFragmentsFromURL(this.validateFragments);
       for (const key in temp) {
         if (temp.hasOwnProperty(key)) {
           const element = temp[key];
@@ -407,7 +430,7 @@ export default class DigiBook extends H5P.EventDispatcher {
      * Triggers whenever the hash changes, indicating that a chapter redirect is happening
      */
     H5P.on(this, 'respondChangeHash', () => {
-      const payload = self.retrieveHashFromUrl(top.location.hash);
+      const payload = self.extractFragmentsFromURL(self.validateFragments);
       if (payload.h5pbookid && parseInt(payload.h5pbookid) === self.contentId) {
         this.redirectChapter(payload);
       }
