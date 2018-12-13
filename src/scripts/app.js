@@ -1,3 +1,4 @@
+import URLTools from './urltools';
 import SideBar from './sidebar';
 import StatusBar from './statusbar';
 import Cover from './cover';
@@ -17,6 +18,8 @@ export default class DigiBook extends H5P.EventDispatcher {
     this.contentId = contentId;
     this.activeChapter = 0;
     this.newHandler = {};
+
+    this.completed = false;
 
     this.params = config;
     this.params.behaviour = this.params.behaviour || {};
@@ -108,7 +111,7 @@ export default class DigiBook extends H5P.EventDispatcher {
     /**
      * Get xAPI data.
      *
-     * @return {Object} xAPI statement.
+     * @return {object} xAPI statement.
      * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-6}
      */
     this.getXAPIData = () => {
@@ -130,8 +133,8 @@ export default class DigiBook extends H5P.EventDispatcher {
     /**
      * Get xAPI data from sub content types.
      *
-     * @param {Object[]} instances H5P instances.
-     * @return {Object[]} xAPI data objects used to build a report.
+     * @param {object[]} instances H5P instances.
+     * @return {object[]} xAPI data objects used to build a report.
      */
     this.getXAPIDataFromChildren = instances => {
       return instances.map(instance => {
@@ -154,7 +157,7 @@ export default class DigiBook extends H5P.EventDispatcher {
     /**
      * Generate xAPI object definition used in xAPI statements.
      *
-     * @return {Object} xAPI definition.
+     * @return {object} xAPI definition.
      */
     this.getxAPIDefinition = () => ({
       interactionType: 'compound',
@@ -162,62 +165,41 @@ export default class DigiBook extends H5P.EventDispatcher {
       description: {'en-US': ''}
     });
 
-    this.doesCoverExist = () => {
-      if (this.cover && this.cover.div) {
-        return true;
+    /**
+     * Check if there's a cover.
+     *
+     * @return {boolean} True, if there's a cover.
+     */
+    this.doesCoverExist = () => this.cover && this.cover.div;
+
+    /**
+     * Get number of active chapter.
+     *
+     * @return {number} Number of active chapter.
+     */
+    this.getActiveChapter = () => this.activeChapter;
+
+    /**
+     * Set number of active chapter.
+     *
+     * @param {number} chapterId Number of active chapter.
+     */
+    this.setActiveChapter = (chapterId) => {
+      chapterId = parseInt(chapterId);
+      if (!isNaN(chapterId)) {
+        this.activeChapter = chapterId;
       }
-      return false;
-    };
-
-
-    this.getActiveChapter = () => {
-      return this.activeChapter;
-    };
-
-    this.setActiveChapter = (input) => {
-      const number = parseInt(input);
-      if (!isNaN(number)) {
-        this.activeChapter = parseInt(input);
-      }
-    };
-
-    this.retrieveHashFromUrl = () => {
-      const rawparams = top.location.hash.replace('#', "").split('&').map(el => el.split("="));
-      const redirObj = {};
-
-      //Split up the hash parametres and assign to an object
-      rawparams.forEach(argPair => {
-        redirObj[argPair[0]] = argPair[1];
-      });
-
-      if (redirObj.h5pbookid == self.contentId && redirObj.chapter) {
-        if (!redirObj.chapter) {
-          return;
-        }
-      }
-      return redirObj;
     };
 
     /**
-     * Compare the current hash with the currently redirected hash.
+     * Validate fragments.
      *
-     * Used for checking if the user attempts to redirect to the same section twice
-     * @param {object} hashObj - the object that should be compared to the hash
-     * @param {String} hashObj.chapter
-     * @param {String} hashObj.section
-     * @param {number} hashObj.h5pbookid
+     * @param {object} fragments Fragments object from URL.
+     * @return {boolean} True, if fragments are valid.
      */
-    this.isCurrentHashSameAsRedirect = (hashObj) => {
-      const temp = this.retrieveHashFromUrl();
-      for (const key in temp) {
-        if (temp.hasOwnProperty(key)) {
-          const element = temp[key];
-          if (element != hashObj[key]) {
-            return false;
-          }
-        }
-      }
-      return true;
+    this.validateFragments = (fragments) => {
+      return fragments.chapter !== undefined &&
+        parseInt(fragments.h5pbookid) === self.contentId;
     };
 
     /**
@@ -231,64 +213,87 @@ export default class DigiBook extends H5P.EventDispatcher {
       this.statusBar.header.scrollIntoView(true);
     });
 
-    /**
-     *
-     */
     this.on('newChapter', (event) => {
       if (this.animationInProgress) {
         return;
       }
       this.newHandler = event.data;
 
-      //Assert that the module itself is asking for a redirect
-      this.newHandler.redirectFromComponent = true;
       // Create the new hash
-      const idString = 'h5pbookid=' + this.newHandler.h5pbookid;
-      const chapterString = '&chapter=' + this.newHandler.chapter;
-      let sectionString = "";
-      if (this.newHandler.section !== undefined) {
-        sectionString = '&section=' + this.newHandler.section;
-      }
-      event.data.newHash = "#" + idString + chapterString + sectionString;
+      event.data.newHash = URLTools.createFragmentsString(this.newHandler);
 
-      if (event.data.chapter === this.activeChapter) {
-        if (this.isCurrentHashSameAsRedirect(event.data)) {
-          //only trigger section redirect without changing hash
+      // Assert that the module itself is asking for a redirect
+      this.newHandler.redirectFromComponent = true;
+
+      if (this.getChapterId(event.data.chapter) === this.activeChapter) {
+        const fragmentsEqual = URLTools.areFragmentsEqual(
+          event.data,
+          URLTools.extractFragmentsFromURL(this.validateFragments),
+          ['h5pbookid', 'chapter', 'section']
+        );
+
+        if (fragmentsEqual) {
+          // only trigger section redirect without changing hash
           this.pageContent.changeChapter(false, event.data);
           return;
         }
       }
-      H5P.trigger(this, "changeHash", event.data);
+
+      /*
+       * Set final chapter read on entering automatically if it doesn't
+       * contain tasks and if all other chapters have been completed
+       */
+      if (this.params.behaviour.progressAuto) {
+        const id = this.getChapterId(this.newHandler.chapter);
+        if (this.isFinalChapterWithoutTask(id)) {
+          this.setChapterRead(id);
+        }
+      }
+
+      H5P.trigger(this, 'changeHash', event.data);
     });
 
     /**
-     * Check if the current chapter is read
+     * Check if the current chapter is read.
      *
-     * @returns {boolean}
+     * @returns {boolean} True, if current chapter was read.
      */
-    this.isCurrentChapterRead = () => {
-      return this.chapters[this.activeChapter].completed;
+    this.isCurrentChapterRead = () => this.chapters[this.activeChapter].completed;
+
+    /**
+     * Check if chapter is final one, has no tasks and all other chapters are done.
+     *
+     * @param {number} chapterId Chapter id.
+     * @return {boolean} True, if final chapter without tasks and other chapters done.
+     */
+    this.isFinalChapterWithoutTask = (chapterId) => {
+      return this.chapters[chapterId].maxTasks === 0 &&
+        this.chapters.slice(0, chapterId).concat(this.chapters.slice(chapterId + 1))
+          .every(chapter => chapter.completed);
     };
 
     /**
-     * Set the current chapter as completed
+     * Set the current chapter as completed.
+     *
+     * @param {number} [chapterId] Chapter Id, defaults to current chapter.
      */
-    this.setCurrentChapterRead = () => {
-      this.chapters[this.activeChapter].completed = true;
-      this.sideBar.setChapterIndicatorComplete(this.activeChapter);
+    this.setChapterRead = (chapterId = this.activeChapter) => {
+      this.handleChapterCompletion(chapterId);
+      this.sideBar.updateChapterProgressIndicator(chapterId, 'DONE');
     };
 
     /**
-     * Update statistics on the main chapter
+     * Update statistics on the main chapter.
      *
-     * @param {number} targetChapter
+     * @param {number} chapterId Chapter Id.
      * @param {boolean} hasChangedChapter
      */
-    this.updateChapterProgress = function (targetChapter, hasChangedChapter = false) {
+    this.updateChapterProgress = (chapterId, hasChangedChapter = false) => {
       if (!this.params.behaviour.progressIndicators || !this.params.behaviour.progressAuto) {
         return;
       }
-      const chapter = this.chapters[targetChapter];
+
+      const chapter = this.chapters[chapterId];
       let status;
       if (chapter.maxTasks) {
         if (chapter.tasksLeft === chapter.maxTasks) {
@@ -314,22 +319,63 @@ export default class DigiBook extends H5P.EventDispatcher {
       }
 
       if (status === 'DONE') {
-        chapter.instance.triggerXAPIScored(chapter.instance.getScore(), chapter.instance.getMaxScore(), 'completed');
+        this.handleChapterCompletion(chapterId);
       }
-      this.sideBar.updateChapterProgressIndicator(targetChapter, status);
+      this.sideBar.updateChapterProgressIndicator(chapterId, status);
     };
 
     /**
-     * Check if the content height exceeds the window
-     * @param {div} chapterHeight
+     * Get id of chapter.
+     *
+     * @param {string} chapterUUID ChapterUUID.
+     * @return {number} Chapter Id.
+     */
+    this.getChapterId = (chapterUUID) => {
+      return this.chapters
+        .map(chapter => chapter.instance.subContentId).indexOf(chapterUUID);
+    };
+
+    /**
+     * Handle chapter completion, e.g. trigger xAPI statements
+     *
+     * @param {number} chapterId Id of the chapter that was completed.
+     */
+    this.handleChapterCompletion = (chapterId) => {
+      const chapter = this.chapters[chapterId];
+
+      // New chapter completed
+      if (!chapter.completed) {
+        chapter.completed = true;
+        chapter.instance.triggerXAPIScored(chapter.instance.getScore(), chapter.instance.getMaxScore(), 'completed');
+      }
+
+      // All chapters completed
+      if (!this.completed && this.chapters.every(chapter => chapter.completed)) {
+        this.completed = true;
+
+        const xAPIData = this.getXAPIData();
+        const xAPIEvent = new H5P.XAPIEvent();
+        xAPIEvent.data.statement = xAPIData.statement;
+        xAPIEvent.data.children = xAPIData.children;
+        xAPIEvent.setVerb('completed');
+
+        this.trigger(xAPIEvent);
+      }
+    };
+
+    /**
+     * Check if the content height exceeds the window.
+     *
+     * @param {number} chapterHeight Chapter height.
      */
     this.shouldFooterBeVisible = (chapterHeight) => {
       return chapterHeight <= window.outerHeight;
     };
 
     /**
-     * Change the current active chapter
-     * @param {boolean} redirectOnLoad - Is this a redirect which happens immediately?
+     * Change the current active chapter.
+     *
+     * @param {boolean} redirectOnLoad Is this a redirect which happens immediately?
      */
     this.changeChapter = (redirectOnLoad) => {
       this.pageContent.changeChapter(redirectOnLoad, this.newHandler);
@@ -342,13 +388,13 @@ export default class DigiBook extends H5P.EventDispatcher {
      * Triggers whenever the hash changes, indicating that a chapter redirect is happening
      */
     H5P.on(this, 'respondChangeHash', () => {
-      const payload = self.retrieveHashFromUrl(top.location.hash);
+      const payload = URLTools.extractFragmentsFromURL(self.validateFragments);
       if (payload.h5pbookid && parseInt(payload.h5pbookid) === self.contentId) {
         this.redirectChapter(payload);
       }
     });
 
-    H5P.on(this, 'changeHash', function (event) {
+    H5P.on(this, 'changeHash', (event) => {
       if (event.data.h5pbookid === this.contentId) {
         top.location.hash = event.data.newHash;
       }
@@ -356,23 +402,30 @@ export default class DigiBook extends H5P.EventDispatcher {
 
     H5P.externalDispatcher.on('xAPI', function (event) {
       if (event.getVerb() === 'answered' || event.getVerb() === 'completed') {
-        if (self.params.behaviour.progressIndicators) {
+        if (self.params.behaviour.progressIndicators && self !== this) {
           self.setSectionStatusByID(this.subContentId || this.contentData.subContentId, self.activeChapter);
         }
       }
     });
 
-    this.redirectChapter = function (event) {
+    /**
+     * Redirect chapter.
+     *
+     * @param {object} target Target data.
+     * @param {string} target.h5pbookid Book id.
+     * @param {string} target.chapter Chapter UUID.
+     * @param {string} target.section Section UUID.
+     */
+    this.redirectChapter = (target) => {
       /**
        * If true, we already have information regarding redirect in newHandler
        * When using browser history, a convert is neccecary
        */
       if (!this.newHandler.redirectFromComponent) {
-        let tmpEvent;
-        tmpEvent = event;
+
         // Assert that the handler actually is from this content type.
-        if (tmpEvent.h5pbookid && parseInt(tmpEvent.h5pbookid) === self.contentId) {
-          self.newHandler = tmpEvent;
+        if (target.h5pbookid && parseInt(target.h5pbookid) === self.contentId) {
+          self.newHandler = target;
         /**
          * H5p-context switch on no newhash = history backwards
          * Redirect to first chapter
@@ -389,23 +442,23 @@ export default class DigiBook extends H5P.EventDispatcher {
     };
 
     /**
-     * Set a section progress indicator
+     * Set a section progress indicator.
      *
-     * @param {string} targetId
-     * @param {string} targetChapter
+     * @param {string} sectionUUID UUID of target section.
+     * @param {number} chapterId Number of targetchapter.
      */
-    this.setSectionStatusByID = function (targetId, targetChapter) {
-      for (let i = 0; i < this.chapters[targetChapter].sectionInstances.length; i++) {
-        const element = this.chapters[targetChapter].sectionInstances[i];
-        if (element.subContentId === targetId && !element.taskDone) {
-          element.taskDone = true;
-          this.sideBar.setSectionMarker(targetChapter, i);
-          this.chapters[targetChapter].tasksLeft -= 1;
+    this.setSectionStatusByID = (sectionUUID, chapterId) => {
+      this.chapters[chapterId].sections.forEach((section, index) => {
+        const sectionInstance = section.instance;
+        if (sectionInstance.subContentId === sectionUUID && !section.taskDone) {
+          section.taskDone = true;
+          this.sideBar.setSectionMarker(chapterId, index);
+          this.chapters[chapterId].tasksLeft -= 1;
           if (this.params.behaviour.progressAuto) {
-            this.updateChapterProgress(targetChapter);
+            this.updateChapterProgress(chapterId);
           }
         }
-      }
+      });
     };
 
     top.addEventListener('hashchange', (event) => {
@@ -416,10 +469,10 @@ export default class DigiBook extends H5P.EventDispatcher {
      * Attach library to wrapper
      * @param {jQuery} $wrapper
      */
-    this.attach = function ($wrapper) {
+    this.attach = ($wrapper) => {
       $wrapper[0].classList.add('h5p-scrollable-fullscreen');
       // Needed to enable scrolling in fullscreen
-      $wrapper[0].id = "h5p-digibook";
+      $wrapper[0].id = 'h5p-digibook';
       if (this.cover) {
         $wrapper.get(0).appendChild(this.cover.div);
       }
@@ -434,21 +487,24 @@ export default class DigiBook extends H5P.EventDispatcher {
       $wrapper.get(0).appendChild(this.statusBar.footer);
     };
 
-    this.hideAllElements = function (hideElements) {
-
+    /**
+     * Hide all elements.
+     *
+     * @param {boolean} hide True to hide elements.
+     */
+    this.hideAllElements = function (hide) {
       const targetElements = [
         this.statusBar.header,
         this.statusBar.footer,
         this.pageContent.div
       ];
 
-      if (hideElements) {
+      if (hide) {
         targetElements.forEach(x => {
           x.classList.add('h5p-content-hidden');
           x.classList.add('digibook-cover-present');
         });
       }
-
       else {
         targetElements.forEach(x => {
           x.classList.remove('h5p-content-hidden');

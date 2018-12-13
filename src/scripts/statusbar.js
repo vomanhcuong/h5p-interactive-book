@@ -44,8 +44,6 @@ class StatusBar extends H5P.EventDispatcher {
     this.headerChapterTitle = this.addChapterTitle();
     this.footerChapterTitle = this.addChapterTitle();
 
-
-
     this.header.appendChild(this.headerProgressBar.div);
     this.headerInfo.appendChild(this.headerMenu.div);
     this.headerInfo.appendChild(this.headerChapterTitle.div);
@@ -53,8 +51,6 @@ class StatusBar extends H5P.EventDispatcher {
     this.headerInfo.appendChild(this.arrows.divTopPrev);
     this.headerInfo.appendChild(this.arrows.divTopNext);
     this.header.appendChild(this.headerInfo);
-
-
 
     /**
      * Bottom row initializer
@@ -66,9 +62,6 @@ class StatusBar extends H5P.EventDispatcher {
 
     this.footerProgressBar = this.addProgressBar();
 
-
-
-
     this.footer.appendChild(this.footerProgressBar.div);
     this.footerInfo.appendChild(this.buttonToTop.div);
     this.footerInfo.appendChild(this.footerChapterTitle.div);
@@ -77,9 +70,6 @@ class StatusBar extends H5P.EventDispatcher {
     this.footerInfo.appendChild(this.arrows.divBotNext);
 
     this.footer.appendChild(this.footerInfo);
-
-
-
 
     this.on('updateStatusBar', this.updateStatusBar);
 
@@ -92,7 +82,7 @@ class StatusBar extends H5P.EventDispatcher {
         h5pbookid: this.parent.contentId
       };
       if (event.data.toTop) {
-        eventInput.section = "top";
+        eventInput.section = 'top';
       }
 
       if (event.data.direction === 'next') {
@@ -111,8 +101,13 @@ class StatusBar extends H5P.EventDispatcher {
     });
   }
 
+  /**
+   * Update progress bar.
+   *
+   * @param {number} chapterId Chapter Id.
+   */
   updateProgressBar(chapter) {
-    let barWidth = ((chapter / this.totalChapters)*100)+"%";
+    const barWidth = `${chapter / this.totalChapters * 100}%`;
 
     this.headerProgressBar.progress.style.width = barWidth;
     const title = this.params.a11y.progress
@@ -124,9 +119,11 @@ class StatusBar extends H5P.EventDispatcher {
 
   }
 
-
+  /**
+   * Update status bar.
+   */
   updateStatusBar() {
-    const currChapter = this.parent.getActiveChapter()+1;
+    const currChapter = this.parent.getActiveChapter() + 1;
 
     const chapterTitle =  this.parent.chapters[this.parent.getActiveChapter()].title;
 
@@ -134,7 +131,6 @@ class StatusBar extends H5P.EventDispatcher {
     this.footerStatus.current.innerHTML = currChapter;
 
     this.updateProgressBar(currChapter);
-
 
     this.headerChapterTitle.p.innerHTML = chapterTitle;
     this.footerChapterTitle.p.innerHTML = chapterTitle;
@@ -149,14 +145,13 @@ class StatusBar extends H5P.EventDispatcher {
     else {
       this.editButtonStatus('Prev', false);
     }
-    if ((this.parent.activeChapter+1) >= this.totalChapters) {
+    if ((this.parent.activeChapter + 1) >= this.totalChapters) {
       this.editButtonStatus('Next', true);
     }
     else {
       this.editButtonStatus('Next', false);
     }
   }
-
 
   /**
    * Add traversal buttons for sequential travel (next and previous chapter)
@@ -236,7 +231,9 @@ class StatusBar extends H5P.EventDispatcher {
   }
 
   /**
-   * Add a menu button which hides and shows the navigation bar
+   * Add a menu button which hides and shows the navigation bar.
+   *
+   * @return {object} menu elements.
    */
   addMenu() {
     const that = this;
@@ -272,6 +269,11 @@ class StatusBar extends H5P.EventDispatcher {
     };
   }
 
+  /**
+   * Add progress bar.
+   *
+   * @return {object} Progress bar elements.
+   */
   addProgressBar() {
     const div = document.createElement('div');
     const progress = document.createElement('div');
@@ -288,7 +290,9 @@ class StatusBar extends H5P.EventDispatcher {
   }
 
   /**
-   * Add a paragraph which indicates which chapter is active
+   * Add a paragraph which indicates which chapter is active.
+   *
+   * @return {object} Chapter title elements.
    */
   addChapterTitle() {
     const div = document.createElement('div');
@@ -304,7 +308,9 @@ class StatusBar extends H5P.EventDispatcher {
 
   }
   /**
-   * Add a button which scrolls to the top of the page
+   * Add a button which scrolls to the top of the page.
+   *
+   * @return {object} Top elements.
    */
   addToTop() {
     const that = this;
@@ -328,10 +334,10 @@ class StatusBar extends H5P.EventDispatcher {
   /**
    * Edits the footer visibillity
    *
-   * @param {Boolean} input
+   * @param {boolean} hide True will hide the footer.
    */
-  editFooterVisibillity(input) {
-    if (input) {
+  editFooterVisibillity(hide) {
+    if (hide) {
       this.footer.classList.add('footer-hidden');
     }
     else {
@@ -340,7 +346,9 @@ class StatusBar extends H5P.EventDispatcher {
   }
 
   /**
-   * Add a status-button which shows current and total chapters
+   * Add a status-button which shows current and total chapters.
+   *
+   * @return {object} Progress elements.
    */
   addProgress() {
     const div = document.createElement('div');
@@ -355,13 +363,12 @@ class StatusBar extends H5P.EventDispatcher {
     divider.classList.add('h5p-digibook-status-progress-divider');
     total.classList.add('h5p-digibook-status-progress-number');
 
-    divider.innerHTML = " / ";
+    divider.innerHTML = ' / ';
     total.innerHTML = this.totalChapters;
 
     p.appendChild(current);
     p.appendChild(divider);
     p.appendChild(total);
-
 
     div.appendChild(p);
     return {
@@ -374,11 +381,13 @@ class StatusBar extends H5P.EventDispatcher {
   }
 
   /**
-   * Edit button state on both the top and bottom bar
-   * @param {bool} state
+   * Edit button state on both the top and bottom bar.
+   *
+   * @param {string} target Prev or Next.
+   * @param {boolean} disable True will disable the target button.
    */
-  editButtonStatus(target, state) {
-    if (state) {
+  editButtonStatus(target, disable) {
+    if (disable) {
       this.arrows['divTop'+target].setAttribute('disabled', 'disabled');
       this.arrows['divBot'+target].setAttribute('disabled', 'disabled');
       this.arrows['top'+target].classList.add('disabled');

@@ -1,3 +1,5 @@
+import URLTools from './urltools';
+
 class PageContent extends H5P.EventDispatcher {
   /**
    * @constructor
@@ -32,21 +34,32 @@ class PageContent extends H5P.EventDispatcher {
   /**
    * Get chapters.
    *
-   * @return {Object[]} Chapters.
+   * @return {object[]} Chapters.
    */
   getChapters() {
     return this.chapters;
   }
 
+  /**
+   * Create page content.
+   *
+   * @return {HTMLElement} Page content.
+   */
   createPageContent() {
     const content = document.createElement('div');
     content.classList.add('h5p-digibook-content');
     this.columnElements.forEach(element => {
       content.appendChild(element);
     });
+
     return content;
   }
 
+  /**
+   * Create page read mark.
+   *
+   * @return {object} Generating data.
+   */
   createPageReadMark() {
     const div = document.createElement('div');
     const checkText = document.createElement('p');
@@ -56,7 +69,7 @@ class PageContent extends H5P.EventDispatcher {
     markRead.setAttribute('type', 'checkbox');
     div.classList.add('h5p-digibook-status-progress-marker');
     markRead.onclick = () => {
-      this.parent.setCurrentChapterRead();
+      this.parent.setChapterRead();
       markRead.disabled = true;
     };
 
@@ -70,36 +83,42 @@ class PageContent extends H5P.EventDispatcher {
     };
   }
 
-  injectSectionId(sectionInstances, columnElement) {
+  /**
+   * Inject section instance UUID into DOM.
+   *
+   * @param {object[]} sections Sections.
+   * @param {HTMLElement} columnElement Column element.
+   */
+  injectSectionId(sections, columnElement) {
     const colContent = columnElement.getElementsByClassName('h5p-column-content');
 
-    for (let i = 0; i < sectionInstances.length; i++) {
-      colContent[i].id = sectionInstances[i].subContentId;
+    for (let i = 0; i < sections.length; i++) {
+      colContent[i].id = sections[i].instance.subContentId;
     }
   }
 
   /**
    * Create Column instances.
    *
-   * @param {Object} config Parameters.
+   * @param {object} config Parameters.
    * @param {number} contentId Content id.
-   * @param {Object} contentData Content data.
-   * @return {Object[]} Column instances.
+   * @param {object} contentData Content data.
+   * @return {object[]} Column instances.
    */
   createColumns(config, contentId, contentData) {
-    const redirObject = this.parent.retrieveHashFromUrl();
+    const redirObject = URLTools.extractFragmentsFromURL(this.parent.validateFragments);
     const chapters = [];
 
     //Go through all columns and initialise them
     for (let i = 0; i < config.chapters.length; i++) {
       const newColumn = document.createElement('div');
       const newInstance = H5P.newRunnable(config.chapters[i], contentId, H5P.jQuery(newColumn), contentData);
-      newInstance.on('resize', (e) => {
+      newInstance.on('resize', (event) => {
         // Prevent sending event back down
         this.parent.bubblingUpwards = true;
 
         // Resize ourself
-        this.parent.trigger('resize', e);
+        this.parent.trigger('resize', event);
 
         // Reset
         this.parent.bubblingUpwards = false;
@@ -107,10 +126,13 @@ class PageContent extends H5P.EventDispatcher {
 
       const chapter = {
         instance: newInstance,
-        sectionInstances: newInstance.getInstances(),
         title: config.chapters[i].metadata.title,
         completed: false,
-        tasksLeft: 0
+        tasksLeft: 0,
+        sections: newInstance.getInstances().map(instance => ({
+          instance: instance,
+          isTask: false
+        }))
       };
 
       newColumn.classList.add('h5p-digibook-chapter');
@@ -123,24 +145,24 @@ class PageContent extends H5P.EventDispatcher {
 
       //Find sections with tasks and tracks them
       if (this.behaviour.progressIndicators) {
-        chapter.sectionInstances.forEach(child => {
-          if (this.isH5PTask(child)) {
-            child.isTask = true;
-            child.taskDone = false;
+        chapter.sections.forEach(section => {
+          if (this.isH5PTask(section.instance)) {
+            section.isTask = true;
+            section.taskDone = false;
             chapter.tasksLeft += 1;
           }
         });
       }
       chapter.maxTasks = chapter.tasksLeft;
 
-      this.injectSectionId(chapter.sectionInstances, newColumn);
+      this.injectSectionId(chapter.sections, newColumn);
 
       //Register both the HTML-element and the H5P-element
       chapters.push(chapter);
       this.columnElements.push(newColumn);
     }
 
-    this.parent.on('resize', (e) => {
+    this.parent.on('resize', (event) => {
       if (this.parent.bubblingUpwards) {
         return; // Prevent sending back down.
       }
@@ -148,12 +170,12 @@ class PageContent extends H5P.EventDispatcher {
       for (var i = 0; i < this.chapters.length; i++) {
         // Only resize the visible column
         if (this.columnElements[i].offsetParent !== null) {
-          this.chapters[i].instance.trigger('resize', e);
+          this.chapters[i].instance.trigger('resize', event);
         }
       }
     });
 
-    //First chapter should be visible, except if the url says otherwise.
+    // First chapter should be visible, except if the URL says otherwise.
     let chosenChapter = this.columnElements[0].id;
     if (redirObject.chapter && redirObject.h5pbookid == this.parent.contentId) {
       const chapterIndex = this.findChapterIndex(redirObject.chapter);
@@ -173,20 +195,30 @@ class PageContent extends H5P.EventDispatcher {
     return chapters;
   }
 
-  isH5PTask(H5PObject) {
-    if (typeof H5PObject.getMaxScore === 'function') {
-      return H5PObject.getMaxScore() > 0;
+  /**
+   * Check if instance is an H5P task.
+   *
+   * @param {H5P.Runnable} instance H5P instance.
+   * @return {boolean} True, if instance is an H5P task.
+   */
+  isH5PTask(instance) {
+    if (typeof instance.getMaxScore === 'function') {
+      return instance.getMaxScore() > 0;
     }
     return false;
   }
 
-
-  redirectSection(sectionId) {
-    if (sectionId === 'top') {
+  /**
+   * Redirect section.
+   *
+   * @param {string} sectionUUID Section UUID or top.
+   */
+  redirectSection(sectionUUID) {
+    if (sectionUUID === 'top') {
       this.parent.trigger('scrollToTop');
     }
     else {
-      const section = document.getElementById(sectionId);
+      const section = document.getElementById(sectionUUID);
       if (section) {
         section.scrollIntoView(true);
         this.targetPage.redirectFromComponent = false;
@@ -194,13 +226,19 @@ class PageContent extends H5P.EventDispatcher {
     }
   }
 
-  findChapterIndex(id) {
+  /**
+   * Find chapter index.
+   *
+   * @param {string} chapterUUID Chapter UUID.
+   * @return {number} Chapter id.
+   */
+  findChapterIndex(chapterUUID) {
     let position = -1;
     this.columnElements.forEach((element, index) => {
       if (position !== -1) {
         return; // Skip
       }
-      if (element.id === id) {
+      if (element.id === chapterUUID) {
         position = index;
       }
     });
@@ -209,18 +247,19 @@ class PageContent extends H5P.EventDispatcher {
   }
 
   /**
-   * Input in targetPage should be:
-   * @param {int} chapter - The given chapter that should be opened
-   * @param {int} section - The given section to redirect
+   * Change chapter.
+   *
+   * @param {boolean} redirectOnLoad True if should redirect on load.
+   * @param {object} target Target.
    */
-  changeChapter(redirectOnLoad, newHandler) {
+  changeChapter(redirectOnLoad, target) {
     if (this.parent.animationInProgress) {
       return;
     }
 
-    this.targetPage = newHandler;
+    this.targetPage = target;
     const oldChapterNum = this.parent.getActiveChapter();
-    const newChapterNum = this.findChapterIndex(this.targetPage.chapter);
+    const newChapterNum = this.parent.getChapterId(this.targetPage.chapter);
 
     if (newChapterNum < this.columnElements.length) {
       const oldChapter = this.columnElements[oldChapterNum];
@@ -231,30 +270,21 @@ class PageContent extends H5P.EventDispatcher {
         this.parent.animationInProgress = true;
         this.parent.setActiveChapter(newChapterNum);
 
+        // The pages will progress from right to left or vice versa.
+        const newPageProgress = (oldChapterNum < newChapterNum) ? 'right' : 'left';
+        const oldPageProgress = (oldChapterNum < newChapterNum) ? 'left' : 'right';
 
-        var newPageProgress = '';
-        var oldPageProgrss = '';
-        // The pages will progress from right to left
-        if (oldChapterNum < newChapterNum) {
-          newPageProgress = 'right';
-          oldPageProgrss = 'left';
-        }
-        else {
-          newPageProgress = 'left';
-          oldPageProgrss = 'right';
-        }
         // Set up the slides
         targetChapter.classList.add('h5p-digibook-animate-new');
-        targetChapter.classList.add('h5p-digibook-offset-' + newPageProgress);
+        targetChapter.classList.add(`h5p-digibook-offset-${newPageProgress}`);
         targetChapter.classList.remove('h5p-content-hidden');
 
         // Play the animation
         setTimeout(() => {
-          oldChapter.classList.add('h5p-digibook-offset-' + oldPageProgrss);
-          targetChapter.classList.remove('h5p-digibook-offset-' + newPageProgress);
+          oldChapter.classList.add(`h5p-digibook-offset-${oldPageProgress}`);
+          targetChapter.classList.remove(`h5p-digibook-offset-${newPageProgress}`);
         }, 50);
       }
-
       else {
         if (this.parent.cover && !this.parent.cover.div.hidden) {
           this.parent.on('coverRemoved', () => {
@@ -272,9 +302,14 @@ class PageContent extends H5P.EventDispatcher {
       }
     }
   }
+
+  /**
+   * Add content listener.
+   */
   addcontentListener() {
     this.content.addEventListener('transitionend', (event) => {
       const activeChapter = this.parent.getActiveChapter();
+
       if (event.propertyName === 'transform' && event.target === this.columnElements[activeChapter]) {
         // Remove all animation-related classes
         const inactiveElems = this.columnElements.filter(x => x !== this.columnElements[activeChapter]);
@@ -300,6 +335,9 @@ class PageContent extends H5P.EventDispatcher {
     });
   }
 
+  /**
+   * Update footer.
+   */
   updateFooter() {
     const activeChapter = this.parent.getActiveChapter();
     const column = this.columnElements[activeChapter];
