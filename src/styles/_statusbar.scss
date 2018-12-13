@@ -9,9 +9,12 @@
   padding: 0.5em;
   margin: 0;
   overflow: hidden;
-  div {
+
+  .h5p-digibook-status-button {
     align-items: center;
     display: flex;
+    padding: 0;
+    margin: auto;
   }
 }
 
@@ -37,7 +40,7 @@
   background-color: $background-color;
   background-size: cover;
 
-  a {
+  .icon-menu {
     margin: auto;
     font-size: 1.35em;
     color: $base-color;
@@ -46,7 +49,7 @@
   &.h5p-digibook-status-menu-active {
     opacity: 20;
     background-color: $base-color;
-    a {
+    .icon-menu {
       color: $background-color;
     }
     &:hover {
@@ -101,12 +104,12 @@
 .h5p-digibook-status-chapter {
   overflow: hidden;
   flex-grow: 1;
-  p {
+
+  .title {
     color: #4c4452;
     font-family: Arial;
     font-size: 20px;
     font-weight: 700;
-    margin: 0;
     overflow: hidden;
     padding: 0 1rem;
     text-decoration: none solid rgb(76, 68, 82);
@@ -122,10 +125,14 @@
   border-radius: 0.125em;
   background-color: $background-color;
   background-size: cover;
-  a {
+
+  .navigation-button {
     margin: auto;
     font-size: 1.25em;
     color: $base-color;
+    background: transparent;
+    border: none;
+
     &.disabled {
       opacity: 0.5;
     }

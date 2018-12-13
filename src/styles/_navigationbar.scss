@@ -1,4 +1,5 @@
 .h5p-digibook-navigation {
+    overflow: hidden;
     background-color: $background-color;
     background-size: cover;
     box-shadow: 0.625em 0.625em 1.875em rgba(166, 166, 166, 0.2);
@@ -22,6 +23,11 @@
         width: 0;
         max-width: 0;
     }
+
+    .navigation-list {
+        margin: 0;
+        padding: 0;
+    }
 }
 
 .h5p-digibook-navigation-sectionlist {
@@ -29,6 +35,8 @@
     background-size: cover;
     transition: max-height 0.5s ease-in;
     width: 16.563em;
+    padding: 0;
+
     .h5p-digibook-navigation-section {
         text-overflow: ellipsis;
         background: transparent;
@@ -40,6 +48,12 @@
         overflow: hidden;
         text-decoration: none solid rgb(76, 68, 82);
         width: 100%;
+
+        .section-button {
+            border: none;
+            background: transparent;
+        }
+
         span:first-child {
             font-size: 0.65em;
         }
@@ -69,7 +83,7 @@
 
 
 .h5p-digibook-navigation-closed {
-    .h5p-digibook-navigation-chapter-title {
+    .h5p-digibook-navigation-chapter-button {
         background-color: white;
         p{
             color: #4c4452;
@@ -78,25 +92,35 @@
     .h5p-digibook-navigation-sectionlist {
         max-height: 0;
         overflow: hidden;
+        visibility: hidden;
         transition: max-height 0.5s ease-out;
     }
 }
-.h5p-digibook-navigation-chapter{
+.h5p-digibook-navigation-chapter {
     border-left: 1px solid #e9e4ed;
+    list-style: none;
 }
-.h5p-digibook-navigation-chapter-title {
-    background-color: rgba($base-color, 0.1);
-    background-size: cover;
-    border-bottom:solid 1px #e9e4ed;
-    color: #4c4452;
+
+.h5p-digibook-navigation-chapter-button {
     display: flex;
-    font-family: Arial;
-    font-size: 0.750em;
-    font-weight: 700;
+    width: 100%;
+    margin: 0;
     height: 3.438em;
     padding: 0 1.125em 0 1.125em;
-    text-decoration: none solid rgb(76, 68, 82);
+
+    font-family: Arial;
+    color: #4c4452;
+    font-size: 0.750em;
+    font-weight: 700;
     align-items: center;
+    text-align: initial;
+
+    border: none;
+    border-bottom: solid 1px #e9e4ed;
+    background-color: rgba($base-color, 0.1);
+    text-decoration: none solid rgb(76, 68, 82);
+    background-size: cover;
+
     p {
         color: $base-color;
         background-color: transparent;
@@ -111,6 +135,7 @@
         text-decoration: none solid rgb(134, 96, 171);
         text-overflow: ellipsis;
         width: 13.125em; // height: 25px;
+        white-space: nowrap;
     }
     .h5p-digibook-navigation-chapter-accordion {
         align-self: center;
@@ -132,7 +157,8 @@
 .h5p-digibook-navigation-maintitle {
     background-color: $base-color;
     background-size: cover;
-    p {
+
+    .navigation-title {
         align-self: center;
         color: $background-color;
         font-family: Arial;

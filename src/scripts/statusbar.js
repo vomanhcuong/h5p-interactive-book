@@ -7,12 +7,17 @@ class StatusBar extends H5P.EventDispatcher {
     this.id = contentId;
     this.parent = parent;
 
+    console.log("what is params ?", params);
     this.params = this.extend(
       {
         l10n: {
           nextPage: 'Next page',
           previousPage: 'Previous page',
           navigateToTop: 'Navigate to the top',
+        },
+        a11y: {
+          progress: 'Page @page of @total',
+          menu: 'Toggle navigation menu',
         }
       },
       params || {}
@@ -25,6 +30,7 @@ class StatusBar extends H5P.EventDispatcher {
      * Top row initializer
      */
     this.header = document.createElement('div');
+    this.header.setAttribute('tabindex', '-1');
     this.headerInfo = document.createElement('div');
     this.header.classList.add('h5p-digibook-status-header');
     this.headerInfo.classList.add('h5p-digibook-status');
@@ -109,7 +115,12 @@ class StatusBar extends H5P.EventDispatcher {
     let barWidth = ((chapter / this.totalChapters)*100)+"%";
 
     this.headerProgressBar.progress.style.width = barWidth;
+    const title = this.params.a11y.progress
+      .replace('@page', chapter)
+      .replace('@total', this.totalChapters);
+    this.headerProgressBar.progress.title = title;
     this.footerProgressBar.progress.style.width = barWidth;
+    this.footerProgressBar.progress.title = title;
 
   }
 
@@ -154,15 +165,15 @@ class StatusBar extends H5P.EventDispatcher {
     const acm = {};
 
     // Initialize elements
-    acm.divTopPrev = document.createElement('div');
-    acm.divTopNext = document.createElement('div');
-    acm.divBotPrev = document.createElement('div');
-    acm.divBotNext = document.createElement('div');
+    acm.divTopPrev = document.createElement('button');
+    acm.divTopNext = document.createElement('button');
+    acm.divBotPrev = document.createElement('button');
+    acm.divBotNext = document.createElement('button');
 
-    acm.botNext = document.createElement('a');
-    acm.topNext = document.createElement('a');
-    acm.botPrev = document.createElement('a');
-    acm.topPrev = document.createElement('a');
+    acm.botNext = document.createElement('div');
+    acm.topNext = document.createElement('div');
+    acm.botPrev = document.createElement('div');
+    acm.topPrev = document.createElement('div');
 
     acm.divTopPrev.classList.add('h5p-digibook-status-arrow');
     acm.divTopPrev.classList.add('h5p-digibook-status-button');
@@ -173,6 +184,10 @@ class StatusBar extends H5P.EventDispatcher {
     acm.divBotNext.classList.add('h5p-digibook-status-arrow');
     acm.divBotNext.classList.add('h5p-digibook-status-button');
 
+    acm.topNext.classList.add('navigation-button');
+    acm.botNext.classList.add('navigation-button');
+    acm.topPrev.classList.add('navigation-button');
+    acm.botPrev.classList.add('navigation-button');
     acm.topNext.classList.add('icon-next');
     acm.botNext.classList.add('icon-next');
     acm.topPrev.classList.add('icon-previous');
@@ -225,21 +240,29 @@ class StatusBar extends H5P.EventDispatcher {
    */
   addMenu() {
     const that = this;
-    const row = document.createElement('div');
-    const item = document.createElement('a');
+    const row = document.createElement('button');
+    const item = document.createElement('div');
 
     let iconType = 'icon-menu';
+    row.setAttribute('aria-expanded', 'false');
+    row.setAttribute('aria-controls', 'h5p-digibook-navigation-menu');
     if (this.params.behaviour.defaultTableOfContents) {
       row.classList.add('h5p-digibook-status-menu-active');
+      row.setAttribute('aria-expanded', 'true');
     }
     item.classList.add(iconType);
 
     row.classList.add('h5p-digibook-status-menu');
+    row.title = this.params.a11y.menu;
     row.classList.add('h5p-digibook-status-button');
 
     row.onclick = function () {
       that.parent.trigger('toggleMenu');
       this.classList.toggle('h5p-digibook-status-menu-active');
+      this.setAttribute(
+        'aria-expanded',
+        this.classList.contains('h5p-digibook-status-menu-active') ? 'true' : 'false'
+      );
     };
 
     row.appendChild(item);
@@ -255,7 +278,7 @@ class StatusBar extends H5P.EventDispatcher {
 
     div.classList.add('h5p-digibook-status-progressbar-back');
     progress.classList.add('h5p-digibook-status-progressbar-front');
-
+    progress.setAttribute('tabindex', '-1');
     div.appendChild(progress);
 
     return {
@@ -269,7 +292,8 @@ class StatusBar extends H5P.EventDispatcher {
    */
   addChapterTitle() {
     const div = document.createElement('div');
-    const chapterTitle = document.createElement('p');
+    const chapterTitle = document.createElement('h1');
+    chapterTitle.classList.add('title');
     div.classList.add('h5p-digibook-status-chapter');
 
     div.appendChild(chapterTitle);
@@ -285,7 +309,8 @@ class StatusBar extends H5P.EventDispatcher {
   addToTop() {
     const that = this;
     const div = document.createElement('div');
-    const a = document.createElement('a');
+    const a = document.createElement('button');
+    a.classList.add('navigation-button');
     div.classList.add('h5p-digibook-status-button');
     div.classList.add('h5p-digibook-status-arrow');
     a.classList.add ('icon-up');
@@ -354,10 +379,14 @@ class StatusBar extends H5P.EventDispatcher {
    */
   editButtonStatus(target, state) {
     if (state) {
+      this.arrows['divTop'+target].setAttribute('disabled', 'disabled');
+      this.arrows['divBot'+target].setAttribute('disabled', 'disabled');
       this.arrows['top'+target].classList.add('disabled');
       this.arrows['bot'+target].classList.add('disabled');
     }
     else {
+      this.arrows['divTop'+target].removeAttribute('disabled');
+      this.arrows['divBot'+target].removeAttribute('disabled');
       this.arrows['top'+target].classList.remove('disabled');
       this.arrows['bot'+target].classList.remove('disabled');
     }

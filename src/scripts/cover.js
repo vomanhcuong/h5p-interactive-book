@@ -10,7 +10,7 @@ class Cover extends H5P.EventDispatcher {
 
     this.div = this.createParentElement();
 
-    this.visuals = this.createVisualsElement(coverParam.coverImage, contentId);
+    this.visuals = this.createVisualsElement(coverParam, contentId);
 
     this.title = this.parseTitle(titleText);
     this.description = this.parseDescription(coverParam.coverDescription);
@@ -35,15 +35,16 @@ class Cover extends H5P.EventDispatcher {
   /**
    * Create an element which contains both the cover image and a background bar
    *
-   * @param {string} coverImage - A relative path to an image
+   * @param {string} coverParam - Parameters
    * @param {number} contentId
    */
-  createVisualsElement(coverImage, contentId) {
+  createVisualsElement(coverParam, contentId) {
+    const coverImage = coverParam.coverImage;
     if (coverImage) {
 
       const div = document.createElement('div');
       div.classList.add('h5p-digibook-cover-graphics');
-      const visuals = this.parseImage(coverImage.path, contentId);
+      const visuals = this.parseImage(coverImage.path, contentId, coverParam.coverAltText);
       const backBorder = this.createBackBorder();
 
       div.appendChild(visuals);
@@ -100,13 +101,16 @@ class Cover extends H5P.EventDispatcher {
    *
    * @param {string} path - relative image path
    * @param {Number} id - Content id
+   * @param {string|null} altText
    */
-  parseImage(path, id) {
+  parseImage(path, id, altText) {
     const img = document.createElement('img');
     img.classList.add('h5p-digibook-cover-image');
     img.src = H5P.getPath(path, id);
     img.setAttribute('draggable', 'false');
-    img.setAttribute('tabindex', 0);
+    if (altText) {
+      img.alt = altText;
+    }
 
     return img;
   }

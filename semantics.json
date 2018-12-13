@@ -46,6 +46,14 @@
         "importance": "low",
         "optional": true,
         "description": "An optional background image for the introduction."
+      },
+      {
+        "name": "coverAltText",
+        "type": "text",
+        "label": "Cover image alternative text",
+        "importance": "low",
+        "optional": true,
+        "description": "An alternative text for the cover image"
       }
     ]
   },
@@ -217,5 +225,26 @@
     "default": "I have finished this page",
     "common": true,
     "optional": true
+  },
+  {
+    "name": "a11y",
+    "type": "group",
+    "label": "Accessibility texts",
+    "common": true,
+    "fields": [
+      {
+        "name": "progress",
+        "type": "text",
+        "label": "Page progress textual alternative",
+        "description": "An alternative text for the visual page progress. @page and @total variables available.",
+        "default": "Page @page of @total."
+      },
+      {
+        "name": "menu",
+        "type": "text",
+        "label": "Label for expanding/collapsing navigation menu",
+        "default": "Toggle navigation menu"
+      }
+    ]
   }
 ]
