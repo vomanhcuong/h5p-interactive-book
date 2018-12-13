@@ -265,16 +265,11 @@ export default class DigiBook extends H5P.EventDispatcher {
       }
       this.newHandler = event.data;
 
+      // Create the new hash
+      event.data.newHash = this.createFragmentsString(this.newHandler);
+
       //Assert that the module itself is asking for a redirect
       this.newHandler.redirectFromComponent = true;
-      // Create the new hash
-      const idString = 'h5pbookid=' + this.newHandler.h5pbookid;
-      const chapterString = '&chapter=' + this.newHandler.chapter;
-      let sectionString = "";
-      if (this.newHandler.section !== undefined) {
-        sectionString = '&section=' + this.newHandler.section;
-      }
-      event.data.newHash = "#" + idString + chapterString + sectionString;
 
       if (event.data.chapter === this.activeChapter) {
         if (this.isCurrentHashSameAsRedirect(event.data)) {
@@ -297,6 +292,20 @@ export default class DigiBook extends H5P.EventDispatcher {
 
       H5P.trigger(this, "changeHash", event.data);
     });
+
+    /**
+     * Create fragments string from fragments object.
+     *
+     * @param {Object} fragments Fragments.
+     * @return {string} Fragments string.
+     */
+    this.createFragmentsString = (fragments) => {
+      let parts = [];
+      for (let fragment in fragments) {
+        parts.push(`${fragment}=${fragments[fragment]}`);
+      }
+      return `#${parts.join('&')}`;
+    };
 
     /**
      * Check if the current chapter is read
