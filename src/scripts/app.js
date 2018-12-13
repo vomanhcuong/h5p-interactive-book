@@ -111,7 +111,7 @@ export default class DigiBook extends H5P.EventDispatcher {
     /**
      * Get xAPI data.
      *
-     * @return {Object} xAPI statement.
+     * @return {object} xAPI statement.
      * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-6}
      */
     this.getXAPIData = () => {
@@ -133,8 +133,8 @@ export default class DigiBook extends H5P.EventDispatcher {
     /**
      * Get xAPI data from sub content types.
      *
-     * @param {Object[]} instances H5P instances.
-     * @return {Object[]} xAPI data objects used to build a report.
+     * @param {object[]} instances H5P instances.
+     * @return {object[]} xAPI data objects used to build a report.
      */
     this.getXAPIDataFromChildren = instances => {
       return instances.map(instance => {
@@ -157,7 +157,7 @@ export default class DigiBook extends H5P.EventDispatcher {
     /**
      * Generate xAPI object definition used in xAPI statements.
      *
-     * @return {Object} xAPI definition.
+     * @return {object} xAPI definition.
      */
     this.getxAPIDefinition = () => ({
       interactionType: 'compound',
@@ -165,6 +165,11 @@ export default class DigiBook extends H5P.EventDispatcher {
       description: {'en-US': ''}
     });
 
+    /**
+     * Check if there's a cover.
+     *
+     * @return {boolean} True, if there's a cover.
+     */
     this.doesCoverExist = () => {
       if (this.cover && this.cover.div) {
         return true;
@@ -172,22 +177,31 @@ export default class DigiBook extends H5P.EventDispatcher {
       return false;
     };
 
-
+    /**
+     * Get number of active chapter.
+     *
+     * @return {number} Number of active chapter.
+     */
     this.getActiveChapter = () => {
       return this.activeChapter;
     };
 
-    this.setActiveChapter = (input) => {
-      const number = parseInt(input);
-      if (!isNaN(number)) {
-        this.activeChapter = parseInt(input);
+    /**
+     * Set number of active chapter.
+     *
+     * @param {number} chapterId Number of active chapter.
+     */
+    this.setActiveChapter = (chapterId) => {
+      chapterId = parseInt(chapterId);
+      if (!isNaN(chapterId)) {
+        this.activeChapter = parseInt(chapterId);
       }
     };
 
     /**
      * Validate fragments.
      *
-     * @param {Object} fragments Fragments object from URL.
+     * @param {object} fragments Fragments object from URL.
      * @return {boolean} True, if fragments are valid.
      */
     this.validateFragments = (fragments) => {
@@ -206,9 +220,6 @@ export default class DigiBook extends H5P.EventDispatcher {
       this.statusBar.header.scrollIntoView(true);
     });
 
-    /**
-     *
-     */
     this.on('newChapter', (event) => {
       if (this.animationInProgress) {
         return;
@@ -250,9 +261,9 @@ export default class DigiBook extends H5P.EventDispatcher {
     });
 
     /**
-     * Check if the current chapter is read
+     * Check if the current chapter is read.
      *
-     * @returns {boolean}
+     * @returns {boolean} True, if current chapter was read.
      */
     this.isCurrentChapterRead = () => {
       return this.chapters[this.activeChapter].completed;
@@ -261,35 +272,37 @@ export default class DigiBook extends H5P.EventDispatcher {
     /**
      * Check if chapter is final one, has no tasks and all other chapters are done.
      *
-     * @param {number} id Chapter id.
+     * @param {number} chapterId Chapter id.
      * @return {boolean} True, if final chapter without tasks and other chapters done.
      */
-    this.isFinalChapterWithoutTask = function (id) {
-      return this.chapters[id].maxTasks === 0 &&
-        this.chapters.slice(0, id).concat(this.chapters.slice(id + 1))
+    this.isFinalChapterWithoutTask = function (chapterId) {
+      return this.chapters[chapterId].maxTasks === 0 &&
+        this.chapters.slice(0, chapterId).concat(this.chapters.slice(chapterId + 1))
           .every(chapter => chapter.completed);
     };
 
     /**
-     * Set the current chapter as completed
+     * Set the current chapter as completed.
+     *
+     * @param {number} [chapterId] Chapter Id, defaults to current chapter.
      */
-    this.setChapterRead = (id = this.activeChapter) => {
-      this.handleChapterCompletion(id);
-      this.sideBar.updateChapterProgressIndicator(id, 'DONE');
+    this.setChapterRead = (chapterId = this.activeChapter) => {
+      this.handleChapterCompletion(chapterId);
+      this.sideBar.updateChapterProgressIndicator(chapterId, 'DONE');
     };
 
     /**
-     * Update statistics on the main chapter
+     * Update statistics on the main chapter.
      *
-     * @param {number} targetChapter
+     * @param {number} chapterId Chapter Id.
      * @param {boolean} hasChangedChapter
      */
-    this.updateChapterProgress = function (targetChapter, hasChangedChapter = false) {
+    this.updateChapterProgress = function (chapterId, hasChangedChapter = false) {
       if (!this.params.behaviour.progressIndicators || !this.params.behaviour.progressAuto) {
         return;
       }
 
-      const chapter = this.chapters[targetChapter];
+      const chapter = this.chapters[chapterId];
       let status;
       if (chapter.maxTasks) {
         if (chapter.tasksLeft === chapter.maxTasks) {
@@ -315,19 +328,19 @@ export default class DigiBook extends H5P.EventDispatcher {
       }
 
       if (status === 'DONE') {
-        this.handleChapterCompletion(targetChapter);
+        this.handleChapterCompletion(chapterId);
       }
-      this.sideBar.updateChapterProgressIndicator(targetChapter, status);
+      this.sideBar.updateChapterProgressIndicator(chapterId, status);
     };
 
     /**
      * Get id of chapter.
      *
-     * @param {string} chapterString Identifier string/subContentId.
-     * @return {number} Id of chapter.
+     * @param {string} chapterUUID ChapterUUID.
+     * @return {number} Chapter Id.
      */
-    this.getChapterId = function (chapterString) {
-      return this.chapters.map(chapter => chapter.instance.subContentId).indexOf(chapterString);
+    this.getChapterId = function (chapterUUID) {
+      return this.chapters.map(chapter => chapter.instance.subContentId).indexOf(chapterUUID);
     };
 
     /**
@@ -360,15 +373,17 @@ export default class DigiBook extends H5P.EventDispatcher {
 
     /**
      * Check if the content height exceeds the window
-     * @param {div} chapterHeight
+     *
+     * @param {number} chapterHeight
      */
     this.shouldFooterBeVisible = (chapterHeight) => {
       return chapterHeight <= window.outerHeight;
     };
 
     /**
-     * Change the current active chapter
-     * @param {boolean} redirectOnLoad - Is this a redirect which happens immediately?
+     * Change the current active chapter.
+     *
+     * @param {boolean} redirectOnLoad Is this a redirect which happens immediately?
      */
     this.changeChapter = (redirectOnLoad) => {
       this.pageContent.changeChapter(redirectOnLoad, this.newHandler);
@@ -401,14 +416,22 @@ export default class DigiBook extends H5P.EventDispatcher {
       }
     });
 
-    this.redirectChapter = function (event) {
+    /**
+     * Redirect chapter.
+     *
+     * @param {object} target Target data.
+     * @param {string} target.h5pbookid Book id.
+     * @param {string} target.chapter Chapter UUID.
+     * @param {string} target.section Section UUID.
+     */
+    this.redirectChapter = function (target) {
       /**
        * If true, we already have information regarding redirect in newHandler
        * When using browser history, a convert is neccecary
        */
       if (!this.newHandler.redirectFromComponent) {
         let tmpEvent;
-        tmpEvent = event;
+        tmpEvent = target;
         // Assert that the handler actually is from this content type.
         if (tmpEvent.h5pbookid && parseInt(tmpEvent.h5pbookid) === self.contentId) {
           self.newHandler = tmpEvent;
@@ -428,20 +451,20 @@ export default class DigiBook extends H5P.EventDispatcher {
     };
 
     /**
-     * Set a section progress indicator
+     * Set a section progress indicator.
      *
-     * @param {string} targetId
-     * @param {string} targetChapter
+     * @param {string} sectionUUID UUID of target section.
+     * @param {number} chapterId Number of targetchapter.
      */
-    this.setSectionStatusByID = function (targetId, targetChapter) {
-      this.chapters[targetChapter].sections.forEach((section, index) => {
+    this.setSectionStatusByID = function (sectionUUID, chapterId) {
+      this.chapters[chapterId].sections.forEach((section, index) => {
         const sectionInstance = section.instance;
-        if (sectionInstance.subContentId === targetId && !section.taskDone) {
+        if (sectionInstance.subContentId === sectionUUID && !section.taskDone) {
           section.taskDone = true;
-          this.sideBar.setSectionMarker(targetChapter, index);
-          this.chapters[targetChapter].tasksLeft -= 1;
+          this.sideBar.setSectionMarker(chapterId, index);
+          this.chapters[chapterId].tasksLeft -= 1;
           if (this.params.behaviour.progressAuto) {
-            this.updateChapterProgress(targetChapter);
+            this.updateChapterProgress(chapterId);
           }
         }
       });

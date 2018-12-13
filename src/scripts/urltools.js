@@ -3,7 +3,7 @@ class URLTools {
   /**
    * Extract fragments from browser URL.
    *
-   * @return {Object} Fragments.
+   * @return {object} Fragments.
    */
   static extractFragmentsFromURL(validate) {
     if (!top.location.hash) {
@@ -32,7 +32,7 @@ class URLTools {
   /**
    * Create fragments string from fragments object.
    *
-   * @param {Object} fragments Fragments.
+   * @param {object} fragments Fragments.
    * @return {string} Fragments string.
    */
   static createFragmentsString(fragments) {
@@ -46,8 +46,8 @@ class URLTools {
   /**
    * Determine whether two fragment objects are equal.
    *
-   * @param {Object} fragment1 Fragment 1.
-   * @param {Object} fragment2 Fragment 2.
+   * @param {object} fragment1 Fragment 1.
+   * @param {object} fragment2 Fragment 2.
    * @param {string[]} [limitTo] Keys to limit equality check to.
    * @return {boolean} True, if fragments are equal.
    */

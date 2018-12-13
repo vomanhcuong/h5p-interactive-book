@@ -34,21 +34,32 @@ class PageContent extends H5P.EventDispatcher {
   /**
    * Get chapters.
    *
-   * @return {Object[]} Chapters.
+   * @return {object[]} Chapters.
    */
   getChapters() {
     return this.chapters;
   }
 
+  /**
+   * Create page content.
+   *
+   * @return {HTMLElement} Page content.
+   */
   createPageContent() {
     const content = document.createElement('div');
     content.classList.add('h5p-digibook-content');
     this.columnElements.forEach(element => {
       content.appendChild(element);
     });
+
     return content;
   }
 
+  /**
+   * Create page read mark.
+   *
+   * @return {object} Generating data.
+   */
   createPageReadMark() {
     const div = document.createElement('div');
     const checkText = document.createElement('p');
@@ -72,6 +83,12 @@ class PageContent extends H5P.EventDispatcher {
     };
   }
 
+  /**
+   * Inject section instance UUID into DOM.
+   *
+   * @param {object[]} sections Sections.
+   * @param {HTMLElement} columnElement Column element.
+   */
   injectSectionId(sections, columnElement) {
     const colContent = columnElement.getElementsByClassName('h5p-column-content');
 
@@ -83,10 +100,10 @@ class PageContent extends H5P.EventDispatcher {
   /**
    * Create Column instances.
    *
-   * @param {Object} config Parameters.
+   * @param {object} config Parameters.
    * @param {number} contentId Content id.
-   * @param {Object} contentData Content data.
-   * @return {Object[]} Column instances.
+   * @param {object} contentData Content data.
+   * @return {object[]} Column instances.
    */
   createColumns(config, contentId, contentData) {
     const redirObject = URLTools.extractFragmentsFromURL(this.parent.validateFragments);
@@ -179,20 +196,30 @@ class PageContent extends H5P.EventDispatcher {
     return chapters;
   }
 
-  isH5PTask(H5PObject) {
-    if (typeof H5PObject.getMaxScore === 'function') {
-      return H5PObject.getMaxScore() > 0;
+  /**
+   * Check if instance is an H5P task.
+   *
+   * @param {H5P.Runnable} instance H5P instance.
+   * @return {boolean} True, if instance is an H5P task.
+   */
+  isH5PTask(instance) {
+    if (typeof instance.getMaxScore === 'function') {
+      return instance.getMaxScore() > 0;
     }
     return false;
   }
 
-
-  redirectSection(sectionId) {
-    if (sectionId === 'top') {
+  /**
+   * Redirect section.
+   *
+   * @param {string} sectionUUID Section UUID or top.
+   */
+  redirectSection(sectionUUID) {
+    if (sectionUUID === 'top') {
       this.parent.trigger('scrollToTop');
     }
     else {
-      const section = document.getElementById(sectionId);
+      const section = document.getElementById(sectionUUID);
       if (section) {
         section.scrollIntoView(true);
         this.targetPage.redirectFromComponent = false;
@@ -200,6 +227,12 @@ class PageContent extends H5P.EventDispatcher {
     }
   }
 
+  /**
+   * Find chapter index.
+   *
+   * @param {string} chapterUUID Chapter UUID.
+   * @return {number} Chapter id.
+   */
   findChapterIndex(id) {
     let position = -1;
     this.columnElements.forEach((element, index) => {
@@ -215,16 +248,17 @@ class PageContent extends H5P.EventDispatcher {
   }
 
   /**
-   * Input in targetPage should be:
-   * @param {int} chapter - The given chapter that should be opened
-   * @param {int} section - The given section to redirect
+   * Change chapter.
+   *
+   * @param {boolean} redirectOnLoad True if should redirect on load.
+   * @param {object} target Target.
    */
-  changeChapter(redirectOnLoad, newHandler) {
+  changeChapter(redirectOnLoad, target) {
     if (this.parent.animationInProgress) {
       return;
     }
 
-    this.targetPage = newHandler;
+    this.targetPage = target;
     const oldChapterNum = this.parent.getActiveChapter();
     const newChapterNum = this.findChapterIndex(this.targetPage.chapter);
 
@@ -278,6 +312,10 @@ class PageContent extends H5P.EventDispatcher {
       }
     }
   }
+
+  /**
+   * Add content listener.
+   */
   addcontentListener() {
     this.content.addEventListener('transitionend', (event) => {
       const activeChapter = this.parent.getActiveChapter();
@@ -306,6 +344,9 @@ class PageContent extends H5P.EventDispatcher {
     });
   }
 
+  /**
+   * Update footer.
+   */
   updateFooter() {
     const activeChapter = this.parent.getActiveChapter();
     const column = this.columnElements[activeChapter];
