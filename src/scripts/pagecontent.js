@@ -178,6 +178,9 @@ class PageContent extends H5P.EventDispatcher {
       if (urlFragments.section) {
         setTimeout(() => {
           this.redirectSection(urlFragments.section);
+          if (this.parent.hasCover()) {
+            this.parent.cover.removeCover();
+          }
         }, 1000);
       }
     }

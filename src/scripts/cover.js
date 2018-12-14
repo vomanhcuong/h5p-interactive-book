@@ -13,7 +13,7 @@ class Cover extends H5P.EventDispatcher {
 
     // Visual header
     if (params.coverImage) {
-      this.container.appendChild(this.createVisualsElement(params.coverImage, contentId));
+      this.container.appendChild(this.createVisualsElement(params, contentId));
     }
     else {
       this.container.classList.add('h5p-cover-nographics');
@@ -48,14 +48,14 @@ class Cover extends H5P.EventDispatcher {
    * @param {object} coverImage Image object.
    * @param {number} contentId Content Id.
    */
-  createVisualsElement(coverImage, contentId) {
-    if (!coverImage) {
+  createVisualsElement(params, contentId) {
+    if (!params || !params.coverImage) {
       return null;
     }
 
     const visuals = document.createElement('div');
     visuals.classList.add('h5p-digibook-cover-graphics');
-    visuals.appendChild(this.createImage(coverImage.path, contentId, coverParam.coverAltText));
+    visuals.appendChild(this.createImage(params.coverImage.path, contentId, params.coverAltText));
     visuals.appendChild(this.createCoverBar());
 
     return visuals;

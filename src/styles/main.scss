@@ -39,6 +39,17 @@ $background-color: #ffffff;
   .h5p-digibook-status-footer {
     display: none;
   }
+
+  .h5p-digibook-navigation {
+    display: flex;
+    flex-direction: column;
+
+    .navigation-list {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+  }
 }
 
 @import 'pagecontent';
