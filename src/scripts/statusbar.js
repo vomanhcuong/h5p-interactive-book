@@ -7,21 +7,18 @@ class StatusBar extends H5P.EventDispatcher {
     this.id = contentId;
     this.parent = parent;
 
-    console.log("what is params ?", params);
-    this.params = this.extend(
-      {
-        l10n: {
-          nextPage: 'Next page',
-          previousPage: 'Previous page',
-          navigateToTop: 'Navigate to the top',
-        },
-        a11y: {
-          progress: 'Page @page of @total',
-          menu: 'Toggle navigation menu',
-        }
-      },
-      params || {}
-    );
+    this.params = params || {};
+
+    this.params.l10n = Object.assign({
+      nextPage: 'Next page',
+      previousPage: 'Previous page',
+      navigateToTop: 'Navigate to the top',
+    }, this.params.l10n || {});
+
+    this.params.a11y = Object.assign({
+      progress: 'Page @page of @total',
+      menu: 'Toggle navigation menu',
+    }, this.params.a11y || {});
 
     this.totalChapters = totalChapters;
     this.arrows = this.addArrows();

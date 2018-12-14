@@ -380,14 +380,14 @@ class SideBar extends H5P.EventDispatcher {
     const chapterDiv = document.createElement('li');
     const sectionsDiv = document.createElement('ul');
     const titleDiv = document.createElement('button');
-    titleDiv.setAttribute('tabindex', chapterIndex === 0 ? '0' : '-1');
+    titleDiv.setAttribute('tabindex', chapterId === 0 ? '0' : '-1');
     const title = document.createElement('p');
 
     //Add classes
     titleDiv.classList.add('h5p-digibook-navigation-chapter-button');
     chapterDiv.classList.add('h5p-digibook-navigation-chapter');
     sectionsDiv.classList.add('h5p-digibook-navigation-sectionlist');
-    const sectionsDivId = 'h5p-digibook-sectionlist-' + chapterIndex;
+    const sectionsDivId = 'h5p-digibook-sectionlist-' + chapterId;
     sectionsDiv.id = sectionsDivId;
 
     title.innerHTML = chapter.title;

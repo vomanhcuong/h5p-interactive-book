@@ -18,19 +18,19 @@
   "author": "Olav Daling Stornes",
   "license": "MIT",
   "devDependencies": {
+    "@babel/core": "^7.2.0",
+    "@babel/plugin-transform-object-assign": "^7.2.0",
+    "@babel/preset-env": "^7.2.0",
     "ava": "^0.25.0",
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-loader": "^6.3.2",
-    "babel-plugin-transform-object-assign": "^6.22.0",
-    "babel-preset-latest": "^6.22.0",
+    "babel-loader": "^8.0.4",
     "cross-env": "^4.0.0",
     "css-loader": "^0.26.2",
     "file-loader": "^2.0.0",
-    "node-sass": "^4.9.4",
+    "node-sass": "^4.11.0",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.13.2",
-    "webpack": "^2.7.0"
+    "webpack": "^4.27.1",
+    "webpack-cli": "^3.1.2"
   },
   "dependencies": {
     "url-loader": "^1.1.2"
