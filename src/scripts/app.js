@@ -151,7 +151,7 @@ export default class DigiBook extends H5P.EventDispatcher {
      */
     this.addQuestionToXAPI = xAPIEvent => {
       const definition = xAPIEvent.getVerifiedStatementValue(['object', 'definition']);
-      H5P.jQuery.extend(definition, this.getxAPIDefinition());
+      Object.assign(definition, this.getxAPIDefinition());
     };
 
     /**
@@ -160,7 +160,7 @@ export default class DigiBook extends H5P.EventDispatcher {
      * @return {object} xAPI definition.
      */
     this.getxAPIDefinition = () => ({
-      interactionType: 'compound',
+      interactionType: 'other',
       type: 'http://adlnet.gov/expapi/activities/cmi.interaction',
       description: {'en-US': ''}
     });
@@ -269,7 +269,7 @@ export default class DigiBook extends H5P.EventDispatcher {
     this.isFinalChapterWithoutTask = (chapterId) => {
       return this.chapters[chapterId].maxTasks === 0 &&
         this.chapters.slice(0, chapterId).concat(this.chapters.slice(chapterId + 1))
-          .every(chapter => chapter.completed);
+          .every(chapter => chapter.tasksLeft === 0);
     };
 
     /**
