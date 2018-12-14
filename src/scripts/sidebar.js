@@ -10,6 +10,7 @@ class SideBar extends H5P.EventDispatcher {
     this.parent = parent;
     this.behaviour = config.behaviour;
     this.content = document.createElement('div');
+    this.content.classList.add('navigation-list');
     this.container = this.addSideBar();
 
     this.chapters = this.findAllChapters(config.chapters);
@@ -27,6 +28,120 @@ class SideBar extends H5P.EventDispatcher {
     this.container.appendChild(this.content);
 
     this.addTransformListener();
+    this.initializeNavigationControls();
+  }
+
+  initializeNavigationControls() {
+    const keyCodes = Object.freeze({
+      'UP': 38,
+      'DOWN': 40,
+    });
+
+    this.chapterNodes.forEach((chapter, i) => {
+      const chapterButton = chapter.querySelector('.h5p-digibook-navigation-chapter-button');
+      chapterButton.addEventListener('keydown', (e) => {
+        switch (e.keyCode) {
+          case keyCodes.UP:
+            this.setFocusToChapterItem(i, -1);
+            e.preventDefault();
+            break;
+
+          case keyCodes.DOWN:
+            this.setFocusToChapterItem(i, 1);
+            e.preventDefault();
+            break;
+        }
+      });
+
+      const sections = chapter.querySelectorAll('.h5p-digibook-navigation-section');
+      for (let sectionIndex = 0; sectionIndex < sections.length; sectionIndex++) {
+        const section = sections[sectionIndex];
+        const sectionButton = section.querySelector('.section-button');
+        sectionButton.addEventListener('keydown', e => {
+          switch (e.keyCode) {
+            case keyCodes.UP:
+              this.setFocusToSectionItem(i, sectionIndex, -1);
+              e.preventDefault();
+              break;
+
+            case keyCodes.DOWN:
+              this.setFocusToSectionItem(i, sectionIndex, 1);
+              e.preventDefault();
+              break;
+          }
+        });
+      }
+    });
+  }
+
+  setFocusToChapterItem(index, direction = 0) {
+    let nextIndex = index + direction;
+    if (nextIndex < 0) {
+      nextIndex = this.chapterElems.length - 1;
+    }
+    else if (nextIndex > this.chapterElems.length - 1) {
+      nextIndex = 0;
+    }
+
+    // Check if we should navigate to a section
+    if (direction) {
+      const chapterIndex = direction > 0 ? index : nextIndex;
+      const chapter = this.chapterElems[chapterIndex];
+      if (!chapter.classList.contains('h5p-digibook-navigation-closed')) {
+        const sections = chapter.querySelectorAll('.h5p-digibook-navigation-section');
+        if (sections.length) {
+          const sectionItemIndex = direction > 0 ? 0 : sections.length - 1;
+          this.setFocusToSectionItem(chapterIndex, sectionItemIndex);
+          return;
+        }
+      }
+    }
+
+    const nextChapter = this.chapterElems[nextIndex];
+    const chapterButton = nextChapter.querySelector('.h5p-digibook-navigation-chapter-button');
+    this.setFocusToItem(chapterButton, nextIndex);
+  }
+
+  setFocusToSectionItem(chapterIndex, index, direction = 0) {
+    const chapter = this.chapterElems[chapterIndex];
+    const sections = chapter.querySelectorAll('.h5p-digibook-navigation-section');
+
+    // Navigate chapter if outside of section bounds
+    const nextIndex = index + direction;
+    if (nextIndex > sections.length - 1) {
+      this.setFocusToChapterItem(chapterIndex + 1);
+      return;
+    }
+    else  if (nextIndex < 0) {
+      this.setFocusToChapterItem(chapterIndex);
+      return;
+    }
+
+    const section = sections[nextIndex];
+    const sectionButton = section.querySelector('.section-button');
+    this.setFocusToItem(sectionButton, chapterIndex);
+  }
+
+  setFocusToItem(element, chapterIndex, skipFocusing = false) {
+    // Remove focus from all other elements
+    this.chapterNodes.forEach((chapter) => {
+      const chapterButton = chapter.querySelector('.h5p-digibook-navigation-chapter-button');
+      chapterButton.setAttribute('tabindex', '-1');
+
+      const sections = chapter.querySelectorAll('.h5p-digibook-navigation-section');
+      for (let i = 0; i < sections.length; i++) {
+        const section = sections[i];
+        const sectionButton = section.querySelector('.section-button');
+        sectionButton.setAttribute('tabindex', '-1');
+
+      }
+    });
+
+    element.setAttribute('tabindex', '0');
+    this.focusedChapter = chapterIndex;
+    if (!skipFocusing) {
+      element.focus();
+    }
   }
 
   /**
@@ -36,7 +151,7 @@ class SideBar extends H5P.EventDispatcher {
    */
   addSideBar() {
     const container = document.createElement('div');
-
+    container.id = 'h5p-digibook-navigation-menu';
     container.classList.add('h5p-digibook-navigation');
     if (!this.behaviour.defaultTableOfContents) {
       container.classList.add('h5p-digibook-hide');
@@ -52,7 +167,8 @@ class SideBar extends H5P.EventDispatcher {
    * @return {HTMLElement} Title element.
    */
   addMainTitle(titleText) {
-    const title = document.createElement('p');
+    const title = document.createElement('h2');
+    title.classList.add('navigation-title');
     title.innerHTML = titleText;
     title.setAttribute('title', titleText);
 
@@ -135,6 +251,8 @@ class SideBar extends H5P.EventDispatcher {
 
     if (collapse === true) {
       chapterNode.classList.add('h5p-digibook-navigation-closed');
+      const chapterButton = chapterNode.querySelector('.h5p-digibook-navigation-chapter-button');
+      chapterButton.setAttribute('aria-expanded', 'false');
       if (arrow) {
         arrow.classList.remove('icon-expanded');
         arrow.classList.add('icon-collapsed');
@@ -142,6 +260,8 @@ class SideBar extends H5P.EventDispatcher {
     }
     else {
       chapterNode.classList.remove('h5p-digibook-navigation-closed');
+      const chapterButton = chapterNode.querySelector('.h5p-digibook-navigation-chapter-button');
+      chapterButton.setAttribute('aria-expanded', 'true');
       if (arrow) {
         arrow.classList.remove('icon-collapsed');
         arrow.classList.add('icon-expanded');
@@ -160,6 +280,12 @@ class SideBar extends H5P.EventDispatcher {
     this.chapterNodes.forEach((node, index) => {
       this.collapseChapter(node, index !== chapterId);
     });
+
+    // Focus new chapter button if active chapter was closed
+    if (chapterId !== this.focusedChapter) {
+      const chapterButton = this.chapterNodes[chapterId].querySelector('.h5p-digibook-navigation-chapter-button');
+      this.setFocusToItem(chapterButton, chapterId, true);
+    }
   }
 
   /**
@@ -180,6 +306,17 @@ class SideBar extends H5P.EventDispatcher {
         }
       }
     });
+  }
+
+  /**
+   * Manually set the target chapter as complete
+   * @param {number} current - Current chapter
+   */
+  setChapterIndicatorComplete(current) {
+    let targetElem = this.chapterElems[current].getElementsByClassName('h5p-digibook-navigation-chapter-button')[0];
+    targetElem = targetElem.getElementsByClassName('h5p-digibook-navigation-chapter-progress')[0];
+    targetElem.classList.remove('icon-chapter-blank');
+    targetElem.classList.add('icon-chapter-done');
   }
 
   /**
@@ -255,12 +392,6 @@ class SideBar extends H5P.EventDispatcher {
     // TODO: Clean this up. Will require to receive chapter info from parent instead of building itself
     const chapterCollapseIcon = document.createElement('span');
     chapterCollapseIcon.classList.add('h5p-digibook-navigation-chapter-accordion');
-    if (this.parent.activeChapter !== chapterId) {
-      chapterCollapseIcon.classList.add('icon-collapsed');
-    }
-    else {
-      chapterCollapseIcon.classList.add('icon-expanded');
-    }
 
     const chapterTitleText = document.createElement('p');
     chapterTitleText.innerHTML = chapter.title;
@@ -271,8 +402,18 @@ class SideBar extends H5P.EventDispatcher {
       chapterCompletionIcon.classList.add('icon-chapter-blank', 'h5p-digibook-navigation-chapter-progress');
     }
 
-    const chapterNodeTitle = document.createElement('div');
-    chapterNodeTitle.classList.add('h5p-digibook-navigation-chapter-title');
+    const chapterNodeTitle = document.createElement('button');
+    chapterNodeTitle.setAttribute('tabindex', chapterId === 0 ? '0' : '-1');
+    chapterNodeTitle.classList.add('h5p-digibook-navigation-chapter-button');
+    if (this.parent.activeChapter !== chapterId) {
+      chapterCollapseIcon.classList.add('icon-collapsed');
+      chapterNodeTitle.setAttribute('aria-expanded', 'false');
+    }
+    else {
+      chapterCollapseIcon.classList.add('icon-expanded');
+      chapterNodeTitle.setAttribute('aria-expanded', 'true');
+    }
+    chapterNodeTitle.setAttribute('aria-controls', sectionsDivId);
     chapterNodeTitle.onclick = (event) => {
       this.toggleChapter(event.currentTarget.parentElement);
     };
@@ -280,15 +421,17 @@ class SideBar extends H5P.EventDispatcher {
     chapterNodeTitle.appendChild(chapterTitleText);
     chapterNodeTitle.appendChild(chapterCompletionIcon);
 
-    const chapterNode = document.createElement('div');
+    const chapterNode = document.createElement('li');
     chapterNode.classList.add('h5p-digibook-navigation-chapter');
     chapterNode.appendChild(chapterNodeTitle);
     if (this.parent.activeChapter !== chapterId) {
       chapterNode.classList.add('h5p-digibook-navigation-closed');
     }
 
-    const sectionsWrapper = document.createElement('div');
+    const sectionsWrapper = document.createElement('ul');
     sectionsWrapper.classList.add('h5p-digibook-navigation-sectionlist');
+    const sectionsDivId = 'h5p-digibook-sectionlist-' + chapterId;
+    sectionsWrapper.id = sectionsDivId;
     // Add sections to the chapter
     for (let i = 0; i < this.chapters[chapterId].sections.length; i++) {
       const section = this.chapters[chapterId].sections[i];
@@ -304,18 +447,21 @@ class SideBar extends H5P.EventDispatcher {
         sectionCompletionIcon.classList.add('h5p-digibook-navigation-section-task');
       }
 
-      const sectionLink = document.createElement('a');
-      sectionLink.onclick = () => {
+      const sectionLink = document.createElement('button');
+      sectionLink.classList.add('section-button');
+      sectionLink.setAttribute('tabindex', '-1');
+      sectionLink.onclick = (event) => {
         this.parent.trigger('newChapter', {
           h5pbookid: this.parent.contentId,
           chapter: this.chapters[chapterId].id,
           section: section.id
         });
+        event.preventDefault();
       };
       sectionLink.appendChild(sectionCompletionIcon);
       sectionLink.appendChild(sectionTitleText);
 
-      const sectionNode = document.createElement('div');
+      const sectionNode = document.createElement('li');
       sectionNode.classList.add('h5p-digibook-navigation-section');
       sectionNode.appendChild(sectionLink);
 
@@ -336,6 +482,7 @@ class SideBar extends H5P.EventDispatcher {
    * @return {HTMLElement[]} Chapter elements.
    */
   getChapterNodes() {
+    this.focusedChapter = 0;
     return this.chapters.map((chapter, index) => this.getNodesFromChapter(chapter, index));
   }
 

@@ -55,7 +55,7 @@ class Cover extends H5P.EventDispatcher {
 
     const visuals = document.createElement('div');
     visuals.classList.add('h5p-digibook-cover-graphics');
-    visuals.appendChild(this.createImage(coverImage.path, contentId));
+    visuals.appendChild(this.createImage(coverImage.path, contentId, coverParam.coverAltText));
     visuals.appendChild(this.createCoverBar());
 
     return visuals;
@@ -66,13 +66,16 @@ class Cover extends H5P.EventDispatcher {
    *
    * @param {string} path Relative image path.
    * @param {number} contentId Content id.
+   * @param {string|null} altText
    */
-  createImage(path, contentId) {
+  createImage(path, contentId, altText) {
     const img = document.createElement('img');
     img.classList.add('h5p-digibook-cover-image');
     img.src = H5P.getPath(path, contentId);
     img.setAttribute('draggable', 'false');
-    img.setAttribute('tabindex', 0);
+    if (altText) {
+      img.alt = altText;
+    }
 
     return img;
   }

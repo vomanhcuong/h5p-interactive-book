@@ -532,6 +532,7 @@ export default class DigiBook extends H5P.EventDispatcher {
         previousPage: config.previousPage,
         navigateToTop: config.navigateToTop
       },
+      a11y: this.params.a11y,
       behaviour: this.params.behaviour
     });
 
@@ -542,6 +543,9 @@ export default class DigiBook extends H5P.EventDispatcher {
       this.on('coverRemoved', () => {
         this.hideAllElements(false);
         this.trigger('resize');
+
+        // Focus header progress bar when cover is removed
+        this.statusBar.headerProgressBar.progress.focus();
       });
     }
 
