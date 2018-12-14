@@ -170,7 +170,7 @@ export default class DigiBook extends H5P.EventDispatcher {
      *
      * @return {boolean} True, if there's a cover.
      */
-    this.doesCoverExist = () => this.cover && this.cover.div;
+    this.hasCover = () => this.cover && this.cover.container;
 
     /**
      * Get number of active chapter.
@@ -206,7 +206,7 @@ export default class DigiBook extends H5P.EventDispatcher {
      * Establish all triggers
      */
     this.on('toggleMenu', () => {
-      this.sideBar.div.classList.toggle('h5p-digibook-hide');
+      this.sideBar.toggle();
     });
 
     this.on('scrollToTop', () => {
@@ -474,16 +474,16 @@ export default class DigiBook extends H5P.EventDispatcher {
       // Needed to enable scrolling in fullscreen
       $wrapper[0].id = 'h5p-digibook';
       if (this.cover) {
-        $wrapper.get(0).appendChild(this.cover.div);
+        $wrapper.get(0).appendChild(this.cover.container);
       }
       $wrapper.get(0).appendChild(this.statusBar.header);
 
-      const first = this.pageContent.div.firstChild;
+      const first = this.pageContent.container.firstChild;
       if (first) {
-        this.pageContent.div.insertBefore(this.sideBar.div, first);
+        this.pageContent.container.insertBefore(this.sideBar.container, first);
       }
 
-      $wrapper.get(0).appendChild(this.pageContent.div);
+      $wrapper.get(0).appendChild(this.pageContent.container);
       $wrapper.get(0).appendChild(this.statusBar.footer);
     };
 
@@ -493,27 +493,25 @@ export default class DigiBook extends H5P.EventDispatcher {
      * @param {boolean} hide True to hide elements.
      */
     this.hideAllElements = function (hide) {
-      const targetElements = [
+      const nodes = [
         this.statusBar.header,
         this.statusBar.footer,
-        this.pageContent.div
+        this.pageContent.container
       ];
 
       if (hide) {
-        targetElements.forEach(x => {
-          x.classList.add('h5p-content-hidden');
-          x.classList.add('digibook-cover-present');
+        nodes.forEach(node => {
+          node.classList.add('h5p-content-hidden', 'digibook-cover-present');
         });
       }
       else {
-        targetElements.forEach(x => {
-          x.classList.remove('h5p-content-hidden');
-          x.classList.remove('digibook-cover-present');
+        nodes.forEach(node => {
+          node.classList.remove('h5p-content-hidden', 'digibook-cover-present');
         });
       }
     };
 
-    //Initialize the support components
+    // Initialize the support components
     if (config.showCoverPage) {
       this.cover = new Cover(config.bookCover, contentData.metadata.title, config.read, contentId, this);
     }
@@ -537,7 +535,7 @@ export default class DigiBook extends H5P.EventDispatcher {
       behaviour: this.params.behaviour
     });
 
-    if (this.doesCoverExist()) {
+    if (this.hasCover()) {
 
       this.hideAllElements(true);
 
@@ -547,7 +545,7 @@ export default class DigiBook extends H5P.EventDispatcher {
       });
     }
 
-    //Kickstart the statusbar
+    // Kickstart the statusbar
     this.statusBar.updateStatusBar();
     this.pageContent.updateFooter();
   }

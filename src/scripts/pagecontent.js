@@ -17,18 +17,16 @@ class PageContent extends H5P.EventDispatcher {
     this.targetPage = {};
     this.targetPage.redirectFromComponent = false;
 
-    // Div-elements of the abovementioned h5p-instances
-    this.columnElements = [];
+    this.columnNodes = [];
 
     this.chapters = this.createColumns(config, contentId, contentData);
-
-    this.div = document.createElement('div');
-    this.div.classList.add('h5p-digibook-main');
 
     this.content = this.createPageContent();
     this.addcontentListener();
 
-    this.div.appendChild(this.content);
+    this.container = document.createElement('div');
+    this.container.classList.add('h5p-digibook-main');
+    this.container.appendChild(this.content);
   }
 
   /**
@@ -48,7 +46,7 @@ class PageContent extends H5P.EventDispatcher {
   createPageContent() {
     const content = document.createElement('div');
     content.classList.add('h5p-digibook-content');
-    this.columnElements.forEach(element => {
+    this.columnNodes.forEach(element => {
       content.appendChild(element);
     });
 
@@ -56,44 +54,40 @@ class PageContent extends H5P.EventDispatcher {
   }
 
   /**
-   * Create page read mark.
+   * Create page read checkbox.
    *
-   * @return {object} Generating data.
+   * @return {HTMLElement} Checkbox for marking a chapter as read.
    */
-  createPageReadMark() {
-    const div = document.createElement('div');
+  createChapterReadCheckbox() {
+    const checkbox = document.createElement('input');
+    checkbox.setAttribute('type', 'checkbox');
+    checkbox.onclick = () => {
+      this.parent.setChapterRead();
+      checkbox.disabled = true;
+    };
+
     const checkText = document.createElement('p');
     checkText.innerHTML = this.params.l10n.markAsFinished;
 
-    const markRead = document.createElement('input');
-    markRead.setAttribute('type', 'checkbox');
-    div.classList.add('h5p-digibook-status-progress-marker');
-    markRead.onclick = () => {
-      this.parent.setChapterRead();
-      markRead.disabled = true;
-    };
+    const wrapper = document.createElement('div');
+    wrapper.classList.add('h5p-digibook-status-progress-marker');
+    wrapper.appendChild(checkbox);
+    wrapper.appendChild(checkText);
 
-    div.appendChild(markRead);
-    div.appendChild(checkText);
-
-    return {
-      div,
-      markRead,
-      checkText
-    };
+    return wrapper;
   }
 
   /**
    * Inject section instance UUID into DOM.
    *
    * @param {object[]} sections Sections.
-   * @param {HTMLElement} columnElement Column element.
+   * @param {HTMLElement} columnNode Column element.
    */
-  injectSectionId(sections, columnElement) {
-    const colContent = columnElement.getElementsByClassName('h5p-column-content');
+  injectSectionId(sections, columnNode) {
+    const columnContent = columnNode.getElementsByClassName('h5p-column-content');
 
     for (let i = 0; i < sections.length; i++) {
-      colContent[i].id = sections[i].instance.subContentId;
+      columnContent[i].id = sections[i].instance.subContentId;
     }
   }
 
@@ -106,13 +100,13 @@ class PageContent extends H5P.EventDispatcher {
    * @return {object[]} Column instances.
    */
   createColumns(config, contentId, contentData) {
-    const redirObject = URLTools.extractFragmentsFromURL(this.parent.validateFragments);
+    const urlFragments = URLTools.extractFragmentsFromURL(this.parent.validateFragments);
     const chapters = [];
 
-    //Go through all columns and initialise them
+    // Go through all columns and initialise them
     for (let i = 0; i < config.chapters.length; i++) {
-      const newColumn = document.createElement('div');
-      const newInstance = H5P.newRunnable(config.chapters[i], contentId, H5P.jQuery(newColumn), contentData);
+      const columnNode = document.createElement('div');
+      const newInstance = H5P.newRunnable(config.chapters[i], contentId, H5P.jQuery(columnNode), contentData);
       newInstance.on('resize', (event) => {
         // Prevent sending event back down
         this.parent.bubblingUpwards = true;
@@ -135,15 +129,14 @@ class PageContent extends H5P.EventDispatcher {
         }))
       };
 
-      newColumn.classList.add('h5p-digibook-chapter');
-      newColumn.id = newInstance.subContentId;
+      columnNode.classList.add('h5p-digibook-chapter');
+      columnNode.id = newInstance.subContentId;
 
       if (this.behaviour.progressIndicators && !this.behaviour.progressAuto) {
-        const checkPage = this.createPageReadMark();
-        newColumn.appendChild(checkPage.div);
+        columnNode.appendChild(this.createChapterReadCheckbox());
       }
 
-      //Find sections with tasks and tracks them
+      // Find sections with tasks and tracks them
       if (this.behaviour.progressIndicators) {
         chapter.sections.forEach(section => {
           if (this.isH5PTask(section.instance)) {
@@ -155,11 +148,11 @@ class PageContent extends H5P.EventDispatcher {
       }
       chapter.maxTasks = chapter.tasksLeft;
 
-      this.injectSectionId(chapter.sections, newColumn);
+      this.injectSectionId(chapter.sections, columnNode);
 
-      //Register both the HTML-element and the H5P-element
+      // Register both the HTML-element and the H5P-element
       chapters.push(chapter);
-      this.columnElements.push(newColumn);
+      this.columnNodes.push(columnNode);
     }
 
     this.parent.on('resize', (event) => {
@@ -169,28 +162,31 @@ class PageContent extends H5P.EventDispatcher {
 
       for (var i = 0; i < this.chapters.length; i++) {
         // Only resize the visible column
-        if (this.columnElements[i].offsetParent !== null) {
+        if (this.columnNodes[i].offsetParent !== null) {
           this.chapters[i].instance.trigger('resize', event);
         }
       }
     });
 
     // First chapter should be visible, except if the URL says otherwise.
-    let chosenChapter = this.columnElements[0].id;
-    if (redirObject.chapter && redirObject.h5pbookid == this.parent.contentId) {
-      const chapterIndex = this.findChapterIndex(redirObject.chapter);
+    let chapterUUID = this.columnNodes[0].id;
+    if (urlFragments.chapter && urlFragments.h5pbookid == this.parent.contentId) {
+      const chapterIndex = this.findChapterIndex(urlFragments.chapter);
       this.parent.setActiveChapter(chapterIndex);
-      chosenChapter = redirObject.chapter;
+      chapterUUID = urlFragments.chapter;
 
-      if (redirObject.section) {
+      if (urlFragments.section) {
         setTimeout(() => {
-          this.redirectSection(redirObject.section);
+          this.redirectSection(urlFragments.section);
         }, 1000);
       }
     }
 
-    this.columnElements.filter(x => x.id !== chosenChapter)
-      .forEach(x => x.classList.add('h5p-content-hidden'));
+    this.columnNodes.forEach(node => {
+      if (node.id !== chapterUUID) {
+        node.classList.add('h5p-content-hidden');
+      }
+    });
 
     return chapters;
   }
@@ -234,7 +230,7 @@ class PageContent extends H5P.EventDispatcher {
    */
   findChapterIndex(chapterUUID) {
     let position = -1;
-    this.columnElements.forEach((element, index) => {
+    this.columnNodes.forEach((element, index) => {
       if (position !== -1) {
         return; // Skip
       }
@@ -254,29 +250,29 @@ class PageContent extends H5P.EventDispatcher {
    */
   changeChapter(redirectOnLoad, target) {
     if (this.parent.animationInProgress) {
+      // TODO: Check this. Can lock the book
       return;
     }
 
     this.targetPage = target;
-    const oldChapterNum = this.parent.getActiveChapter();
-    const newChapterNum = this.parent.getChapterId(this.targetPage.chapter);
+    const chapterIdOld = this.parent.getActiveChapter();
+    const chapterIdNew = this.parent.getChapterId(this.targetPage.chapter);
 
-    if (newChapterNum < this.columnElements.length) {
-      const oldChapter = this.columnElements[oldChapterNum];
-      const targetChapter = this.columnElements[newChapterNum];
-      const hasChangedChapter = oldChapterNum !== newChapterNum;
+    if (chapterIdNew < this.columnNodes.length) {
+      const oldChapter = this.columnNodes[chapterIdOld];
+      const targetChapter = this.columnNodes[chapterIdNew];
+      const hasChangedChapter = chapterIdOld !== chapterIdNew;
 
       if (hasChangedChapter && !redirectOnLoad) {
         this.parent.animationInProgress = true;
-        this.parent.setActiveChapter(newChapterNum);
+        this.parent.setActiveChapter(chapterIdNew);
 
         // The pages will progress from right to left or vice versa.
-        const newPageProgress = (oldChapterNum < newChapterNum) ? 'right' : 'left';
-        const oldPageProgress = (oldChapterNum < newChapterNum) ? 'left' : 'right';
+        const newPageProgress = (chapterIdOld < chapterIdNew) ? 'right' : 'left';
+        const oldPageProgress = (chapterIdOld < chapterIdNew) ? 'left' : 'right';
 
         // Set up the slides
-        targetChapter.classList.add('h5p-digibook-animate-new');
-        targetChapter.classList.add(`h5p-digibook-offset-${newPageProgress}`);
+        targetChapter.classList.add('h5p-digibook-animate-new', `h5p-digibook-offset-${newPageProgress}`);
         targetChapter.classList.remove('h5p-content-hidden');
 
         // Play the animation
@@ -286,7 +282,7 @@ class PageContent extends H5P.EventDispatcher {
         }, 50);
       }
       else {
-        if (this.parent.cover && !this.parent.cover.div.hidden) {
+        if (this.parent.cover && !this.parent.cover.container.hidden) { // TODO: Check this hidden property
           this.parent.on('coverRemoved', () => {
             this.redirectSection(this.targetPage.section);
           });
@@ -296,9 +292,9 @@ class PageContent extends H5P.EventDispatcher {
         }
       }
 
-      this.parent.sideBar.redirectHandler(newChapterNum);
+      this.parent.sideBar.redirectHandler(chapterIdNew);
       if (!redirectOnLoad) {
-        this.parent.updateChapterProgress(oldChapterNum, hasChangedChapter);
+        this.parent.updateChapterProgress(chapterIdOld, hasChangedChapter);
       }
     }
   }
@@ -310,23 +306,22 @@ class PageContent extends H5P.EventDispatcher {
     this.content.addEventListener('transitionend', (event) => {
       const activeChapter = this.parent.getActiveChapter();
 
-      if (event.propertyName === 'transform' && event.target === this.columnElements[activeChapter]) {
+      if (event.propertyName === 'transform' && event.target === this.columnNodes[activeChapter]) {
         // Remove all animation-related classes
-        const inactiveElems = this.columnElements.filter(x => x !== this.columnElements[activeChapter]);
-        inactiveElems.forEach(x => {
-          x.classList.remove('h5p-digibook-offset-right');
-          x.classList.remove('h5p-digibook-offset-left');
-          x.classList.add('h5p-content-hidden');
-        });
+        this.columnNodes
+          .forEach(node => {
+            if (node !== this.columnNodes[activeChapter]) {
+              node.classList.remove('h5p-digibook-offset-right', 'h5p-digibook-offset-left');
+              node.classList.add('h5p-content-hidden');
+            }
+          });
 
-        const activeElem = this.columnElements[activeChapter];
+        const activeNode = this.columnNodes[activeChapter];
 
-        activeElem.classList.remove('h5p-digibook-offset-right');
-        activeElem.classList.remove('h5p-digibook-offset-left');
-        activeElem.classList.remove('h5p-digibook-animate-new');
+        activeNode.classList.remove('h5p-digibook-offset-right', 'h5p-digibook-offset-left', 'h5p-digibook-animate-new');
         this.updateFooter();
 
-        //Focus on section only after the page scrolling is finished
+        // Focus on section only after the page scrolling is finished
         this.parent.animationInProgress = false;
         this.redirectSection(this.targetPage.section);
 
@@ -340,9 +335,9 @@ class PageContent extends H5P.EventDispatcher {
    */
   updateFooter() {
     const activeChapter = this.parent.getActiveChapter();
-    const column = this.columnElements[activeChapter];
+    const column = this.columnNodes[activeChapter];
     const shouldFooterBeVisible = this.parent.shouldFooterBeVisible(column.clientHeight);
-    this.parent.statusBar.editFooterVisibillity(shouldFooterBeVisible);
+    this.parent.statusBar.setFooterVisibility(shouldFooterBeVisible);
   }
 }
 

@@ -29,19 +29,17 @@ class StatusBar extends H5P.EventDispatcher {
     this.header.classList.add('h5p-digibook-status-header');
     this.headerInfo.classList.add('h5p-digibook-status');
 
-    this.headerProgressBar = this.addProgressBar();
-    this.headerStatus = this.addProgress();
-    this.footerStatus = this.addProgress();
-    this.headerMenu = this.addMenu();
-    this.buttonToTop = this.addToTop();
+    this.headerProgressBar = this.createProgressBar();
+    this.headerStatus = this.createProgressIndicator();
+    this.footerStatus = this.createProgressIndicator();
 
     this.headerChapterTitle = this.addChapterTitle();
     this.footerChapterTitle = this.addChapterTitle();
 
-    this.header.appendChild(this.headerProgressBar.div);
-    this.headerInfo.appendChild(this.headerMenu.div);
-    this.headerInfo.appendChild(this.headerChapterTitle.div);
-    this.headerInfo.appendChild(this.headerStatus.div);
+    this.header.appendChild(this.headerProgressBar.wrapper);
+    this.headerInfo.appendChild(this.createMenuToggleButton());
+    this.headerInfo.appendChild(this.headerChapterTitle.wrapper);
+    this.headerInfo.appendChild(this.headerStatus.wrapper);
     this.headerInfo.appendChild(this.arrows.divTopPrev);
     this.headerInfo.appendChild(this.arrows.divTopNext);
     this.header.appendChild(this.headerInfo);
@@ -54,12 +52,12 @@ class StatusBar extends H5P.EventDispatcher {
     this.footerInfo = document.createElement('div');
     this.footerInfo.classList.add('h5p-digibook-status');
 
-    this.footerProgressBar = this.addProgressBar();
+    this.footerProgressBar = this.createProgressBar();
 
-    this.footer.appendChild(this.footerProgressBar.div);
-    this.footerInfo.appendChild(this.buttonToTop.div);
-    this.footerInfo.appendChild(this.footerChapterTitle.div);
-    this.footerInfo.appendChild(this.footerStatus.div);
+    this.footer.appendChild(this.footerProgressBar.wrapper);
+    this.footerInfo.appendChild(this.createToTopButton());
+    this.footerInfo.appendChild(this.footerChapterTitle.wrapper);
+    this.footerInfo.appendChild(this.footerStatus.wrapper);
     this.footerInfo.appendChild(this.arrows.divBotPrev);
     this.footerInfo.appendChild(this.arrows.divBotNext);
 
@@ -80,7 +78,7 @@ class StatusBar extends H5P.EventDispatcher {
       }
 
       if (event.data.direction === 'next') {
-        if (this.parent.activeChapter+1 < this.parent.chapters.length) {
+        if (this.parent.activeChapter + 1 < this.parent.chapters.length) {
           eventInput.chapter = this.parent.chapters[this.parent.activeChapter+1].instance.subContentId;
         }
       }
@@ -111,33 +109,33 @@ class StatusBar extends H5P.EventDispatcher {
    * Update status bar.
    */
   updateStatusBar() {
-    const currChapter = this.parent.getActiveChapter() + 1;
+    const currentChapter = this.parent.getActiveChapter() + 1;
 
-    const chapterTitle =  this.parent.chapters[this.parent.getActiveChapter()].title;
+    const chapterTitle =  this.parent.chapters[currentChapter - 1].title;
 
-    this.headerStatus.current.innerHTML = currChapter;
-    this.footerStatus.current.innerHTML = currChapter;
+    this.headerStatus.current.innerHTML = currentChapter;
+    this.footerStatus.current.innerHTML = currentChapter;
 
-    this.updateProgressBar(currChapter);
+    this.updateProgressBar(currentChapter);
 
-    this.headerChapterTitle.p.innerHTML = chapterTitle;
-    this.footerChapterTitle.p.innerHTML = chapterTitle;
+    this.headerChapterTitle.text.innerHTML = chapterTitle;
+    this.footerChapterTitle.text.innerHTML = chapterTitle;
 
-    this.headerChapterTitle.p.setAttribute("title", chapterTitle);
-    this.footerChapterTitle.p.setAttribute("title", chapterTitle);
+    this.headerChapterTitle.text.setAttribute('title', chapterTitle);
+    this.footerChapterTitle.text.setAttribute('title', chapterTitle);
 
     //assure that the buttons are valid in terms of chapter edges
     if (this.parent.activeChapter <= 0) {
-      this.editButtonStatus('Prev', true);
+      this.setButtonStatus('Prev', true);
     }
     else {
-      this.editButtonStatus('Prev', false);
+      this.setButtonStatus('Prev', false);
     }
     if ((this.parent.activeChapter + 1) >= this.totalChapters) {
-      this.editButtonStatus('Next', true);
+      this.setButtonStatus('Next', true);
     }
     else {
-      this.editButtonStatus('Next', false);
+      this.setButtonStatus('Next', false);
     }
   }
 
@@ -172,7 +170,7 @@ class StatusBar extends H5P.EventDispatcher {
     acm.topPrev.classList.add('icon-previous');
     acm.botPrev.classList.add('icon-previous');
 
-    //Initialize trigger events
+    // Initialize trigger events
     acm.divTopPrev.onclick = () => {
       this.trigger('seqChapter', {
         direction:'prev',
@@ -199,11 +197,11 @@ class StatusBar extends H5P.EventDispatcher {
       });
     };
 
-    //Add tooltip
-    acm.topNext.setAttribute("title", this.params.l10n.nextPage);
-    acm.botNext.setAttribute("title", this.params.l10n.nextPage);
-    acm.topPrev.setAttribute("title", this.params.l10n.previousPage);
-    acm.botPrev.setAttribute("title", this.params.l10n.previousPage);
+    // Add tooltip
+    acm.topNext.setAttribute('title', this.params.l10n.nextPage);
+    acm.botNext.setAttribute('title', this.params.l10n.nextPage);
+    acm.topPrev.setAttribute('title', this.params.l10n.previousPage);
+    acm.botPrev.setAttribute('title', this.params.l10n.previousPage);
 
     // Attach to the respective divs
     acm.divTopNext.appendChild(acm.topNext);
@@ -217,32 +215,25 @@ class StatusBar extends H5P.EventDispatcher {
   /**
    * Add a menu button which hides and shows the navigation bar.
    *
-   * @return {object} menu elements.
+   * @return {HTMLElement} Button node.
    */
-  addMenu() {
-    const that = this;
-    const row = document.createElement('div');
-    const item = document.createElement('a');
+  createMenuToggleButton() {
+    const button = document.createElement('a');
+    button.classList.add('icon-menu');
 
-    let iconType = 'icon-menu';
+    const buttonWrapper = document.createElement('div');
     if (this.params.behaviour.defaultTableOfContents) {
-      row.classList.add('h5p-digibook-status-menu-active');
+      buttonWrapper.classList.add('h5p-digibook-status-menu-active');
     }
-    item.classList.add(iconType);
+    buttonWrapper.classList.add('h5p-digibook-status-menu', 'h5p-digibook-status-button');
 
-    row.classList.add('h5p-digibook-status-menu');
-    row.classList.add('h5p-digibook-status-button');
-
-    row.onclick = function () {
-      that.parent.trigger('toggleMenu');
-      this.classList.toggle('h5p-digibook-status-menu-active');
+    buttonWrapper.onclick = (event) => {
+      this.parent.trigger('toggleMenu');
+      event.currentTarget.classList.toggle('h5p-digibook-status-menu-active');
     };
 
-    row.appendChild(item);
-    return {
-      div:row,
-      a:item
-    };
+    buttonWrapper.appendChild(button);
+    return buttonWrapper;
   }
 
   /**
@@ -250,17 +241,16 @@ class StatusBar extends H5P.EventDispatcher {
    *
    * @return {object} Progress bar elements.
    */
-  addProgressBar() {
-    const div = document.createElement('div');
+  createProgressBar() {
     const progress = document.createElement('div');
-
-    div.classList.add('h5p-digibook-status-progressbar-back');
     progress.classList.add('h5p-digibook-status-progressbar-front');
 
-    div.appendChild(progress);
+    const wrapper = document.createElement('div');
+    wrapper.classList.add('h5p-digibook-status-progressbar-back');
+    wrapper.appendChild(progress);
 
     return {
-      div,
+      wrapper,
       progress
     };
   }
@@ -271,46 +261,44 @@ class StatusBar extends H5P.EventDispatcher {
    * @return {object} Chapter title elements.
    */
   addChapterTitle() {
-    const div = document.createElement('div');
-    const chapterTitle = document.createElement('p');
-    div.classList.add('h5p-digibook-status-chapter');
+    const text = document.createElement('p');
 
-    div.appendChild(chapterTitle);
+    const wrapper = document.createElement('div');
+    wrapper.classList.add('h5p-digibook-status-chapter');
+    wrapper.appendChild(text);
     return {
-      div,
-      p:chapterTitle
+      wrapper,
+      text
     };
-
   }
+
   /**
    * Add a button which scrolls to the top of the page.
    *
-   * @return {object} Top elements.
+   * @return {HTMLElement} Button.
    */
-  addToTop() {
-    const that = this;
-    const div = document.createElement('div');
-    const a = document.createElement('a');
-    div.classList.add('h5p-digibook-status-button');
-    div.classList.add('h5p-digibook-status-arrow');
-    a.classList.add ('icon-up');
-    a.setAttribute('title', this.params.l10n.navigateToTop);
-    a.onclick = function () {
-      that.parent.trigger('scrollToTop');
+  createToTopButton() {
+    const button = document.createElement('a');
+    button.classList.add ('icon-up');
+    button.setAttribute('title', this.params.l10n.navigateToTop);
+    button.onclick = () => {
+      this.parent.trigger('scrollToTop');
     };
-    div.appendChild(a);
-    return {
-      div,
-      a
-    };
+
+    const wrapper = document.createElement('div');
+    wrapper.classList.add('h5p-digibook-status-button');
+    wrapper.classList.add('h5p-digibook-status-arrow');
+    wrapper.appendChild(button);
+
+    return wrapper;
   }
 
   /**
-   * Edits the footer visibillity
+   * Set the footer visibility.
    *
    * @param {boolean} hide True will hide the footer.
    */
-  editFooterVisibillity(hide) {
+  setFooterVisibility(hide) {
     if (hide) {
       this.footer.classList.add('footer-hidden');
     }
@@ -324,33 +312,33 @@ class StatusBar extends H5P.EventDispatcher {
    *
    * @return {object} Progress elements.
    */
-  addProgress() {
-    const div = document.createElement('div');
-    const p = document.createElement('p');
+  createProgressIndicator() {
     const current = document.createElement('span');
-    const divider = document.createElement('span');
-    const total = document.createElement('span');
-
-    p.classList.add('h5p-digibook-status-progress');
-
     current.classList.add('h5p-digibook-status-progress-number');
-    divider.classList.add('h5p-digibook-status-progress-divider');
-    total.classList.add('h5p-digibook-status-progress-number');
 
+    const divider = document.createElement('span');
+    divider.classList.add('h5p-digibook-status-progress-divider');
     divider.innerHTML = ' / ';
+
+    const total = document.createElement('span');
+    total.classList.add('h5p-digibook-status-progress-number');
     total.innerHTML = this.totalChapters;
 
-    p.appendChild(current);
-    p.appendChild(divider);
-    p.appendChild(total);
+    const progressText = document.createElement('p');
+    progressText.classList.add('h5p-digibook-status-progress');
+    progressText.appendChild(current);
+    progressText.appendChild(divider);
+    progressText.appendChild(total);
 
-    div.appendChild(p);
+    const wrapper = document.createElement('div');
+    wrapper.appendChild(progressText);
+
     return {
-      div,
+      wrapper,
       current,
       total,
       divider,
-      p
+      progressText
     };
   }
 
@@ -360,7 +348,7 @@ class StatusBar extends H5P.EventDispatcher {
    * @param {string} target Prev or Next.
    * @param {boolean} disable True will disable the target button.
    */
-  editButtonStatus(target, disable) {
+  setButtonStatus(target, disable) {
     if (disable) {
       this.arrows['top'+target].classList.add('disabled');
       this.arrows['bot'+target].classList.add('disabled');

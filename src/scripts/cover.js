@@ -3,33 +3,43 @@
  * Constructor function.
  */
 class Cover extends H5P.EventDispatcher {
-  constructor(coverParam, titleText, readText, contentId, parent) {
+  constructor(params, titleText, readText, contentId, parent) {
     super();
 
     this.parent = parent;
 
-    this.div = this.createParentElement();
+    // Container
+    this.container = this.createContainer();
 
-    this.visuals = this.createVisualsElement(coverParam.coverImage, contentId);
-
-    this.title = this.parseTitle(titleText);
-    this.description = this.parseDescription(coverParam.coverDescription);
-
-    this.button = this.createReadButton(readText);
-
-    if (this.visuals) {
-      this.div.appendChild(this.visuals);
+    // Visual header
+    if (params.coverImage) {
+      this.container.appendChild(this.createVisualsElement(params.coverImage, contentId));
     }
     else {
-      this.div.classList.add('h5p-cover-nographics');
+      this.container.classList.add('h5p-cover-nographics');
     }
 
-    this.div.appendChild(this.title);
+    // Title
+    this.container.appendChild(this.createTitleElement(titleText));
 
-    if (this.description) {
-      this.div.appendChild(this.description);
+    // Description text
+    if (params.coverDescription) {
+      this.container.appendChild(this.createDescriptionElement(params.coverDescription));
     }
-    this.div.appendChild(this.button);
+
+    // Read button
+    this.container.appendChild(this.createReadButton(readText));
+  }
+
+  /**
+   * Create the top level element.
+   *
+   * @return {HTMLElement} Cover.
+   */
+  createContainer() {
+    const container = document.createElement('div');
+    container.classList.add('h5p-digibook-cover');
+    return container;
   }
 
   /**
@@ -39,62 +49,16 @@ class Cover extends H5P.EventDispatcher {
    * @param {number} contentId Content Id.
    */
   createVisualsElement(coverImage, contentId) {
-    if (coverImage) {
-      const div = document.createElement('div');
-      div.classList.add('h5p-digibook-cover-graphics');
-      const visuals = this.parseImage(coverImage.path, contentId);
-      const backBorder = this.createBackBorder();
-
-      div.appendChild(visuals);
-      div.appendChild(backBorder);
-
-      return div;
-    }
-    else {
+    if (!coverImage) {
       return null;
     }
-  }
 
-  /**
-   * Create an element responsible for the bar behind an image.
-   *
-   * @return {HTMLElement} Horizontal bar in the background.
-   */
-  createBackBorder() {
-    const coverBar = document.createElement('div');
-    coverBar.classList.add('h5p-digibook-cover-bar');
-    return coverBar;
-  }
+    const visuals = document.createElement('div');
+    visuals.classList.add('h5p-digibook-cover-graphics');
+    visuals.appendChild(this.createImage(coverImage.path, contentId));
+    visuals.appendChild(this.createCoverBar());
 
-  /**
-   * Create the top level element.
-   *
-   * @return {HTMLElement} Cover.
-   */
-  createParentElement() {
-    const cover = document.createElement('div');
-    cover.classList.add('h5p-digibook-cover');
-    return cover;
-  }
-
-  /**
-   * Create a button element.
-   *
-   * @param {string} buttonText Button text.
-   * @return {HTMLElement} Read button element.
-   */
-  createReadButton(buttonText) {
-    const buttonElem = document.createElement('div');
-    buttonElem.classList.add('h5p-digibook-cover-readbutton');
-    const button = document.createElement('button');
-    button.innerHTML = buttonText;
-
-    button.onclick = () => {
-      this.removeCover();
-    };
-
-    buttonElem.appendChild(button);
-    return buttonElem;
+    return visuals;
   }
 
   /**
@@ -103,7 +67,7 @@ class Cover extends H5P.EventDispatcher {
    * @param {string} path Relative image path.
    * @param {number} contentId Content id.
    */
-  parseImage(path, contentId) {
+  createImage(path, contentId) {
     const img = document.createElement('img');
     img.classList.add('h5p-digibook-cover-image');
     img.src = H5P.getPath(path, contentId);
@@ -114,12 +78,14 @@ class Cover extends H5P.EventDispatcher {
   }
 
   /**
-   * Remove cover.
+   * Create an element responsible for the bar behind an image.
+   *
+   * @return {HTMLElement} Horizontal bar in the background.
    */
-  removeCover() {
-    this.div.parentElement.removeChild(this.div);
-    this.div.hidden = true;
-    this.parent.trigger('coverRemoved');
+  createCoverBar() {
+    const coverBar = document.createElement('div');
+    coverBar.classList.add('h5p-digibook-cover-bar');
+    return coverBar;
   }
 
   /**
@@ -128,16 +94,15 @@ class Cover extends H5P.EventDispatcher {
    * @param {string} titleText Text for title element.
    * @return {HTMLElement} Title element.
    */
-  parseTitle(titleText) {
-    const titleElem = document.createElement('div');
-    titleElem.classList.add('h5p-digibook-cover-title');
-
+  createTitleElement(titleText) {
     const title = document.createElement('p');
     title.innerHTML = titleText;
 
-    titleElem.appendChild(title);
+    const titleWrapper = document.createElement('div');
+    titleWrapper.classList.add('h5p-digibook-cover-title');
+    titleWrapper.appendChild(title);
 
-    return titleElem;
+    return titleWrapper;
   }
 
   /**
@@ -146,21 +111,47 @@ class Cover extends H5P.EventDispatcher {
    * @param {string} descriptionText Text for description element.
    * @return {HTMLElement} Description element.
    */
-  parseDescription(descriptionText) {
-    if (descriptionText) {
-      const descElem = document.createElement('div');
-      descElem.classList.add('h5p-digibook-cover-description');
-
-      const desc = document.createElement('p');
-      desc.innerHTML = descriptionText;
-
-      descElem.appendChild(desc);
-
-      return descElem;
-    }
-    else {
+  createDescriptionElement(descriptionText) {
+    if (!descriptionText) {
       return null;
     }
+
+    const description = document.createElement('p');
+    description.innerHTML = descriptionText;
+
+    const descriptionElement = document.createElement('div');
+    descriptionElement.classList.add('h5p-digibook-cover-description');
+    descriptionElement.appendChild(description);
+
+    return descriptionElement;
+  }
+
+  /**
+   * Create a button element.
+   *
+   * @param {string} buttonText Button text.
+   * @return {HTMLElement} Read button element.
+   */
+  createReadButton(buttonText) {
+    const button = document.createElement('button');
+    button.innerHTML = buttonText;
+    button.onclick = () => {
+      this.removeCover();
+    };
+
+    const buttonWrapper = document.createElement('div');
+    buttonWrapper.classList.add('h5p-digibook-cover-readbutton');
+    buttonWrapper.appendChild(button);
+
+    return buttonWrapper;
+  }
+
+  /**
+   * Remove cover.
+   */
+  removeCover() {
+    this.container.parentElement.removeChild(this.container);
+    this.parent.trigger('coverRemoved');
   }
 }
 
