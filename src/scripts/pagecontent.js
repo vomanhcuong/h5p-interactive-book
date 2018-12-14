@@ -185,6 +185,9 @@ class PageContent extends H5P.EventDispatcher {
       if (redirObject.section) {
         setTimeout(() => {
           this.redirectSection(redirObject.section);
+          if (this.parent.doesCoverExist()) {
+            this.parent.cover.removeCover();
+          }
         }, 1000);
       }
     }
