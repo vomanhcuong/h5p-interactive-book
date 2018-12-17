@@ -285,7 +285,7 @@ class PageContent extends H5P.EventDispatcher {
         }, 50);
       }
       else {
-        if (this.parent.cover && !this.parent.cover.container.hidden) { // TODO: Check this hidden property
+        if (this.parent.cover && !this.parent.cover.hidden) {
           this.parent.on('coverRemoved', () => {
             this.redirectSection(this.targetPage.section);
           });

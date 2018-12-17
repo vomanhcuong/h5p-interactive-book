@@ -154,6 +154,7 @@ class Cover extends H5P.EventDispatcher {
    */
   removeCover() {
     this.container.parentElement.removeChild(this.container);
+    this.hidden = true;
     this.parent.trigger('coverRemoved');
   }
 }
