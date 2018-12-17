@@ -77,16 +77,16 @@ class SideBar extends H5P.EventDispatcher {
   setFocusToChapterItem(index, direction = 0) {
     let nextIndex = index + direction;
     if (nextIndex < 0) {
-      nextIndex = this.chapterElems.length - 1;
+      nextIndex = this.chapterNodes.length - 1;
     }
-    else if (nextIndex > this.chapterElems.length - 1) {
+    else if (nextIndex > this.chapterNodes.length - 1) {
       nextIndex = 0;
     }
 
     // Check if we should navigate to a section
     if (direction) {
       const chapterIndex = direction > 0 ? index : nextIndex;
-      const chapter = this.chapterElems[chapterIndex];
+      const chapter = this.chapterNodes[chapterIndex];
       if (!chapter.classList.contains('h5p-digibook-navigation-closed')) {
         const sections = chapter.querySelectorAll('.h5p-digibook-navigation-section');
         if (sections.length) {
@@ -97,13 +97,13 @@ class SideBar extends H5P.EventDispatcher {
       }
     }
 
-    const nextChapter = this.chapterElems[nextIndex];
+    const nextChapter = this.chapterNodes[nextIndex];
     const chapterButton = nextChapter.querySelector('.h5p-digibook-navigation-chapter-button');
     this.setFocusToItem(chapterButton, nextIndex);
   }
 
   setFocusToSectionItem(chapterIndex, index, direction = 0) {
-    const chapter = this.chapterElems[chapterIndex];
+    const chapter = this.chapterNodes[chapterIndex];
     const sections = chapter.querySelectorAll('.h5p-digibook-navigation-section');
 
     // Navigate chapter if outside of section bounds
@@ -310,7 +310,7 @@ class SideBar extends H5P.EventDispatcher {
    * @param {number} current - Current chapter
    */
   setChapterIndicatorComplete(current) {
-    let targetElem = this.chapterElems[current].getElementsByClassName('h5p-digibook-navigation-chapter-button')[0];
+    let targetElem = this.chapterNodes[current].getElementsByClassName('h5p-digibook-navigation-chapter-button')[0];
     targetElem = targetElem.getElementsByClassName('h5p-digibook-navigation-chapter-progress')[0];
     targetElem.classList.remove('icon-chapter-blank');
     targetElem.classList.add('icon-chapter-done');

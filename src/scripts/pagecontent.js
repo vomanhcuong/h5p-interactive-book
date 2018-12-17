@@ -219,6 +219,15 @@ class PageContent extends H5P.EventDispatcher {
     else {
       const section = document.getElementById(sectionUUID);
       if (section) {
+        const focusHandler = document.createElement('div');
+        focusHandler.setAttribute('tabindex', '-1');
+        section.parentNode.insertBefore(focusHandler, section);
+        focusHandler.focus();
+
+        focusHandler.addEventListener('blur', () => {
+          focusHandler.parentNode.removeChild(focusHandler);
+        });
+
         section.scrollIntoView(true);
         this.targetPage.redirectFromComponent = false;
       }
