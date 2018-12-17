@@ -210,7 +210,7 @@ export default class DigiBook extends H5P.EventDispatcher {
     });
 
     this.on('scrollToTop', () => {
-      this.statusBar.header.scrollIntoView(true);
+      this.statusBarHeader.header.scrollIntoView(true);
     });
 
     this.on('newChapter', (event) => {
@@ -379,7 +379,8 @@ export default class DigiBook extends H5P.EventDispatcher {
      */
     this.changeChapter = (redirectOnLoad) => {
       this.pageContent.changeChapter(redirectOnLoad, this.newHandler);
-      this.statusBar.updateStatusBar();
+      this.statusBarHeader.updateStatusBar();
+      this.statusBarFooter.updateStatusBar();
       this.newHandler.redirectFromComponent = false;
     };
 
@@ -476,7 +477,9 @@ export default class DigiBook extends H5P.EventDispatcher {
       if (this.cover) {
         $wrapper.get(0).appendChild(this.cover.container);
       }
-      $wrapper.get(0).appendChild(this.statusBar.header);
+
+      // TODO: Change to separate status bars
+      $wrapper.get(0).appendChild(this.statusBarHeader.header);
 
       const first = this.pageContent.container.firstChild;
       if (first) {
@@ -484,7 +487,7 @@ export default class DigiBook extends H5P.EventDispatcher {
       }
 
       $wrapper.get(0).appendChild(this.pageContent.container);
-      $wrapper.get(0).appendChild(this.statusBar.footer);
+      $wrapper.get(0).appendChild(this.statusBarFooter.header);
     };
 
     /**
@@ -494,8 +497,8 @@ export default class DigiBook extends H5P.EventDispatcher {
      */
     this.hideAllElements = function (hide) {
       const nodes = [
-        this.statusBar.header,
-        this.statusBar.footer,
+        this.statusBarHeader.header,
+        this.statusBarFooter.header,
         this.pageContent.container
       ];
 
@@ -526,7 +529,7 @@ export default class DigiBook extends H5P.EventDispatcher {
 
     this.sideBar = new SideBar(config, contentId, contentData.metadata.title, this);
 
-    this.statusBar = new StatusBar(contentId, config.chapters.length, this, {
+    this.statusBarHeader = new StatusBar(contentId, config.chapters.length, this, {
       l10n: {
         nextPage: config.nextPage,
         previousPage: config.previousPage,
@@ -534,7 +537,17 @@ export default class DigiBook extends H5P.EventDispatcher {
       },
       a11y: this.params.a11y,
       behaviour: this.params.behaviour
-    });
+    }, 'h5p-digibook-status-header');
+
+    this.statusBarFooter = new StatusBar(contentId, config.chapters.length, this, {
+      l10n: {
+        nextPage: config.nextPage,
+        previousPage: config.previousPage,
+        navigateToTop: config.navigateToTop
+      },
+      a11y: this.params.a11y,
+      behaviour: this.params.behaviour
+    }, 'h5p-digibook-status-footer');
 
     if (this.hasCover()) {
 
@@ -545,12 +558,13 @@ export default class DigiBook extends H5P.EventDispatcher {
         this.trigger('resize');
 
         // Focus header progress bar when cover is removed
-        this.statusBar.headerProgressBar.progress.focus();
+        this.statusBarHeader.headerProgressBar.progress.focus();
       });
     }
 
     // Kickstart the statusbar
-    this.statusBar.updateStatusBar();
+    this.statusBarHeader.updateStatusBar();
+    this.statusBarFooter.updateStatusBar();
     this.pageContent.updateFooter();
   }
 }

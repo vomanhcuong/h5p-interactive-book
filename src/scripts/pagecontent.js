@@ -253,7 +253,6 @@ class PageContent extends H5P.EventDispatcher {
    */
   changeChapter(redirectOnLoad, target) {
     if (this.parent.animationInProgress) {
-      // TODO: Check this. Can lock the book
       return;
     }
 
@@ -340,7 +339,7 @@ class PageContent extends H5P.EventDispatcher {
     const activeChapter = this.parent.getActiveChapter();
     const column = this.columnNodes[activeChapter];
     const shouldFooterBeVisible = this.parent.shouldFooterBeVisible(column.clientHeight);
-    this.parent.statusBar.setFooterVisibility(shouldFooterBeVisible);
+    this.parent.statusBarFooter.setVisibility(shouldFooterBeVisible);
   }
 }
 
