@@ -197,11 +197,8 @@ class SideBar extends H5P.EventDispatcher {
           if (content.params.title) {
             title = content.params.title;
           }
-          else if (content.params.linkWidget.url) {
-            title = content.params.linkWidget.protocol + content.params.linkWidget.url;
-          }
           else {
-            title = 'Link';
+            title = 'New link';
           }
           break;
         default:
