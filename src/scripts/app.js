@@ -471,9 +471,8 @@ export default class DigiBook extends H5P.EventDispatcher {
      * @param {jQuery} $wrapper
      */
     this.attach = ($wrapper) => {
-      $wrapper[0].classList.add('h5p-scrollable-fullscreen');
       // Needed to enable scrolling in fullscreen
-      $wrapper[0].id = 'h5p-digibook';
+      $wrapper[0].classList.add('h5p-digibook', 'h5p-scrollable-fullscreen');
       if (this.cover) {
         $wrapper.get(0).appendChild(this.cover.container);
       }
