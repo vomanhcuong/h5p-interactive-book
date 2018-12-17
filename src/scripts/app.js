@@ -210,7 +210,7 @@ export default class DigiBook extends H5P.EventDispatcher {
     });
 
     this.on('scrollToTop', () => {
-      this.statusBarHeader.header.scrollIntoView(true);
+      this.statusBarHeader.wrapper.scrollIntoView(true);
     });
 
     this.on('newChapter', (event) => {
@@ -479,7 +479,7 @@ export default class DigiBook extends H5P.EventDispatcher {
       }
 
       // TODO: Change to separate status bars
-      $wrapper.get(0).appendChild(this.statusBarHeader.header);
+      $wrapper.get(0).appendChild(this.statusBarHeader.wrapper);
 
       const first = this.pageContent.container.firstChild;
       if (first) {
@@ -487,7 +487,7 @@ export default class DigiBook extends H5P.EventDispatcher {
       }
 
       $wrapper.get(0).appendChild(this.pageContent.container);
-      $wrapper.get(0).appendChild(this.statusBarFooter.header);
+      $wrapper.get(0).appendChild(this.statusBarFooter.wrapper);
     };
 
     /**
@@ -497,8 +497,8 @@ export default class DigiBook extends H5P.EventDispatcher {
      */
     this.hideAllElements = function (hide) {
       const nodes = [
-        this.statusBarHeader.header,
-        this.statusBarFooter.header,
+        this.statusBarHeader.wrapper,
+        this.statusBarFooter.wrapper,
         this.pageContent.container
       ];
 
@@ -558,7 +558,7 @@ export default class DigiBook extends H5P.EventDispatcher {
         this.trigger('resize');
 
         // Focus header progress bar when cover is removed
-        this.statusBarHeader.headerProgressBar.progress.focus();
+        this.statusBarHeader.progressBar.progress.focus();
       });
     }
 
