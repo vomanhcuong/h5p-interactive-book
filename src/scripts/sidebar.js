@@ -491,8 +491,8 @@ class SideBar extends H5P.EventDispatcher {
    */
   addTransformListener() {
     this.container.addEventListener('transitionend', (event) => {
+      // propertyName is used trigger once, not for every property that has transitionend
       if (event.propertyName === 'flex-basis') {
-        // TODO: Check what this check is used for
         this.parent.trigger('resize');
       }
     });
