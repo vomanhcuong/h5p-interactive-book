@@ -18,6 +18,7 @@ class PageContent extends H5P.EventDispatcher {
     this.targetPage.redirectFromComponent = false;
 
     this.columnNodes = [];
+    this.shouldAutoplay = [];
 
     this.chapters = this.createColumns(config, contentId, contentData);
 
@@ -27,6 +28,10 @@ class PageContent extends H5P.EventDispatcher {
     this.container = document.createElement('div');
     this.container.classList.add('h5p-digibook-main');
     this.container.appendChild(this.content);
+
+    this.parent.on('coverRemoved', () => {
+      this.handleChapterChange(this.parent.getActiveChapter());
+    });
   }
 
   /**
@@ -106,6 +111,7 @@ class PageContent extends H5P.EventDispatcher {
     // Go through all columns and initialise them
     for (let i = 0; i < config.chapters.length; i++) {
       const columnNode = document.createElement('div');
+      this.overrideParameters(i, config.chapters[i]);
       const newInstance = H5P.newRunnable(config.chapters[i], contentId, H5P.jQuery(columnNode), contentData);
       newInstance.on('resize', (event) => {
         // Prevent sending event back down
@@ -282,6 +288,8 @@ class PageContent extends H5P.EventDispatcher {
           oldChapter.classList.add(`h5p-digibook-offset-${oldPageProgress}`);
           targetChapter.classList.remove(`h5p-digibook-offset-${newPageProgress}`);
         }, 50);
+
+        this.handleChapterChange(chapterIdNew, chapterIdOld);
       }
       else {
         if (this.parent.cover && !this.parent.cover.hidden) {
@@ -340,6 +348,119 @@ class PageContent extends H5P.EventDispatcher {
     const column = this.columnNodes[activeChapter];
     const shouldFooterBeVisible = this.parent.shouldFooterBeVisible(column.clientHeight);
     this.parent.statusBarFooter.setVisibility(shouldFooterBeVisible);
+  }
+
+  /**
+   * Handles chapter change events.
+   *
+   * @param {number} newId
+   * @param {number} oldId
+   */
+  handleChapterChange(newId, oldId) {
+    let i;
+    if (oldId !== undefined) {
+      // Stop any playback
+      for (i = 0; i < this.chapters[oldId].sections.length; i++) {
+        this.pauseMedia(this.chapters[oldId].sections[i].instance);
+      }
+    }
+
+    // Start autoplay
+    if (this.shouldAutoplay[newId]) {
+      for (i = 0; i < this.shouldAutoplay[newId].length; i++) {
+        const shouldAutoplay = this.shouldAutoplay[newId][i];
+        if (this.chapters[newId].sections[shouldAutoplay] !== undefined) {
+          this.chapters[newId].sections[shouldAutoplay].instance.play();
+        }
+      }
+    }
+  }
+
+  /**
+   * Disables autoplay for all interactions not on the first chapter.
+   *
+   * @param {number} chapterId
+   * @param {Object} chapter
+   */
+  overrideParameters(chapterId, chapter) {
+    const currentChapterId = this.parent.getActiveChapter();
+    for (let i = 0; i < chapter.params.content.length; i++) {
+      if (this.hasAutoplay(chapter.params.content[i].content.params, chapterId !== currentChapterId || this.parent.hasCover())) {
+        if (this.shouldAutoplay[chapterId] === undefined) {
+          this.shouldAutoplay[chapterId] = [i];
+        }
+        else {
+          this.shouldAutoplay[chapterId].push(i);
+        }
+      }
+    }
+  }
+
+  /**
+   * Check if interaction has autoplay enabled
+   *
+   * @param {Object} params
+   * @return {boolean}
+   */
+  hasAutoplay(params, prevent) {
+    if (params.autoplay) {
+      if (prevent) {
+        params.autoplay = false;
+      }
+      return true;
+    }
+    else if (params.playback && params.playback.autoplay) {
+      if (prevent) {
+        params.playback.autoplay = false;
+      }
+      return true;
+    }
+    else if (params.media && params.media.params &&
+             params.media.params.playback &&
+             params.media.params.playback.autoplay) {
+      if (prevent) {
+        params.media.params.playback.autoplay = false;
+      }
+      return true;
+    }
+    else if (params.media && params.media.params &&
+             params.media.params.autoplay) {
+      if (prevent) {
+        params.media.params.autoplay = false;
+      }
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Stop the given element's playback if any.
+   *
+   * @param {object} instance
+   */
+  pauseMedia(instance) {
+    try {
+      if (instance.pause !== undefined &&
+          (instance.pause instanceof Function ||
+            typeof instance.pause === 'function')) {
+        instance.pause();
+      }
+      else if (instance.video !== undefined &&
+               instance.video.pause !== undefined &&
+               (instance.video.pause instanceof Function ||
+                 typeof instance.video.pause === 'function')) {
+        instance.video.pause();
+      }
+      else if (instance.stop !== undefined &&
+               (instance.stop instanceof Function ||
+                 typeof instance.stop === 'function')) {
+        instance.stop();
+      }
+    }
+    catch (err) {
+      // Prevent crashing, but tell developers there's something wrong.
+      H5P.error(err);
+    }
   }
 }
 
