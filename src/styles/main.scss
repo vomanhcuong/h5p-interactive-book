@@ -1,28 +1,42 @@
 
+$background-color: #fff;
 $base-color: #8660ab;
-$background-color: #ffffff;
+$base-color-10: rgba($base-color, .1);
+$base-color-20: rgba($base-color, .2);
+$base-color-50: rgba($base-color, .5);
+$base-color-90: rgba($base-color, .9);
+$base-color-95: rgba($base-color, .95);
+$dark-grey-20: rgba(166, 166, 166, .2);
+$ghost-white: #e9e4ed;
+$light-grey: #bebebe;
+$medium-grey: #363636;
+$mud: #4c4452;
+$lavender: #f9f8fa;
 
+.h5p-digibook {
+  .h5p-scrollable-fullscreen {
+    overflow-y: auto;
+  }
 
-#h5p-digibook.h5p-scrollable-fullscreen {
-  overflow-y: auto;
+  .h5p-fullscreen {
+    background-color: $background-color;
+  }
 }
 
 .h5p-digibook-main {
-  overflow: hidden;
   display: flex;
   flex: 1;
+  overflow: hidden;
 }
 
-#h5p-digibook.h5p-fullscreen {
-  background-color: rgb(255, 255, 255);
-}
-
-.h5p-content-hidden.digibook-cover-present {
-  display: none;
+.h5p-content-hidden {
+  .digibook-cover-present {
+    display: none;
+  }
 }
 
 .h5p-fullscreen {
-  #h5p-digibook {
+  .h5p-digibook {
     display: flex;
     flex-direction: column;
   }
@@ -46,8 +60,8 @@ $background-color: #ffffff;
 
     .navigation-list {
       flex: 1;
-      overflow-y: auto;
       overflow-x: hidden;
+      overflow-y: auto;
     }
   }
 }

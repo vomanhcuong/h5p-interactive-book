@@ -1,174 +1,185 @@
 .h5p-digibook-navigation {
-    overflow: hidden;
-    background-color: $background-color;
-    background-size: cover;
-    box-shadow: 0.625em 0.625em 1.875em rgba(166, 166, 166, 0.2);
-    flex: 0 0 16em;
-    min-height: 19em;
-    order: -1;
-    transition: all .15s linear;
-    width: 16.563em;
-    max-width: 16.563em;
-    z-index: 1;
-    >a {
-        font-weight: bold;
-    }
-    >div {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-    &.h5p-digibook-hide {
-        flex: 0 0 0em;
-        width: 0;
-        max-width: 0;
-    }
+  background-color: $background-color;
+  background-size: cover;
+  box-shadow: .625em .625em 1.875em $dark-grey-20;
+  flex: 0 0 16em;
+  max-width: 16.563em;
+  min-height: 19em;
+  order: -1;
+  overflow: hidden;
+  transition: width .15s linear, flex-basis .15s linear, max-width .15s linear;
+  width: 16.563em;
+  z-index: 1;
 
-    .navigation-list {
-        margin: 0;
-        padding: 0;
-    }
+  >a {
+    font-weight: bold;
+  }
+
+  >div {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &.h5p-digibook-hide {
+    flex: 0 0 0;
+    max-width: 0;
+    width: 0;
+  }
+
+  .navigation-list {
+    margin: 0;
+    padding: 0;
+  }
 }
 
 .h5p-digibook-navigation-sectionlist {
-    background-color: $background-color;
-    background-size: cover;
-    transition: max-height 0.5s ease-in;
-    width: 16.563em;
+  background-color: $background-color;
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  transition: max-height .5s ease-in;
+  width: 16.563em;
+
+  .h5p-digibook-navigation-section {
+    background: transparent;
+    color: $mud;
+    font-size: .875em;
+    font-weight: 400;
+    line-height: 2em;
+    overflow: hidden;
     padding: 0;
-    margin: 0;
+    text-decoration: none solid $mud;
+    text-overflow: ellipsis;
+    width: 100%;
 
-    .h5p-digibook-navigation-section {
-        text-overflow: ellipsis;
-        background: transparent;
-        color: #4c4452;
-        font-size: 0.875em;
-        font-weight: 400;
-        line-height: 2em;
-        padding: 0;
-        overflow: hidden;
-        text-decoration: none solid rgb(76, 68, 82);
-        width: 100%;
-
-        .section-button {
-            border: none;
-            background: transparent;
-        }
-
-        span:first-child {
-            font-size: 0.65em;
-        }
-
-        .digibook-sectiontitle {
-            font-family: Arial;
-        }
+    .section-button {
+      background: transparent;
+      border: 0;
     }
+
+    span {
+      &:first-child {
+        font-size: .65em;
+      }
+    }
+
+    .digibook-sectiontitle {
+      font-family: Arial;
+    }
+  }
 }
 
-
 .h5p-digibook-navigation-section {
-    :before{
-        padding: 0 1.484em 0 1.484em;
+  ::before {
+    padding: 0 1.484em;
+  }
+
+  :not(.h5p-digibook-navigation-section-task) {
+    ::before {
+      visibility: hidden;
     }
-    :not(.h5p-digibook-navigation-section-task){
-        &:before{
-            visibility: hidden;
-        }
-    }
-    :hover {
-        color: $base-color;
-        cursor: pointer;
-    }
+  }
+
+  :hover {
+    color: $base-color;
+    cursor: pointer;
+  }
 }
 
 
 
 .h5p-digibook-navigation-closed {
-    .h5p-digibook-navigation-chapter-button {
-        background-color: white;
-        p{
-            color: #4c4452;
-        }
+  .h5p-digibook-navigation-chapter-button {
+    background-color: $background-color;
+
+    p {
+      color: $mud;
     }
-    .h5p-digibook-navigation-sectionlist {
-        max-height: 0;
-        overflow: hidden;
-        visibility: hidden;
-        transition: max-height 0.5s ease-out;
-        margin: 0;
-    }
+  }
+
+  .h5p-digibook-navigation-sectionlist {
+    margin: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .5s ease-out;
+    visibility: hidden;
+  }
 }
+
 .h5p-digibook-navigation-chapter {
-    border-left: 1px solid #e9e4ed;
-    list-style: none;
+  border-left: 1px solid $ghost-white;
+  list-style: none;
 }
 
 .h5p-digibook-navigation-chapter-button {
-    display: flex;
-    width: 100%;
-    margin: 0;
-    height: 3.438em;
-    padding: 0 1.125em 0 1.125em;
+  align-items: center;
+  background-color: $base-color-10;
+  background-size: cover;
+  border: 0;
+  border-bottom: solid 1px $ghost-white;
+  color: $mud;
+  display: flex;
+  font-family: Arial;
+  font-size: .75em;
+  font-weight: 700;
+  height: 3.438em;
+  margin: 0;
+  padding: 0 1.125em;
+  text-align: initial;
+  text-decoration: none solid $mud;
+  width: 100%;
 
+  p {
+    background-color: transparent;
+    color: $base-color;
+    flex-grow: 1;
     font-family: Arial;
-    color: #4c4452;
-    font-size: 0.750em;
+    font-size: 1em;
     font-weight: 700;
-    align-items: center;
-    text-align: initial;
+    line-height: 1.5em;
+    margin-left: 1em;
+    margin-right: 2em;
+    overflow: hidden;
+    text-decoration: none solid $base-color;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 13.125em; // height: 25px;
+  }
 
-    border: none;
-    border-bottom: solid 1px #e9e4ed;
-    background-color: rgba($base-color, 0.1);
-    text-decoration: none solid rgb(76, 68, 82);
-    background-size: cover;
+  .h5p-digibook-navigation-chapter-accordion {
+    align-self: center;
+    font-size: .65em;
+  }
 
-    p {
-        color: $base-color;
-        background-color: transparent;
-        font-family: Arial;
-        font-size: 1em;
-        font-weight: 700;
-        flex-grow: 1;
-        line-height: 1.5em;
-        margin-left: 1em;
-        margin-right: 2em;
-        overflow: hidden;
-        text-decoration: none solid rgb(134, 96, 171);
-        text-overflow: ellipsis;
-        width: 13.125em; // height: 25px;
-        white-space: nowrap;
-    }
-    .h5p-digibook-navigation-chapter-accordion {
-        align-self: center;
-        font-size: 0.65em;
-    }
-    .h5p-digibook-navigation-chapter-progress {
-        align-self: center;
-        font-size: 1em;
-    }
-    &:active {
-        background-color: rgba($base-color, 0.1);
-    }
-    &:hover {
-        background-color: rgba($base-color, 0.05);
-        cursor: pointer;
-    }
+  .h5p-digibook-navigation-chapter-progress {
+    align-self: center;
+    font-size: 1em;
+  }
+
+  &:active {
+    background-color: $base-color-10;
+  }
+
+  &:hover {
+    background-color: $base-color-50;
+    cursor: pointer;
+  }
 }
 
 .h5p-digibook-navigation-maintitle {
-    background-color: $base-color;
-    background-size: cover;
+  background-color: $base-color;
+  background-size: cover;
 
-    .navigation-title {
-        align-self: center;
-        color: $background-color;
-        font-family: Arial;
-        font-size: 1em;
-        font-weight: 400;
-        overflow: hidden;
-        padding-left: 1.25em;
-        text-decoration: none solid rgb(255, 255, 255);
-        text-overflow: ellipsis;
-    }
+  .navigation-title {
+    align-self: center;
+    color: $background-color;
+    font-family: Arial;
+    font-size: 1em;
+    font-weight: 400;
+    overflow: hidden;
+    padding-left: 1.25em;
+    text-decoration: none solid $background-color;
+    text-overflow: ellipsis;
+  }
 }
