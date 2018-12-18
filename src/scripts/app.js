@@ -160,7 +160,7 @@ export default class DigiBook extends H5P.EventDispatcher {
      * @return {object} xAPI definition.
      */
     this.getxAPIDefinition = () => ({
-      interactionType: 'other',
+      interactionType: 'compound',
       type: 'http://adlnet.gov/expapi/activities/cmi.interaction',
       description: {'en-US': ''}
     });
@@ -353,13 +353,7 @@ export default class DigiBook extends H5P.EventDispatcher {
       if (!this.completed && this.chapters.every(chapter => chapter.completed)) {
         this.completed = true;
 
-        const xAPIData = this.getXAPIData();
-        const xAPIEvent = new H5P.XAPIEvent();
-        xAPIEvent.data.statement = xAPIData.statement;
-        xAPIEvent.data.children = xAPIData.children;
-        xAPIEvent.setVerb('completed');
-
-        this.trigger(xAPIEvent);
+        this.triggerXAPIScored(this.getScore(), this.getMaxScore(), 'completed');
       }
     };
 
