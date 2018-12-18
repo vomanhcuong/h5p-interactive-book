@@ -289,7 +289,8 @@ class PageContent extends H5P.EventDispatcher {
         const oldPageProgress = (chapterIdOld < chapterIdNew) ? 'left' : 'right';
 
         // Set up the slides
-        targetChapter.classList.add('h5p-digibook-animate-new', `h5p-digibook-offset-${newPageProgress}`);
+        targetChapter.classList.add('h5p-digibook-animate-new');
+        targetChapter.classList.add(`h5p-digibook-offset-${newPageProgress}`);
         targetChapter.classList.remove('h5p-content-hidden');
 
         // Play the animation
@@ -330,14 +331,17 @@ class PageContent extends H5P.EventDispatcher {
         this.columnNodes
           .forEach(node => {
             if (node !== this.columnNodes[activeChapter]) {
-              node.classList.remove('h5p-digibook-offset-right', 'h5p-digibook-offset-left');
+              node.classList.remove('h5p-digibook-offset-right');
+              node.classList.remove('h5p-digibook-offset-left');
               node.classList.add('h5p-content-hidden');
             }
           });
 
         const activeNode = this.columnNodes[activeChapter];
 
-        activeNode.classList.remove('h5p-digibook-offset-right', 'h5p-digibook-offset-left', 'h5p-digibook-animate-new');
+        activeNode.classList.remove('h5p-digibook-offset-right');
+        activeNode.classList.remove('h5p-digibook-offset-left');
+        activeNode.classList.remove('h5p-digibook-animate-new');
         this.updateFooter();
 
         // Focus on section only after the page scrolling is finished

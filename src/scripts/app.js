@@ -472,9 +472,11 @@ export default class DigiBook extends H5P.EventDispatcher {
      */
     this.attach = ($wrapper) => {
       // Needed to enable scrolling in fullscreen
-      $wrapper[0].classList.add('h5p-digibook', 'h5p-scrollable-fullscreen');
+      $wrapper[0].classList.add('h5p-digibook');
+      $wrapper[0].classList.add('h5p-scrollable-fullscreen');
       if (this.cover) {
         $wrapper.get(0).appendChild(this.cover.container);
+        $wrapper.get(0).classList.add('covered');
       }
 
       // TODO: Change to separate status bars
@@ -503,12 +505,14 @@ export default class DigiBook extends H5P.EventDispatcher {
 
       if (hide) {
         nodes.forEach(node => {
-          node.classList.add('h5p-content-hidden', 'digibook-cover-present');
+          node.classList.add('h5p-content-hidden');
+          node.classList.add('digibook-cover-present');
         });
       }
       else {
         nodes.forEach(node => {
-          node.classList.remove('h5p-content-hidden', 'digibook-cover-present');
+          node.classList.remove('h5p-content-hidden');
+          node.classList.remove('digibook-cover-present');
         });
       }
     };

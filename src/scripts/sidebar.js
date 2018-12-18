@@ -396,7 +396,8 @@ class SideBar extends H5P.EventDispatcher {
 
     const chapterCompletionIcon = document.createElement('span');
     if (this.behaviour.progressIndicators) {
-      chapterCompletionIcon.classList.add('icon-chapter-blank', 'h5p-digibook-navigation-chapter-progress');
+      chapterCompletionIcon.classList.add('icon-chapter-blank');
+      chapterCompletionIcon.classList.add('h5p-digibook-navigation-chapter-progress');
     }
 
     const chapterNodeTitle = document.createElement('button');
