@@ -240,7 +240,8 @@ class StatusBar extends H5P.EventDispatcher {
    */
   createToTopButton() {
     const button = document.createElement('div');
-    button.classList.add ('icon-up', 'navigation-button');
+    button.classList.add('icon-up');
+    button.classList.add('navigation-button');
 
     const wrapper = document.createElement('button');
     wrapper.classList.add('h5p-digibook-status-button');
