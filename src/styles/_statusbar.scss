@@ -58,9 +58,14 @@
   &.h5p-digibook-status-menu-active {
     background-color: $base-color;
     opacity: 20;
+    position: relative;
 
     .icon-menu {
       color: $background-color;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
     }
 
     &:hover {

@@ -470,6 +470,7 @@ export default class DigiBook extends H5P.EventDispatcher {
       $wrapper[0].classList.add('h5p-scrollable-fullscreen');
       if (this.cover) {
         $wrapper.get(0).appendChild(this.cover.container);
+        $wrapper.get(0).classList.add('covered');
       }
 
       // TODO: Change to separate status bars
