@@ -128,11 +128,13 @@ class StatusBar extends H5P.EventDispatcher {
 
     // Initialize elements
     acm.buttonPrevious = document.createElement('div');
-    acm.buttonPrevious.classList.add('navigation-button', 'icon-previous');
+    acm.buttonPrevious.classList.add('navigation-button');
+    acm.buttonPrevious.classList.add('icon-previous');
     acm.buttonPrevious.setAttribute('title', this.params.l10n.previousPage);
 
     acm.buttonWrapperPrevious = document.createElement('button');
-    acm.buttonWrapperPrevious.classList.add('h5p-digibook-status-arrow', 'h5p-digibook-status-button');
+    acm.buttonWrapperPrevious.classList.add('h5p-digibook-status-arrow');
+    acm.buttonWrapperPrevious.classList.add('h5p-digibook-status-button');
     acm.buttonWrapperPrevious.onclick = () => {
       this.trigger('seqChapter', {
         direction:'prev',
@@ -142,11 +144,13 @@ class StatusBar extends H5P.EventDispatcher {
     acm.buttonWrapperPrevious.appendChild(acm.buttonPrevious);
 
     acm.buttonNext = document.createElement('div');
-    acm.buttonNext.classList.add('navigation-button', 'icon-next');
+    acm.buttonNext.classList.add('navigation-button');
+    acm.buttonNext.classList.add('icon-next');
     acm.buttonNext.setAttribute('title', this.params.l10n.nextPage);
 
     acm.buttonWrapperNext = document.createElement('button');
-    acm.buttonWrapperNext.classList.add('h5p-digibook-status-arrow', 'h5p-digibook-status-button');
+    acm.buttonWrapperNext.classList.add('h5p-digibook-status-arrow');
+    acm.buttonWrapperNext.classList.add('h5p-digibook-status-button');
     acm.buttonWrapperNext.onclick = () => {
       this.trigger('seqChapter', {
         direction:'next',
@@ -172,7 +176,8 @@ class StatusBar extends H5P.EventDispatcher {
       buttonWrapperMenu.classList.add('h5p-digibook-status-menu-active');
       buttonWrapperMenu.setAttribute('aria-expanded', 'true');
     }
-    buttonWrapperMenu.classList.add('h5p-digibook-status-menu', 'h5p-digibook-status-button');
+    buttonWrapperMenu.classList.add('h5p-digibook-status-menu');
+    buttonWrapperMenu.classList.add('h5p-digibook-status-button');
     buttonWrapperMenu.title = this.params.a11y.menu;
     buttonWrapperMenu.setAttribute('aria-expanded', 'false');
     buttonWrapperMenu.setAttribute('aria-controls', 'h5p-digibook-navigation-menu');
@@ -235,7 +240,8 @@ class StatusBar extends H5P.EventDispatcher {
    */
   createToTopButton() {
     const button = document.createElement('div');
-    button.classList.add ('icon-up', 'navigation-button');
+    button.classList.add('icon-up');
+    button.classList.add('navigation-button');
 
     const wrapper = document.createElement('button');
     wrapper.classList.add('h5p-digibook-status-button');
