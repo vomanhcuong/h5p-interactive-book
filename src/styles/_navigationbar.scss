@@ -75,11 +75,11 @@
     padding: 0 1.484em;
   }
 
-  span {
-    :not(.h5p-digibook-navigation-section-task) {
-      ::before {
-        visibility: hidden;
-      }
+  .h5p-digibook-navigation-section-icon {
+    visibility: hidden;
+
+    &.h5p-digibook-navigation-section-task {
+      visibility: inherit;
     }
   }
 
