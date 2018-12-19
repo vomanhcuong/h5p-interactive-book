@@ -229,7 +229,7 @@ export default class DigiBook extends H5P.EventDispatcher {
         const fragmentsEqual = URLTools.areFragmentsEqual(
           event.data,
           URLTools.extractFragmentsFromURL(this.validateFragments),
-          ['h5pbookid', 'chapter', 'section']
+          ['h5pbookid', 'chapter', 'section', 'headerNumber']
         );
 
         if (fragmentsEqual) {

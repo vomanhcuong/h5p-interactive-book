@@ -213,10 +213,11 @@ class PageContent extends H5P.EventDispatcher {
       startChapter = chapterIndex;
       this.parent.setActiveChapter(chapterIndex);
       chapterUUID = urlFragments.chapter;
+      const headerNumber = urlFragments.headerNumber;
 
       if (urlFragments.section) {
         setTimeout(() => {
-          this.redirectSection(urlFragments.section);
+          this.redirectSection(urlFragments.section, headerNumber);
           if (this.parent.hasCover()) {
             this.parent.cover.removeCover();
           }
@@ -250,14 +251,24 @@ class PageContent extends H5P.EventDispatcher {
    * Redirect section.
    *
    * @param {string} sectionUUID Section UUID or top.
+   * @param {number} headerNumber Header index within section
    */
-  redirectSection(sectionUUID) {
+  redirectSection(sectionUUID, headerNumber = null) {
     if (sectionUUID === 'top') {
       this.parent.trigger('scrollToTop');
     }
     else {
-      const section = document.getElementById(sectionUUID);
+      let section = document.getElementById(sectionUUID);
       if (section) {
+        if (headerNumber !== null) {
+          // find header within section
+          const headers = section.querySelectorAll('h2, h3');
+          if (headers[headerNumber]) {
+            // Set section to the header
+            section = headers[headerNumber];
+          }
+        }
+
         const focusHandler = document.createElement('div');
         focusHandler.setAttribute('tabindex', '-1');
         section.parentNode.insertBefore(focusHandler, section);
@@ -340,11 +351,11 @@ class PageContent extends H5P.EventDispatcher {
       else {
         if (this.parent.cover && !this.parent.cover.hidden) {
           this.parent.on('coverRemoved', () => {
-            this.redirectSection(this.targetPage.section);
+            this.redirectSection(this.targetPage.section, this.targetPage.headerNumber);
           });
         }
         else {
-          this.redirectSection(this.targetPage.section);
+          this.redirectSection(this.targetPage.section, this.targetPage.headerNumber);
         }
       }
 
@@ -382,7 +393,7 @@ class PageContent extends H5P.EventDispatcher {
 
         // Focus on section only after the page scrolling is finished
         this.parent.animationInProgress = false;
-        this.redirectSection(this.targetPage.section);
+        this.redirectSection(this.targetPage.section, this.targetPage.headerNumber);
 
         this.parent.trigger('resize');
       }

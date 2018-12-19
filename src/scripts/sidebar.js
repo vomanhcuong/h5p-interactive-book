@@ -430,39 +430,38 @@ class SideBar extends H5P.EventDispatcher {
     sectionsWrapper.classList.add('h5p-digibook-navigation-sectionlist');
     const sectionsDivId = 'h5p-digibook-sectionlist-' + chapterId;
     sectionsWrapper.id = sectionsDivId;
+
+    const sectionLinks = [];
     // Add sections to the chapter
     for (let i = 0; i < this.chapters[chapterId].sections.length; i++) {
-      const section = this.chapters[chapterId].sections[i];
+      // Non-tasks will only get section links if they have headers
+      if (!this.parent.chapters[chapterId].sections[i].isTask) {
 
-      const sectionTitleText = document.createElement('span');
-      sectionTitleText.innerHTML = section.title;
-      sectionTitleText.setAttribute('title', section.title);
-      sectionTitleText.classList.add('digibook-sectiontitle');
+        // Check text content for headers
+        const chapterParams = this.parent.params.chapters[chapterId];
+        const sectionParams = chapterParams.params.content[i].content;
+        const isText = sectionParams.library.split(' ')[0] === 'H5P.AdvancedText';
 
-      const sectionCompletionIcon = document.createElement('span');
-      sectionCompletionIcon.classList.add('icon-chapter-blank');
-      if (this.parent.chapters[chapterId].sections[i].isTask) {
-        sectionCompletionIcon.classList.add('h5p-digibook-navigation-section-task');
+        if (isText) {
+          const text = document.createElement('div');
+          text.innerHTML = sectionParams.params.text;
+          const headers = text.querySelectorAll('h2, h3');
+          for (let j = 0; j < headers.length; j++) {
+            const header = headers[j];
+            const sectionNode = this.createSectionLink(chapterId, i, header.textContent, j);
+            sectionLinks.push(sectionNode);
+            sectionsWrapper.appendChild(sectionNode);
+          }
+        }
+
+        // Create link for first section if no section links have been created
+        if (sectionLinks.length) {
+          continue;
+        }
       }
 
-      const sectionLink = document.createElement('button');
-      sectionLink.classList.add('section-button');
-      sectionLink.setAttribute('tabindex', '-1');
-      sectionLink.onclick = (event) => {
-        this.parent.trigger('newChapter', {
-          h5pbookid: this.parent.contentId,
-          chapter: this.chapters[chapterId].id,
-          section: section.id
-        });
-        event.preventDefault();
-      };
-      sectionLink.appendChild(sectionCompletionIcon);
-      sectionLink.appendChild(sectionTitleText);
-
-      const sectionNode = document.createElement('li');
-      sectionNode.classList.add('h5p-digibook-navigation-section');
-      sectionNode.appendChild(sectionLink);
-
+      const sectionNode = this.createSectionLink(chapterId, i);
+      sectionLinks.push(sectionNode);
       sectionsWrapper.appendChild(sectionNode);
     }
 
@@ -472,6 +471,53 @@ class SideBar extends H5P.EventDispatcher {
     chapterNode.appendChild(sectionsWrapper);
 
     return chapterNode;
+  }
+
+  /**
+   * Create a section link
+   * @param chapterId
+   * @param i Index of section
+   * @param [title] Force title
+   * @param [headerNumber] Set header index within section to link to.
+   * @returns {Element} Section node containing the link
+   */
+  createSectionLink(chapterId, i, title = null, headerNumber = null) {
+    const section = this.chapters[chapterId].sections[i];
+
+    const sectionTitleText = document.createElement('span');
+    sectionTitleText.innerHTML = title || section.title;
+    sectionTitleText.setAttribute('title', title || section.title);
+    sectionTitleText.classList.add('digibook-sectiontitle');
+
+    const sectionCompletionIcon = document.createElement('span');
+    sectionCompletionIcon.classList.add('icon-chapter-blank');
+    if (this.parent.chapters[chapterId].sections[i].isTask) {
+      sectionCompletionIcon.classList.add('h5p-digibook-navigation-section-task');
+    }
+    const sectionLink = document.createElement('button');
+    sectionLink.classList.add('section-button');
+    sectionLink.setAttribute('tabindex', '-1');
+    sectionLink.onclick = (event) => {
+      const newChapter = {
+        h5pbookid: this.parent.contentId,
+        chapter: this.chapters[chapterId].id,
+        section: section.id,
+      };
+      if (headerNumber !== null) {
+        newChapter.headerNumber = headerNumber;
+      }
+
+      this.parent.trigger('newChapter', newChapter);
+      event.preventDefault();
+    };
+    sectionLink.appendChild(sectionCompletionIcon);
+    sectionLink.appendChild(sectionTitleText);
+
+    const sectionNode = document.createElement('li');
+    sectionNode.classList.add('h5p-digibook-navigation-section');
+    sectionNode.appendChild(sectionLink);
+
+    return sectionNode;
   }
 
   /**
