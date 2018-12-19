@@ -19,8 +19,10 @@ class PageContent extends H5P.EventDispatcher {
 
     this.columnNodes = [];
     this.shouldAutoplay = [];
+    this.chapters = [];
 
-    this.chapters = this.createColumns(config, contentId, contentData);
+    const startChapter = this.createColumns(config, contentId, contentData);
+    this.preloadChapter(startChapter);
 
     this.content = this.createPageContent();
     this.addcontentListener();
@@ -97,22 +99,53 @@ class PageContent extends H5P.EventDispatcher {
   }
 
   /**
+   * Preload current chapter and the next one
+   * @param {number} chapterIndex
+   */
+  preloadChapter(chapterIndex) {
+    this.initializeChapter(chapterIndex);
+    this.initializeChapter(chapterIndex + 1);
+  }
+
+  /**
+   * Initialize chapter
+   * @param {number} chapterIndex
+   */
+  initializeChapter(chapterIndex) {
+    // Out of bound
+    if (chapterIndex > this.chapters.length - 1) {
+      return;
+    }
+
+    const chapter = this.chapters[chapterIndex];
+    if (!chapter.isInitialized) {
+      const columnNode = this.columnNodes[chapterIndex];
+
+      // Attach
+      chapter.instance.attach(H5P.jQuery(columnNode));
+      this.injectSectionId(chapter.sections, columnNode);
+      chapter.isInitialized = true;
+    }
+  }
+
+  /**
    * Create Column instances.
    *
    * @param {object} config Parameters.
    * @param {number} contentId Content id.
    * @param {object} contentData Content data.
-   * @return {object[]} Column instances.
+   * @return {number} start chapter
    */
   createColumns(config, contentId, contentData) {
     const urlFragments = URLTools.extractFragmentsFromURL(this.parent.validateFragments);
     const chapters = [];
+    this.chapters = chapters;
 
     // Go through all columns and initialise them
     for (let i = 0; i < config.chapters.length; i++) {
       const columnNode = document.createElement('div');
       this.overrideParameters(i, config.chapters[i]);
-      const newInstance = H5P.newRunnable(config.chapters[i], contentId, H5P.jQuery(columnNode), contentData);
+      const newInstance = H5P.newRunnable(config.chapters[i], contentId, undefined, undefined, contentData);
       newInstance.on('resize', (event) => {
         // Prevent sending event back down
         this.parent.bubblingUpwards = true;
@@ -125,6 +158,7 @@ class PageContent extends H5P.EventDispatcher {
       });
 
       const chapter = {
+        isInitialized: false,
         instance: newInstance,
         title: config.chapters[i].metadata.title,
         completed: false,
@@ -154,8 +188,6 @@ class PageContent extends H5P.EventDispatcher {
       }
       chapter.maxTasks = chapter.tasksLeft;
 
-      this.injectSectionId(chapter.sections, columnNode);
-
       // Register both the HTML-element and the H5P-element
       chapters.push(chapter);
       this.columnNodes.push(columnNode);
@@ -176,8 +208,10 @@ class PageContent extends H5P.EventDispatcher {
 
     // First chapter should be visible, except if the URL says otherwise.
     let chapterUUID = this.columnNodes[0].id;
+    let startChapter = 0;
     if (urlFragments.chapter && urlFragments.h5pbookid == this.parent.contentId) {
       const chapterIndex = this.findChapterIndex(urlFragments.chapter);
+      startChapter = chapterIndex;
       this.parent.setActiveChapter(chapterIndex);
       chapterUUID = urlFragments.chapter;
 
@@ -197,7 +231,7 @@ class PageContent extends H5P.EventDispatcher {
       }
     });
 
-    return chapters;
+    return startChapter;
   }
 
   /**
@@ -234,8 +268,10 @@ class PageContent extends H5P.EventDispatcher {
           focusHandler.parentNode.removeChild(focusHandler);
         });
 
-        section.scrollIntoView(true);
         this.targetPage.redirectFromComponent = false;
+        setTimeout(() => {
+          section.scrollIntoView(true);
+        }, 100);
       }
     }
   }
@@ -274,6 +310,7 @@ class PageContent extends H5P.EventDispatcher {
     this.targetPage = target;
     const chapterIdOld = this.parent.getActiveChapter();
     const chapterIdNew = this.parent.getChapterId(this.targetPage.chapter);
+    this.preloadChapter(chapterIdNew);
 
     if (chapterIdNew < this.columnNodes.length) {
       const oldChapter = this.columnNodes[chapterIdOld];
