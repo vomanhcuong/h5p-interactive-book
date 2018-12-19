@@ -167,6 +167,11 @@
 .h5p-digibook-status-footer {
   bottom: 0;
 
+  .h5p-digibook-status-menu {
+    opacity: 0;
+    visibility: hidden;
+  }
+
   &.footer-hidden {
     display: none;
   }
