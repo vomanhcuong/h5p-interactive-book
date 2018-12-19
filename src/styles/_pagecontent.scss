@@ -1,5 +1,5 @@
 .h5p-digibook-chapter {
-  max-width: 1000px;
+  max-width: 1058px;
   transition: .25s;
   z-index: -1;
 }
@@ -27,23 +27,24 @@
   opacity: 0;
   transform: translate(100%);
   transition: visibility 0s, opacity .5s linear;
-
 }
 
 .h5p-digibook-status-progress-marker {
   align-items: center;
-  border-top: 1px solid $light-grey;
+  border-top: 1px solid $cool-grey;
   display: flex;
   margin-top: 2em;
-  padding: 2em 0;
+  padding: 1em 0;
 
   input {
     &[type='checkbox'] {
-      transform: scale(1.5);
+      transform: scale(1.75);
     }
   }
 
   p {
+    color: $mud;
+    font-weight: bold;
     padding-left: 1em;
   }
 }
