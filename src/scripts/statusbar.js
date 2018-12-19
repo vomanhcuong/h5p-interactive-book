@@ -171,7 +171,7 @@ class StatusBar extends H5P.EventDispatcher {
     const button = document.createElement('a');
     button.classList.add('icon-menu');
 
-    const buttonWrapperMenu = document.createElement('div');
+    const buttonWrapperMenu = document.createElement('button');
     if (this.params.behaviour.defaultTableOfContents) {
       buttonWrapperMenu.classList.add('h5p-digibook-status-menu-active');
       buttonWrapperMenu.setAttribute('aria-expanded', 'true');
