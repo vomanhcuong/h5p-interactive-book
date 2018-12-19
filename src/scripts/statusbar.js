@@ -33,6 +33,7 @@ class StatusBar extends H5P.EventDispatcher {
     const wrapperInfo = document.createElement('div');
     wrapperInfo.classList.add('h5p-digibook-status');
     wrapperInfo.appendChild(this.createMenuToggleButton());
+    wrapperInfo.appendChild(this.createToTopButton());
     wrapperInfo.appendChild(this.chapterTitle.wrapper);
     wrapperInfo.appendChild(this.progressIndicator.wrapper);
     wrapperInfo.appendChild(this.arrows.buttonWrapperPrevious);

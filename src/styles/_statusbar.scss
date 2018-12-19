@@ -163,14 +163,17 @@
   background: $background-color;
   top: 0;
   z-index: 2;
+
+  .h5p-digibook-status-arrow {
+    display: none;
+  }
 }
 
 .h5p-digibook-status-footer {
   bottom: 0;
 
   .h5p-digibook-status-menu {
-    opacity: 0;
-    visibility: hidden;
+    display: none;
   }
 
   &.footer-hidden {
