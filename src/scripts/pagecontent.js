@@ -66,9 +66,8 @@ class PageContent extends H5P.EventDispatcher {
   createChapterReadCheckbox() {
     const checkbox = document.createElement('input');
     checkbox.setAttribute('type', 'checkbox');
-    checkbox.onclick = () => {
-      this.parent.setChapterRead();
-      checkbox.disabled = true;
+    checkbox.onclick = (event) => {
+      this.parent.setChapterRead(undefined, event.target.checked);
     };
 
     const checkText = document.createElement('p');

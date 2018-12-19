@@ -276,10 +276,11 @@ export default class DigiBook extends H5P.EventDispatcher {
      * Set the current chapter as completed.
      *
      * @param {number} [chapterId] Chapter Id, defaults to current chapter.
+     * @param {boolean} [read=true] True for chapter read, false for not read.
      */
-    this.setChapterRead = (chapterId = this.activeChapter) => {
-      this.handleChapterCompletion(chapterId);
-      this.sideBar.updateChapterProgressIndicator(chapterId, 'DONE');
+    this.setChapterRead = (chapterId = this.activeChapter, read = true) => {
+      this.handleChapterCompletion(chapterId, read);
+      this.sideBar.updateChapterProgressIndicator(chapterId, read ? 'DONE' : 'BLANK');
     };
 
     /**
@@ -339,9 +340,17 @@ export default class DigiBook extends H5P.EventDispatcher {
      * Handle chapter completion, e.g. trigger xAPI statements
      *
      * @param {number} chapterId Id of the chapter that was completed.
+     * @param {boolean} [completed=true] True for completed, false for uncompleted.
      */
-    this.handleChapterCompletion = (chapterId) => {
+    this.handleChapterCompletion = (chapterId, completed = true) => {
       const chapter = this.chapters[chapterId];
+
+      if (!completed) {
+        // Reset chapter and book completion.
+        chapter.completed = false;
+        this.completed = false;
+        return;
+      }
 
       // New chapter completed
       if (!chapter.completed) {
@@ -352,7 +361,6 @@ export default class DigiBook extends H5P.EventDispatcher {
       // All chapters completed
       if (!this.completed && this.chapters.every(chapter => chapter.completed)) {
         this.completed = true;
-
         this.triggerXAPIScored(this.getScore(), this.getMaxScore(), 'completed');
       }
     };
