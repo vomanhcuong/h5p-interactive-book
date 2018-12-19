@@ -94,6 +94,10 @@
   }
 }
 
-.h5p-container.covered .h5p-content-controls {
-  display: none;
+.h5p-container {
+  &.covered {
+    .h5p-content-controls {
+      display: none;
+    }
+  }
 }
