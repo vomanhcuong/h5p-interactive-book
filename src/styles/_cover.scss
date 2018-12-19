@@ -15,6 +15,10 @@
   &.h5p-cover-nographics {
     padding-top: 120px;
   }
+
+  p {
+    margin: 0 0 .5em;
+  }
 }
 
 .h5p-digibook-cover-graphics {
@@ -27,13 +31,14 @@
 }
 
 .h5p-digibook-cover-bar {
-  background-color: $lavender;
+  background-color: $base-color-50;
   background-size: cover;
   height: 70%;
   width: inherit;
 }
 
 .h5p-digibook-cover-image {
+  box-shadow: 15px 17px 29px -6px $black-20;
   height: 100%;
   left: 50%;
   position: absolute;
@@ -46,8 +51,6 @@
   color: $medium-grey;
   font-size: 2.188em;
   font-weight: 700;
-  height: 40px;
-  margin: .625em;
   text-align: center;
   text-decoration: none solid $medium-grey;
 }
@@ -68,6 +71,7 @@
     background-color: $base-color;
     background-size: cover;
     border: 0;
+    border-radius: 3px;
     color: $background-color;
     cursor: pointer;
     font-family: Arial;

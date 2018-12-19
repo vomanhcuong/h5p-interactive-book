@@ -39,7 +39,10 @@
   margin: 0;
   padding: 0;
   transition: max-height .5s ease-in;
-  width: 16.563em;
+
+  >:last-child {
+    border-bottom: solid 1px $ghost-white;
+  }
 
   .h5p-digibook-navigation-section {
     background: transparent;
@@ -60,12 +63,13 @@
 
     span {
       &:first-child {
-        font-size: .65em;
+        font-size: 8px;
       }
     }
 
     .digibook-sectiontitle {
       font-family: Arial;
+      font-size: .8em;
     }
   }
 }
@@ -75,11 +79,11 @@
     padding: 0 1.484em;
   }
 
-  span {
-    :not(.h5p-digibook-navigation-section-task) {
-      ::before {
-        visibility: hidden;
-      }
+  .h5p-digibook-navigation-section-icon {
+    visibility: hidden;
+
+    &.h5p-digibook-navigation-section-task {
+      visibility: inherit;
     }
   }
 
@@ -88,8 +92,6 @@
     cursor: pointer;
   }
 }
-
-
 
 .h5p-digibook-navigation-closed {
   .h5p-digibook-navigation-chapter-button {
@@ -110,7 +112,6 @@
 }
 
 .h5p-digibook-navigation-chapter {
-  border-left: 1px solid $ghost-white;
   list-style: none;
 }
 

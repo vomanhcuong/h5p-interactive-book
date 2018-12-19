@@ -144,7 +144,7 @@ class PageContent extends H5P.EventDispatcher {
     for (let i = 0; i < config.chapters.length; i++) {
       const columnNode = document.createElement('div');
       this.overrideParameters(i, config.chapters[i]);
-      const newInstance = H5P.newRunnable(config.chapters[i], contentId, undefined, undefined, contentData);
+      const newInstance = H5P.newRunnable(config.chapters[i], contentId, H5P.jQuery(columnNode), undefined, contentData);
       newInstance.on('resize', (event) => {
         // Prevent sending event back down
         this.parent.bubblingUpwards = true;
