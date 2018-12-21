@@ -123,6 +123,11 @@ class PageContent extends H5P.EventDispatcher {
       // Attach
       chapter.instance.attach(H5P.jQuery(columnNode));
       this.injectSectionId(chapter.sections, columnNode);
+
+      if (this.behaviour.progressIndicators && !this.behaviour.progressAuto) {
+        columnNode.appendChild(this.createChapterReadCheckbox());
+      }
+
       chapter.isInitialized = true;
     }
   }
@@ -171,9 +176,9 @@ class PageContent extends H5P.EventDispatcher {
       columnNode.classList.add('h5p-digibook-chapter');
       columnNode.id = newInstance.subContentId;
 
-      if (this.behaviour.progressIndicators && !this.behaviour.progressAuto) {
-        columnNode.appendChild(this.createChapterReadCheckbox());
-      }
+      // if (this.behaviour.progressIndicators && !this.behaviour.progressAuto) {
+      //   columnNode.appendChild(this.createChapterReadCheckbox());
+      // }
 
       // Find sections with tasks and tracks them
       if (this.behaviour.progressIndicators) {
