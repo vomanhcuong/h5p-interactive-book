@@ -83,3 +83,15 @@
     content: '\e90a';
   }
 }
+
+.icon-enable-fullscreen {
+  &::before {
+    content: '\e90b';
+  }
+}
+
+.icon-disable-fullscreen {
+  &::before {
+    content: '\e90c';
+  }
+}

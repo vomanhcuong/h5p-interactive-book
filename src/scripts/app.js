@@ -481,7 +481,8 @@ export default class DigiBook extends H5P.EventDispatcher {
         $wrapper.get(0).classList.add('covered');
       }
 
-      // TODO: Change to separate status bars
+      this.addFullScreenButton($wrapper);
+
       $wrapper.get(0).appendChild(this.statusBarHeader.wrapper);
 
       const first = this.pageContent.container.firstChild;
@@ -517,6 +518,49 @@ export default class DigiBook extends H5P.EventDispatcher {
           node.classList.remove('digibook-cover-present');
         });
       }
+    };
+
+    /**
+     * Add fullscreen button.
+     *
+     * @param {jQuery} $wrapper HTMLElement to attach button to.
+     */
+    this.addFullScreenButton = function ($wrapper) {
+      if (H5P.canHasFullScreen !== true) {
+        return;
+      }
+
+      const toggleFullScreen = () => {
+        if (H5P.isFullscreen === true) {
+          this.fullScreenButton.classList.remove('h5p-digibook-exit-fullscreen');
+          this.fullScreenButton.classList.add('h5p-digibook-enter-fullscreen');
+          this.fullScreenButton.setAttribute('title', this.params.fullscreen);
+          this.fullScreenButton.setAttribute('aria-label', this.params.fullscreen);
+          H5P.exitFullScreen();
+        }
+        else {
+          this.fullScreenButton.classList.remove('h5p-digibook-enter-fullscreen');
+          this.fullScreenButton.classList.add('h5p-digibook-exit-fullscreen');
+          this.fullScreenButton.setAttribute('title', this.params.exitFullscreen);
+          this.fullScreenButton.setAttribute('aria-label', this.params.exitFullScreen);
+          H5P.fullScreen($wrapper, this);
+        }
+      };
+
+      this.fullScreenButton = document.createElement('button');
+      this.fullScreenButton.classList.add('h5p-digibook-fullscreen-button');
+      this.fullScreenButton.classList.add('h5p-digibook-enter-fullscreen');
+      this.fullScreenButton.setAttribute('title', this.params.fullscreen);
+      this.fullScreenButton.setAttribute('aria-label', this.params.fullscreen);
+      this.fullScreenButton.addEventListener('click', toggleFullScreen);
+      this.fullScreenButton.addEventListener('keyPress', (event) => {
+        if (event.which === 13 || event.which === 32) {
+          toggleFullScreen();
+          event.preventDefault();
+        }
+      });
+
+      $wrapper.prepend(this.fullScreenButton);
     };
 
     // Initialize the support components

@@ -13,14 +13,62 @@ $ghost-white: #e9e4ed;
 $light-grey: #bebebe;
 $medium-grey: #363636;
 $mud: #4c4452;
+$mud-80: rgba($mud, .8);
 
 .h5p-digibook {
   .h5p-scrollable-fullscreen {
     overflow-y: auto;
   }
 
-  .h5p-fullscreen {
+  .h5p-digibook-fullscreen-button {
+    background-color: $mud-80;
+    border: 0;
+    border-radius: 100%;
+    font-family: 'h5p-book';
+    font-size: 1em;
+    height: 3.6em;
+    line-height: normal;
+    position: absolute;
+    right: -1.8em;
+    text-indent: inherit;
+    top: -1.8em;
+    width: 3.6em;
+    z-index: 3;
+
+    &.h5p-digibook-enter-fullscreen {
+      &::before {
+        bottom: .5em;
+        color: $background-color;
+        content: '\e90b';
+        font-family: 'h5p-book';
+        left: .5em;
+        position: absolute;
+      }
+    }
+
+    &.h5p-digibook-exit-fullscreen {
+      &::before {
+        bottom: .5em;
+        color: $background-color;
+        content: '\e90c';
+        font-family: 'h5p-book';
+        left: .5em;
+        position: absolute;
+      }
+    }
+  }
+
+  &.h5p-fullscreen {
     background-color: $background-color;
+
+    .h5p-digibook-chapter {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  .h5p-content-controls {
+    display: none;
   }
 }
 

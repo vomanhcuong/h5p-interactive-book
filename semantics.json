@@ -227,6 +227,24 @@
     "optional": true
   },
   {
+    "name": "fullscreen",
+    "type": "text",
+    "importance": "low",
+    "label": "Fullscreen button label",
+    "default": "Fullscreen",
+    "common": true,
+    "optional": true
+  },
+  {
+    "name": "exitFullscreen",
+    "type": "text",
+    "importance": "low",
+    "label": "Exit fullscreen button label",
+    "default": "Exit fullscreen",
+    "common": true,
+    "optional": true
+  },
+  {
     "name": "a11y",
     "type": "group",
     "label": "Accessibility texts",
