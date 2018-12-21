@@ -3,6 +3,7 @@ var nodeEnv = process.env.NODE_ENV || 'development';
 var isDev = (nodeEnv !== 'production');
 
 var config = {
+  mode: nodeEnv,
   entry: {
     dist: './src/entries/digibook.js'
   },
