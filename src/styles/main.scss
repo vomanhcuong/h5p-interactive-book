@@ -18,6 +18,11 @@ $mud: #4c4452;
 $mud-80: rgba($mud, .8);
 
 .h5p-digibook {
+  .h5p-digibook-chapter {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .h5p-scrollable-fullscreen {
     overflow-y: auto;
   }
@@ -62,11 +67,6 @@ $mud-80: rgba($mud, .8);
 
   &.h5p-fullscreen {
     background-color: $background-color;
-
-    .h5p-digibook-chapter {
-      margin-left: auto;
-      margin-right: auto;
-    }
   }
 
   .h5p-content-controls {
