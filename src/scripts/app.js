@@ -532,17 +532,9 @@ export default class DigiBook extends H5P.EventDispatcher {
 
       const toggleFullScreen = () => {
         if (H5P.isFullscreen === true) {
-          this.fullScreenButton.classList.remove('h5p-digibook-exit-fullscreen');
-          this.fullScreenButton.classList.add('h5p-digibook-enter-fullscreen');
-          this.fullScreenButton.setAttribute('title', this.params.fullscreen);
-          this.fullScreenButton.setAttribute('aria-label', this.params.fullscreen);
           H5P.exitFullScreen();
         }
         else {
-          this.fullScreenButton.classList.remove('h5p-digibook-enter-fullscreen');
-          this.fullScreenButton.classList.add('h5p-digibook-exit-fullscreen');
-          this.fullScreenButton.setAttribute('title', this.params.exitFullscreen);
-          this.fullScreenButton.setAttribute('aria-label', this.params.exitFullScreen);
           H5P.fullScreen($wrapper, this);
         }
       };
@@ -558,6 +550,20 @@ export default class DigiBook extends H5P.EventDispatcher {
           toggleFullScreen();
           event.preventDefault();
         }
+      });
+
+      this.on('enterFullScreen', () => {
+        this.fullScreenButton.classList.remove('h5p-digibook-enter-fullscreen');
+        this.fullScreenButton.classList.add('h5p-digibook-exit-fullscreen');
+        this.fullScreenButton.setAttribute('title', this.params.exitFullscreen);
+        this.fullScreenButton.setAttribute('aria-label', this.params.exitFullScreen);
+      });
+
+      this.on('exitFullScreen', () => {
+        this.fullScreenButton.classList.remove('h5p-digibook-exit-fullscreen');
+        this.fullScreenButton.classList.add('h5p-digibook-enter-fullscreen');
+        this.fullScreenButton.setAttribute('title', this.params.fullscreen);
+        this.fullScreenButton.setAttribute('aria-label', this.params.fullscreen);
       });
 
       $wrapper.prepend(this.fullScreenButton);
