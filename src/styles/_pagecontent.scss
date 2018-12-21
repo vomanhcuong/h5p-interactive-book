@@ -33,8 +33,7 @@
   align-items: center;
   border-top: 1px solid $cool-grey;
   display: flex;
-  margin-top: 2em;
-  padding: 1em 0 1em 1em;
+  padding: 1em 0 0 1em;
 
   input {
     &[type='checkbox'] {
@@ -45,6 +44,7 @@
   p {
     color: $mud;
     font-weight: bold;
+    margin: 0;
     padding-left: 1em;
   }
 }

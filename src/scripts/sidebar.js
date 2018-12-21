@@ -296,7 +296,7 @@ class SideBar extends H5P.EventDispatcher {
       // Reset sections
       const sections = node.getElementsByClassName('h5p-digibook-navigation-section');
       for (let section of sections) {
-        const icon = section.getElementsByTagName('span')[0];
+        const icon = section.querySelector('.h5p-digibook-navigation-section-icon')[0];
         if (icon) {
           icon.classList.remove('icon-question-answered');
           icon.classList.add('icon-chapter-blank');
@@ -352,7 +352,7 @@ class SideBar extends H5P.EventDispatcher {
   setSectionMarker(chapterId, sectionId) {
     const icon = this.chapterNodes[chapterId]
       .getElementsByClassName('h5p-digibook-navigation-section')[sectionId]
-      .getElementsByTagName('span')[0];
+      .querySelector('.h5p-digibook-navigation-section-icon')[0];
 
     if (icon) {
       icon.classList.remove('icon-chapter-blank');
@@ -387,14 +387,15 @@ class SideBar extends H5P.EventDispatcher {
    */
   getNodesFromChapter(chapter, chapterId) {
     // TODO: Clean this up. Will require to receive chapter info from parent instead of building itself
-    const chapterCollapseIcon = document.createElement('span');
+    const chapterCollapseIcon = document.createElement('div');
     chapterCollapseIcon.classList.add('h5p-digibook-navigation-chapter-accordion');
 
-    const chapterTitleText = document.createElement('p');
+    const chapterTitleText = document.createElement('div');
+    chapterTitleText.classList.add('h5p-digibook-navigation-chapter-title-text');
     chapterTitleText.innerHTML = chapter.title;
     chapterTitleText.setAttribute('title', chapter.title);
 
-    const chapterCompletionIcon = document.createElement('span');
+    const chapterCompletionIcon = document.createElement('div');
     if (this.behaviour.progressIndicators) {
       chapterCompletionIcon.classList.add('icon-chapter-blank');
       chapterCompletionIcon.classList.add('h5p-digibook-navigation-chapter-progress');
@@ -484,12 +485,12 @@ class SideBar extends H5P.EventDispatcher {
   createSectionLink(chapterId, i, title = null, headerNumber = null) {
     const section = this.chapters[chapterId].sections[i];
 
-    const sectionTitleText = document.createElement('span');
+    const sectionTitleText = document.createElement('div');
     sectionTitleText.innerHTML = title || section.title;
     sectionTitleText.setAttribute('title', title || section.title);
-    sectionTitleText.classList.add('digibook-sectiontitle');
+    sectionTitleText.classList.add('h5p-digibook-navigation-section-title');
 
-    const sectionCompletionIcon = document.createElement('span');
+    const sectionCompletionIcon = document.createElement('div');
     sectionCompletionIcon.classList.add('h5p-digibook-navigation-section-icon');
     sectionCompletionIcon.classList.add('icon-chapter-blank');
     if (this.parent.chapters[chapterId].sections[i].isTask) {

@@ -141,6 +141,7 @@ class PageContent extends H5P.EventDispatcher {
    * @return {number} start chapter
    */
   createColumns(config, contentId, contentData) {
+    contentData = Object.assign({}, contentData);
     const urlFragments = URLTools.extractFragmentsFromURL(this.parent.validateFragments);
     const chapters = [];
     this.chapters = chapters;

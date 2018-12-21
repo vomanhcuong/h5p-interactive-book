@@ -14,7 +14,6 @@
   border-style: solid;
   box-shadow: 10px 10px 30px $dark-grey-20;
   display: flex;
-  margin: 0 0 0 2px;
   overflow: hidden;
   padding: .5em;
 
@@ -22,7 +21,9 @@
     align-items: center;
     border-radius: 3px;
     display: flex;
+    height: 3.6em;
     padding: 0;
+    width: 3.6em;
   }
 }
 
@@ -30,7 +31,7 @@
   border-radius: 3px;
 
   &:hover {
-    background-color: $base-color-50;
+    background-color: $base-color-5;
     background-size: cover;
     cursor: pointer;
   }
@@ -47,12 +48,10 @@
   border: 2px solid $background-color;
   border-radius: 3px;
   flex-shrink: 0;
-  height: 2.75em;
-  width: 2.75em;
 
   .icon-menu {
     color: $base-color;
-    font-size: 1.25em;
+    font-size: 1.5em;
     margin: auto;
   }
 
@@ -84,7 +83,7 @@
 
 .h5p-digibook-status-progress {
   flex-shrink: 0;
-  height: 22px;
+  margin: 0;
   white-space: nowrap;
   width: 86px;
 }
@@ -128,6 +127,7 @@
     font-family: Arial;
     font-size: 20px;
     font-weight: 700;
+    margin: 0;
     overflow: hidden;
     padding: 0 1rem;
     text-decoration: none solid $mud;
@@ -148,7 +148,7 @@
     background: transparent;
     border: 0;
     color: $base-color;
-    font-size: 1.25em;
+    font-size: 1.5em;
     margin: auto;
 
     &.disabled {
