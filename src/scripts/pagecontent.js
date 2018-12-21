@@ -412,8 +412,8 @@ class PageContent extends H5P.EventDispatcher {
   updateFooter() {
     const activeChapter = this.parent.getActiveChapter();
     const column = this.columnNodes[activeChapter];
-    const shouldFooterBeVisible = this.parent.shouldFooterBeVisible(column.clientHeight);
-    this.parent.statusBarFooter.setVisibility(shouldFooterBeVisible);
+    const hide = this.parent.shouldFooterBeHidden(column.clientHeight);
+    this.parent.statusBarFooter.setVisibility(hide);
   }
 
   /**

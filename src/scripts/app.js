@@ -370,8 +370,8 @@ export default class DigiBook extends H5P.EventDispatcher {
      *
      * @param {number} chapterHeight Chapter height.
      */
-    this.shouldFooterBeVisible = (chapterHeight) => {
-      return chapterHeight <= window.outerHeight;
+    this.shouldFooterBeHidden = (chapterHeight) => {
+      return chapterHeight <= window.outerHeight && !this.isFullscreen;
     };
 
     /**
@@ -553,17 +553,23 @@ export default class DigiBook extends H5P.EventDispatcher {
       });
 
       this.on('enterFullScreen', () => {
+        this.isFullscreen = true;
         this.fullScreenButton.classList.remove('h5p-digibook-enter-fullscreen');
         this.fullScreenButton.classList.add('h5p-digibook-exit-fullscreen');
         this.fullScreenButton.setAttribute('title', this.params.exitFullscreen);
         this.fullScreenButton.setAttribute('aria-label', this.params.exitFullScreen);
+
+        this.pageContent.updateFooter();
       });
 
       this.on('exitFullScreen', () => {
+        this.isFullscreen = false;
         this.fullScreenButton.classList.remove('h5p-digibook-exit-fullscreen');
         this.fullScreenButton.classList.add('h5p-digibook-enter-fullscreen');
         this.fullScreenButton.setAttribute('title', this.params.fullscreen);
         this.fullScreenButton.setAttribute('aria-label', this.params.fullscreen);
+
+        this.pageContent.updateFooter();
       });
 
       $wrapper.prepend(this.fullScreenButton);
