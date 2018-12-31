@@ -466,21 +466,26 @@ class SideBar extends H5P.EventDispatcher {
             sectionsWrapper.appendChild(sectionNode);
           }
         }
-
-        // Create link for first section if no section links have been created
-        if (sectionLinks.length) {
-          continue;
-        }
       }
-
-      const sectionNode = this.createSectionLink(chapterId, i);
-      sectionLinks.push(sectionNode);
-      sectionsWrapper.appendChild(sectionNode);
+      else {
+        const sectionNode = this.createSectionLink(chapterId, i);
+        sectionLinks.push(sectionNode);
+        sectionsWrapper.appendChild(sectionNode);
+      }
     }
 
     if (chapter.tasksLeft) {
       chapter.maxTasks = chapter.tasksLeft;
     }
+
+    // Don't show collapse arrow if there are no sections
+    if (sectionLinks.length === 0) {
+      const arrowIconElement = chapterNode.querySelector('.h5p-digibook-navigation-chapter-accordion');
+      if (arrowIconElement) {
+        arrowIconElement.classList.add('hidden');
+      }
+    }
+
     chapterNode.appendChild(sectionsWrapper);
 
     return chapterNode;
