@@ -415,6 +415,18 @@ class SideBar extends H5P.EventDispatcher {
     chapterNodeTitle.setAttribute('aria-controls', sectionsDivId);
     chapterNodeTitle.onclick = (event) => {
       this.toggleChapter(event.currentTarget.parentElement);
+
+      // Open chapter
+      if (event.currentTarget.getAttribute('aria-expanded') === 'true') {
+        const newChapter = {
+          h5pbookid: this.parent.contentId,
+          chapter: this.chapters[chapterId].id,
+          section: 0,
+        };
+
+        this.parent.trigger('newChapter', newChapter);
+      }
+
     };
     chapterNodeTitle.appendChild(chapterCollapseIcon);
     chapterNodeTitle.appendChild(chapterTitleText);

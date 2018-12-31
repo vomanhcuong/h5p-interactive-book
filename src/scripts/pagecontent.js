@@ -326,6 +326,10 @@ class PageContent extends H5P.EventDispatcher {
     this.targetPage = target;
     const chapterIdOld = this.parent.getActiveChapter();
     const chapterIdNew = this.parent.getChapterId(this.targetPage.chapter);
+    if (chapterIdOld === chapterIdNew) {
+      return; // Nothing to do.
+    }
+
     this.preloadChapter(chapterIdNew);
 
     if (chapterIdNew < this.columnNodes.length) {
