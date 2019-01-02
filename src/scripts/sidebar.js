@@ -420,7 +420,9 @@ class SideBar extends H5P.EventDispatcher {
     }
     chapterNodeTitle.setAttribute('aria-controls', sectionsDivId);
     chapterNodeTitle.onclick = (event) => {
-      const isExpandable = this.chapters[chapterId].sections.length > 1;
+      const accordion = event.currentTarget.querySelector('.h5p-digibook-navigation-chapter-accordion');
+
+      const isExpandable = !accordion.classList.contains('hidden');
       const isExpanded = event.currentTarget.getAttribute('aria-expanded') === 'true';
 
       // On mobile, menu shall be hidden when page content is changed
