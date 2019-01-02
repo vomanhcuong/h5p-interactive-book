@@ -529,6 +529,10 @@ class PageContent extends H5P.EventDispatcher {
       H5P.error(err);
     }
   }
+
+  toggle() {
+    this.content.classList.toggle('hidden');
+  }
 }
 
 export default PageContent;

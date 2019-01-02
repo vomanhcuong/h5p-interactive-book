@@ -3,6 +3,7 @@
   background-size: cover;
   box-shadow: .625em .625em 1.875em $dark-grey-20;
   flex: 0 0 16em;
+  flex-grow: 1;
   max-width: 16.563em;
   min-height: 19em;
   order: -1;
@@ -25,6 +26,10 @@
     flex: 0 0 0;
     max-width: 0;
     width: 0;
+  }
+
+  &.h5p-digibook-fullwidth {
+    max-width: none;
   }
 
   .navigation-list {
@@ -166,8 +171,8 @@
     width: 1em;
 
     &.hidden {
-      visibility: none;
       opacity: 0;
+      visibility: none;
     }
   }
 
