@@ -101,7 +101,8 @@ $mud-80: rgba($mud, .8);
     overflow: auto;
 
     .h5p-digibook-content {
-      overflow: auto;
+      overflow-x: hidden;
+      overflow-y: auto;
     }
   }
 
