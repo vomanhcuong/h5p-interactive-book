@@ -575,7 +575,11 @@ export default class DigiBook extends H5P.EventDispatcher {
         this.pageContent.updateFooter();
       });
 
-      $wrapper.prepend(this.fullScreenButton);
+      const fullScreenButtonWrapper = document.createElement('div');
+      fullScreenButtonWrapper.classList.add('h5p-digibook-fullscreen-button-wrapper');
+      fullScreenButtonWrapper.appendChild(this.fullScreenButton);
+
+      $wrapper.prepend(fullScreenButtonWrapper);
     };
 
     /**
