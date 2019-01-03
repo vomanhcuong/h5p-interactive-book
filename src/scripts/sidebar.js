@@ -9,9 +9,10 @@ class SideBar extends H5P.EventDispatcher {
     this.id = contentId;
     this.parent = parent;
     this.behaviour = config.behaviour;
+    this.isMobilePhone = parent.isMobilePhone();
     this.content = document.createElement('div');
     this.content.classList.add('navigation-list');
-    this.container = this.addSideBar();
+    this.container = this.addSideBar(!this.behaviour.defaultTableOfContents || this.isMobilePhone);
 
     this.chapters = this.findAllChapters(config.chapters);
     this.chapterNodes = this.getChapterNodes();
@@ -147,13 +148,15 @@ class SideBar extends H5P.EventDispatcher {
   /**
    * Get sidebar DOM.
    *
+   * @param {boolean} [hide=false] If true, sidebar will not be shown on start.
    * @return {HTMLElement} DOM for sidebar.
    */
-  addSideBar() {
+  addSideBar(hide = false) {
     const container = document.createElement('div');
     container.id = 'h5p-digibook-navigation-menu';
     container.classList.add('h5p-digibook-navigation');
-    if (!this.behaviour.defaultTableOfContents) {
+
+    if (hide) {
       container.classList.add('h5p-digibook-hide');
     }
 
@@ -376,6 +379,9 @@ class SideBar extends H5P.EventDispatcher {
    */
   toggle() {
     this.container.classList.toggle('h5p-digibook-hide');
+    if (this.isMobilePhone) {
+      this.container.classList.toggle('h5p-digibook-fullwidth');
+    }
   }
 
   /**
@@ -414,10 +420,18 @@ class SideBar extends H5P.EventDispatcher {
     }
     chapterNodeTitle.setAttribute('aria-controls', sectionsDivId);
     chapterNodeTitle.onclick = (event) => {
-      this.toggleChapter(event.currentTarget.parentElement);
+      const accordion = event.currentTarget.querySelector('.h5p-digibook-navigation-chapter-accordion');
 
-      // Open chapter
-      if (event.currentTarget.getAttribute('aria-expanded') === 'true') {
+      const isExpandable = !accordion.classList.contains('hidden');
+      const isExpanded = event.currentTarget.getAttribute('aria-expanded') === 'true';
+
+      // On mobile, menu shall be hidden when page content is changed
+      if (this.isMobilePhone && !isExpandable) {
+        this.parent.trigger('toggleMenu');
+      }
+
+      // Open chapter in main content
+      if (chapterId !== this.focusedChapter && (!isExpandable || (!this.isMobilePhone && !isExpanded))) {
         const newChapter = {
           h5pbookid: this.parent.contentId,
           chapter: this.chapters[chapterId].id,
@@ -427,6 +441,10 @@ class SideBar extends H5P.EventDispatcher {
         this.parent.trigger('newChapter', newChapter);
       }
 
+      // Expand chapter in menu
+      if (isExpandable) {
+        this.toggleChapter(event.currentTarget.parentElement);
+      }
     };
     chapterNodeTitle.appendChild(chapterCollapseIcon);
     chapterNodeTitle.appendChild(chapterTitleText);
@@ -527,6 +545,11 @@ class SideBar extends H5P.EventDispatcher {
       }
 
       this.parent.trigger('newChapter', newChapter);
+
+      if (this.isMobilePhone) {
+        this.parent.trigger('toggleMenu');
+      }
+
       event.preventDefault();
     };
     sectionLink.appendChild(sectionCompletionIcon);

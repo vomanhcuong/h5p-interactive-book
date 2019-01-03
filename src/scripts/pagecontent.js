@@ -326,9 +326,6 @@ class PageContent extends H5P.EventDispatcher {
     this.targetPage = target;
     const chapterIdOld = this.parent.getActiveChapter();
     const chapterIdNew = this.parent.getChapterId(this.targetPage.chapter);
-    if (chapterIdOld === chapterIdNew) {
-      return; // Nothing to do.
-    }
 
     this.preloadChapter(chapterIdNew);
 
@@ -531,6 +528,10 @@ class PageContent extends H5P.EventDispatcher {
       // Prevent crashing, but tell developers there's something wrong.
       H5P.error(err);
     }
+  }
+
+  toggle() {
+    this.content.classList.toggle('hidden');
   }
 }
 
