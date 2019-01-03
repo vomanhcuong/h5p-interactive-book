@@ -213,7 +213,13 @@ export default class DigiBook extends H5P.EventDispatcher {
     });
 
     this.on('scrollToTop', () => {
-      this.statusBarHeader.wrapper.scrollIntoView(true);
+      if (H5P.isFullscreen === true) {
+        const content = this.pageContent.content;
+        content.scrollBy(0, -content.scrollHeight);
+      }
+      else {
+        this.statusBarHeader.wrapper.scrollIntoView(true);
+      }
     });
 
     this.on('newChapter', (event) => {
