@@ -184,7 +184,7 @@ class PageContent extends H5P.EventDispatcher {
       // Find sections with tasks and tracks them
       if (this.behaviour.progressIndicators) {
         chapter.sections.forEach(section => {
-          if (this.isH5PTask(section.instance)) {
+          if (H5P.Column.isTask(section.instance)) {
             section.isTask = true;
             section.taskDone = false;
             chapter.tasksLeft += 1;
@@ -238,19 +238,6 @@ class PageContent extends H5P.EventDispatcher {
     });
 
     return startChapter;
-  }
-
-  /**
-   * Check if instance is an H5P task.
-   *
-   * @param {H5P.Runnable} instance H5P instance.
-   * @return {boolean} True, if instance is an H5P task.
-   */
-  isH5PTask(instance) {
-    if (typeof instance.getMaxScore === 'function') {
-      return instance.getMaxScore() > 0;
-    }
-    return false;
   }
 
   /**
