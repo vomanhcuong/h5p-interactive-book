@@ -177,10 +177,6 @@ class PageContent extends H5P.EventDispatcher {
       columnNode.classList.add('h5p-digibook-chapter');
       columnNode.id = newInstance.subContentId;
 
-      // if (this.behaviour.progressIndicators && !this.behaviour.progressAuto) {
-      //   columnNode.appendChild(this.createChapterReadCheckbox());
-      // }
-
       // Find sections with tasks and tracks them
       if (this.behaviour.progressIndicators) {
         chapter.sections.forEach(section => {

@@ -568,7 +568,6 @@ class SideBar extends H5P.EventDispatcher {
    * @return {HTMLElement[]} Chapter elements.
    */
   getChapterNodes() {
-    this.focusedChapter = 0;
     return this.chapters.map((chapter, index) => this.getNodesFromChapter(chapter, index));
   }
 
