@@ -38,7 +38,7 @@
 }
 
 .h5p-digibook-cover-image {
-  box-shadow: 15px 17px 29px -6px $black-20;
+  box-shadow: 10px 4px 47px 0px rgba(0, 0, 0, 0.18);
   height: 100%;
   left: 50%;
   position: absolute;
@@ -62,6 +62,7 @@
   margin-bottom: .5em;
   text-align: center;
   text-decoration: none solid $medium-grey;
+  max-width: 80%;
 }
 
 .h5p-digibook-cover-readbutton {
