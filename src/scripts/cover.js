@@ -119,12 +119,9 @@ class Cover extends H5P.EventDispatcher {
       return null;
     }
 
-    const description = document.createElement('p');
-    description.innerHTML = descriptionText;
-
     const descriptionElement = document.createElement('div');
     descriptionElement.classList.add('h5p-digibook-cover-description');
-    descriptionElement.appendChild(description);
+    descriptionElement.innerHTML = descriptionText;
 
     return descriptionElement;
   }
