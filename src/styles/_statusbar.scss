@@ -40,6 +40,12 @@
     background-color: $base-color-10;
     background-size: cover;
   }
+
+}
+
+.h5p-digibook-status-button[disabled]:hover {
+  cursor: default;
+  background-color: transparent;
 }
 
 .h5p-digibook-status-menu {
