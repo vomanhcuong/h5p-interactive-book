@@ -143,6 +143,14 @@
   text-decoration: none solid $mud;
   width: 100%;
 
+  &.h5p-digibook-navigation-mobile {
+    background-color: $background-color;
+  }
+
+  &.h5p-digibook-navigation-current {
+    background-color: $base-color-10;
+  }
+
   &:hover {
     background-color: $base-color-5;
     cursor: pointer;

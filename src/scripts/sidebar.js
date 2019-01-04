@@ -125,8 +125,16 @@ class SideBar extends H5P.EventDispatcher {
 
   setFocusToItem(element, chapterIndex, skipFocusing = false) {
     // Remove focus from all other elements
-    this.chapterNodes.forEach((chapter) => {
+    this.chapterNodes.forEach((chapter, index) => {
       const chapterButton = chapter.querySelector('.h5p-digibook-navigation-chapter-button');
+
+      // Highlight current chapter
+      if (index === chapterIndex) {
+        chapterButton.classList.add('h5p-digibook-navigation-current');
+      }
+      else {
+        chapterButton.classList.remove('h5p-digibook-navigation-current');
+      }
       chapterButton.setAttribute('tabindex', '-1');
 
       const sections = chapter.querySelectorAll('.h5p-digibook-navigation-section');
@@ -239,18 +247,20 @@ class SideBar extends H5P.EventDispatcher {
   }
 
   /**
-   * Collapse/uncollapse chapter.
+   * Toggle chapter menu.
    *
    * @param {HTMLElement} chapterNode Chapter.
    * @param {boolean} collapse If true, will collapse chapter.
    */
-  collapseChapter(chapterNode, collapse) {
+  toggleChapter(chapterNode, collapse) {
+    collapse = (collapse !== undefined) ? collapse : !(chapterNode.classList.contains('h5p-digibook-navigation-closed'));
+
     const arrow = chapterNode.getElementsByClassName('h5p-digibook-navigation-chapter-accordion')[0];
+    const chapterButton = chapterNode.querySelector('.h5p-digibook-navigation-chapter-button');
+    chapterButton.setAttribute('aria-expanded', (!collapse).toString());
 
     if (collapse === true) {
       chapterNode.classList.add('h5p-digibook-navigation-closed');
-      const chapterButton = chapterNode.querySelector('.h5p-digibook-navigation-chapter-button');
-      chapterButton.setAttribute('aria-expanded', 'false');
       if (arrow) {
         arrow.classList.remove('icon-expanded');
         arrow.classList.add('icon-collapsed');
@@ -258,15 +268,14 @@ class SideBar extends H5P.EventDispatcher {
     }
     else {
       chapterNode.classList.remove('h5p-digibook-navigation-closed');
-      const chapterButton = chapterNode.querySelector('.h5p-digibook-navigation-chapter-button');
-      chapterButton.setAttribute('aria-expanded', 'true');
       if (arrow) {
         arrow.classList.remove('icon-collapsed');
         arrow.classList.add('icon-expanded');
       }
     }
-  }
 
+    this.parent.trigger('resize');
+  }
 
   /**
    * Fires whenever a redirect is happening in parent
@@ -276,7 +285,7 @@ class SideBar extends H5P.EventDispatcher {
    */
   redirectHandler(chapterId) {
     this.chapterNodes.forEach((node, index) => {
-      this.collapseChapter(node, index !== chapterId);
+      this.toggleChapter(node, this.isMobilePhone ? false : index !== chapterId);
     });
 
     // Focus new chapter button if active chapter was closed
@@ -362,17 +371,6 @@ class SideBar extends H5P.EventDispatcher {
   }
 
   /**
-   * Toggle chapter.
-   *
-   * @param {HTMLElement} chapterNode Chapter element.
-   */
-  toggleChapter(chapterNode) {
-    const collapse = !(chapterNode.classList.contains('h5p-digibook-navigation-closed'));
-    this.collapseChapter(chapterNode, collapse);
-    this.parent.trigger('resize');
-  }
-
-  /**
    * Toggle sidebar visibility.
    */
   toggle() {
@@ -408,6 +406,9 @@ class SideBar extends H5P.EventDispatcher {
     const chapterNodeTitle = document.createElement('button');
     chapterNodeTitle.setAttribute('tabindex', chapterId === 0 ? '0' : '-1');
     chapterNodeTitle.classList.add('h5p-digibook-navigation-chapter-button');
+    if (this.isMobilePhone) {
+      chapterNodeTitle.classList.add('h5p-digibook-navigation-mobile');
+    }
     if (this.parent.activeChapter !== chapterId) {
       chapterCollapseIcon.classList.add('icon-collapsed');
       chapterNodeTitle.setAttribute('aria-expanded', 'false');
@@ -451,8 +452,13 @@ class SideBar extends H5P.EventDispatcher {
     const chapterNode = document.createElement('li');
     chapterNode.classList.add('h5p-digibook-navigation-chapter');
     chapterNode.appendChild(chapterNodeTitle);
-    if (this.parent.activeChapter !== chapterId) {
-      chapterNode.classList.add('h5p-digibook-navigation-closed');
+
+    // Collapse all but current chapters in menu and highlight current
+    if (this.parent.activeChapter === chapterId) {
+      chapterNode.querySelector('.h5p-digibook-navigation-chapter-button').classList.add('h5p-digibook-navigation-current');
+    }
+    else {
+      this.toggleChapter(chapterNode, false || !this.isMobilePhone);
     }
 
     const sectionsWrapper = document.createElement('ul');
@@ -494,8 +500,8 @@ class SideBar extends H5P.EventDispatcher {
       chapter.maxTasks = chapter.tasksLeft;
     }
 
-    // Don't show collapse arrow if there are no sections
-    if (sectionLinks.length === 0) {
+    // Don't show collapse arrow if there are no sections or on mobile
+    if (sectionLinks.length === 0 || this.isMobilePhone) {
       const arrowIconElement = chapterNode.querySelector('.h5p-digibook-navigation-chapter-accordion');
       if (arrowIconElement) {
         arrowIconElement.classList.add('hidden');
