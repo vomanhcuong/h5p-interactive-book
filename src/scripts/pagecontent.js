@@ -199,11 +199,10 @@ class PageContent extends H5P.EventDispatcher {
         return; // Prevent sending back down.
       }
 
-      for (var i = 0; i < this.chapters.length; i++) {
-        // Only resize the visible column
-        if (this.columnNodes[i].offsetParent !== null) {
-          this.chapters[i].instance.trigger('resize', event);
-        }
+      // Only resize the visible column
+      const currentChapterId = this.parent.getActiveChapter();
+      if (this.columnNodes[currentChapterId].offsetParent !== null) {
+        this.chapters[currentChapterId].instance.trigger('resize', event);
       }
     });
 
