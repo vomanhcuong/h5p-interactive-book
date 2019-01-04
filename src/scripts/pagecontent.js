@@ -151,16 +151,6 @@ class PageContent extends H5P.EventDispatcher {
       const columnNode = document.createElement('div');
       this.overrideParameters(i, config.chapters[i]);
       const newInstance = H5P.newRunnable(config.chapters[i], contentId, undefined, undefined, contentData);
-      newInstance.on('resize', (event) => {
-        // Prevent sending event back down
-        this.parent.bubblingUpwards = true;
-
-        // Resize ourself
-        this.parent.trigger('resize', event);
-
-        // Reset
-        this.parent.bubblingUpwards = false;
-      });
 
       const chapter = {
         isInitialized: false,
@@ -194,15 +184,11 @@ class PageContent extends H5P.EventDispatcher {
       this.columnNodes.push(columnNode);
     }
 
-    this.parent.on('resize', (event) => {
-      if (this.parent.bubblingUpwards) {
-        return; // Prevent sending back down.
-      }
-
+    this.parent.on('resize', () => {
       // Only resize the visible column
       const currentChapterId = this.parent.getActiveChapter();
       if (this.columnNodes[currentChapterId].offsetParent !== null) {
-        this.chapters[currentChapterId].instance.trigger('resize', event);
+        this.chapters[currentChapterId].instance.trigger('resize');
       }
     });
 
