@@ -93,7 +93,7 @@ class PageContent extends H5P.EventDispatcher {
     const columnContent = columnNode.getElementsByClassName('h5p-column-content');
 
     for (let i = 0; i < sections.length; i++) {
-      columnContent[i].id = sections[i].instance.subContentId;
+      columnContent[i].id = `h5p-digibook-section-${sections[i].instance.subContentId}`;
     }
   }
 
@@ -175,7 +175,7 @@ class PageContent extends H5P.EventDispatcher {
       };
 
       columnNode.classList.add('h5p-digibook-chapter');
-      columnNode.id = newInstance.subContentId;
+      columnNode.id = `h5p-digibook-chapter-${newInstance.subContentId}`;
 
       // Find sections with tasks and tracks them
       if (this.behaviour.progressIndicators) {
@@ -248,6 +248,7 @@ class PageContent extends H5P.EventDispatcher {
     }
     else {
       let section = document.getElementById(sectionUUID);
+
       if (section) {
         if (headerNumber !== null) {
           // find header within section

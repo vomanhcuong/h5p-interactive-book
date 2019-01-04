@@ -208,11 +208,9 @@ class SideBar extends H5P.EventDispatcher {
           title = content.metadata.title;
       }
 
-      const id = content.subContentId;
-
       sectionsData.push({
-        title,
-        id
+        title: title,
+        id: content.subContentId ? `h5p-digibook-section-${content.subContentId}` : undefined
       });
     }
 
@@ -230,7 +228,7 @@ class SideBar extends H5P.EventDispatcher {
     for (let i = 0; i < columnsData.length; i++) {
       const sections = this.findSectionsInChapter(columnsData[i]);
       const chapterTitle = columnsData[i].metadata.title;
-      const id = columnsData[i].subContentId;
+      const id = `h5p-digibook-chapter-${columnsData[i].subContentId}`;
       chapters.push({
         sections: sections,
         title: chapterTitle,

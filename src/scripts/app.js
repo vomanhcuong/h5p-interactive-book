@@ -341,6 +341,8 @@ export default class DigiBook extends H5P.EventDispatcher {
      * @return {number} Chapter Id.
      */
     this.getChapterId = (chapterUUID) => {
+      chapterUUID = chapterUUID.replace('h5p-digibook-chapter-', '');
+
       return this.chapters
         .map(chapter => chapter.instance.subContentId).indexOf(chapterUUID);
     };
@@ -445,7 +447,7 @@ export default class DigiBook extends H5P.EventDispatcher {
         }
         else {
           self.newHandler = {
-            chapter: self.chapters[0].instance.subContentId,
+            chapter: `h5p-digibook-chapter-${self.chapters[0].instance.subContentId}`,
             h5pbookid: self.h5pbookid
           };
         }
@@ -462,6 +464,7 @@ export default class DigiBook extends H5P.EventDispatcher {
     this.setSectionStatusByID = (sectionUUID, chapterId) => {
       this.chapters[chapterId].sections.forEach((section, index) => {
         const sectionInstance = section.instance;
+
         if (sectionInstance.subContentId === sectionUUID && !section.taskDone) {
           section.taskDone = true;
           this.sideBar.setSectionMarker(chapterId, index);
