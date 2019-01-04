@@ -2,11 +2,8 @@
   background-color: $background-color;
   background-size: cover;
   box-shadow: .625em .625em 1.875em $dark-grey-20;
-  flex: 0 0 16em;
-  flex-grow: 1;
   max-width: 16.563em;
   min-height: 19em;
-  order: -1;
   overflow: hidden;
   transition: width .15s linear, flex-basis .15s linear, max-width .15s linear;
   width: 16.563em;
