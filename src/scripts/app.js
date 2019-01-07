@@ -200,9 +200,50 @@ export default class DigiBook extends H5P.EventDispatcher {
         parseInt(fragments.h5pbookid) === self.contentId;
     };
 
+    /**
+     * Bubble events from child to parent
+     *
+     * @param {object} origin Origin of the Event
+     * @param {string} eventName Name of the Event
+     * @param {object} target Target to trigger event on
+     */
+    this.bubbleUp = (origin, eventName, target) => {
+      origin.on(eventName, function (event) {
+        // Prevent target from sending event back down
+        target.bubblingUpwards = true;
+
+        // Trigger event
+        target.trigger(eventName, event);
+
+        // Reset
+        target.bubblingUpwards = false;
+      });
+    };
+
     /*
      * Establish all triggers
      */
+
+    this.on('resize', () => {
+      const currentChapterId = this.getActiveChapter();
+      const currentNode = this.pageContent.columnNodes[currentChapterId];
+
+      // Only resize the visible column
+      if (currentNode.offsetParent !== null) {
+
+        // Prevent re-resizing if called by instance
+        if (!this.bubblingUpwards) {
+          this.pageContent.chapters[currentChapterId].instance.trigger('resize');
+        }
+
+        // Resize if necessary and not animating
+        if (this.pageContent.content.style.height !== `${currentNode.offsetHeight}px` && !currentNode.classList.contains('h5p-digibook-animate')) {
+          this.pageContent.content.style.height = `${currentNode.offsetHeight}px`;
+          this.trigger('resize');
+        }
+      }
+    });
+
     this.on('toggleMenu', () => {
       if (this.isMobilePhone()) {
         this.pageContent.toggle();

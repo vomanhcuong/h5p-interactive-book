@@ -175,12 +175,7 @@ class PageContent extends H5P.EventDispatcher {
       this.overrideParameters(i, config.chapters[i]);
 
       const newInstance = H5P.newRunnable(config.chapters[i], contentId, undefined, undefined, contentData);
-      newInstance.on('resize', () => {
-        // preventResizeLoop is needed because parent's resize listener might resize the instance - can this be done using the H5P.Event?
-        this.preventResizeLoop = true;
-        this.parent.trigger('resize');
-        this.preventResizeLoop = false;
-      });
+      this.parent.bubbleUp(newInstance, 'resize', this.parent);
 
       const chapter = {
         isInitialized: false,
@@ -213,25 +208,6 @@ class PageContent extends H5P.EventDispatcher {
       chapters.push(chapter);
       this.columnNodes.push(columnNode);
     }
-
-    this.parent.on('resize', () => {
-      const currentChapterId = this.parent.getActiveChapter();
-      const currentNode = this.columnNodes[currentChapterId];
-
-      // Only resize the visible column
-      if (currentNode.offsetParent !== null) {
-        // Prevent re-resizing if called by instance
-        if (!this.preventResizeLoop) {
-          this.chapters[currentChapterId].instance.trigger('resize');
-        }
-
-        // Resize if necessary and not animating
-        if (this.content.style.height !== `${currentNode.offsetHeight}px` && !currentNode.classList.contains('h5p-digibook-animate')) {
-          this.content.style.height = `${currentNode.offsetHeight}px`;
-          this.parent.trigger('resize');
-        }
-      }
-    });
 
     // First chapter should be visible, except if the URL says otherwise.
     let chapterUUID = this.columnNodes[0].id;
@@ -349,12 +325,12 @@ class PageContent extends H5P.EventDispatcher {
 
         const direction = (chapterIdOld < chapterIdNew) ? 'next' : 'previous';
 
-        targetChapter.classList.add(`h5p-digibook-${direction}`);
-
         /*
          * Animation done by making the current and the target node
          * visible and then applying the correct translation in x-direction
          */
+        targetChapter.classList.add(`h5p-digibook-${direction}`);
+
         targetChapter.classList.add('h5p-digibook-animate');
         oldChapter.classList.add('h5p-digibook-animate');
 
@@ -530,6 +506,9 @@ class PageContent extends H5P.EventDispatcher {
     }
   }
 
+  /**
+   * Toggle main content visibility.
+   */
   toggle() {
     this.content.classList.toggle('hidden');
   }
