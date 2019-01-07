@@ -239,7 +239,13 @@ export default class DigiBook extends H5P.EventDispatcher {
         // Resize if necessary and not animating
         if (this.pageContent.content.style.height !== `${currentNode.offsetHeight}px` && !currentNode.classList.contains('h5p-digibook-animate')) {
           this.pageContent.content.style.height = `${currentNode.offsetHeight}px`;
-          this.trigger('resize');
+
+          this.pageContent.updateFooter();
+
+          // Add some slack time before resizing again.
+          setTimeout(() => {
+            this.trigger('resize');
+          }, 10);
         }
       }
     });
@@ -544,6 +550,8 @@ export default class DigiBook extends H5P.EventDispatcher {
 
       $wrapper.get(0).appendChild(this.pageContent.container);
       $wrapper.get(0).appendChild(this.statusBarFooter.wrapper);
+
+      this.pageContent.updateFooter();
     };
 
     /**
@@ -691,6 +699,5 @@ export default class DigiBook extends H5P.EventDispatcher {
     // Kickstart the statusbar
     this.statusBarHeader.updateStatusBar();
     this.statusBarFooter.updateStatusBar();
-    this.pageContent.updateFooter();
   }
 }

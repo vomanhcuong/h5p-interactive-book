@@ -357,7 +357,6 @@ class PageContent extends H5P.EventDispatcher {
           targetChapter.classList.remove('h5p-digibook-animate');
           oldChapter.classList.remove('h5p-digibook-animate');
 
-          this.updateFooter();
           this.redirectSection(this.targetPage.section, this.targetPage.headerNumber);
 
           this.parent.trigger('resize');
