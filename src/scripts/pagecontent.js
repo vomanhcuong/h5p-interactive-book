@@ -25,7 +25,6 @@ class PageContent extends H5P.EventDispatcher {
     this.preloadChapter(startChapter);
 
     this.content = this.createPageContent();
-    this.addcontentListener();
 
     this.container = document.createElement('div');
     this.container.classList.add('h5p-digibook-main');
@@ -57,7 +56,31 @@ class PageContent extends H5P.EventDispatcher {
       content.appendChild(element);
     });
 
+    this.setChapterOrder(this.parent.getActiveChapter());
+
     return content;
+  }
+
+  setChapterOrder(currentId) {
+    if (currentId < 0 || currentId > this.columnNodes.length - 1) {
+      return;
+    }
+
+    this.columnNodes.forEach((element, index) => {
+      element.classList.remove('h5p-digibook-previous');
+      element.classList.remove('h5p-digibook-current');
+      element.classList.remove('h5p-digibook-next');
+
+      if (index === currentId - 1) {
+        // element.classList.add('h5p-digibook-previous');
+      }
+      else if (index === currentId) {
+        element.classList.add('h5p-digibook-current');
+      }
+      else if (index === currentId + 1) {
+        // element.classList.add('h5p-digibook-next');
+      }
+    });
   }
 
   /**
@@ -112,7 +135,7 @@ class PageContent extends H5P.EventDispatcher {
    */
   initializeChapter(chapterIndex) {
     // Out of bound
-    if (chapterIndex > this.chapters.length - 1) {
+    if (chapterIndex < 0 || chapterIndex > this.chapters.length - 1) {
       return;
     }
 
@@ -150,7 +173,14 @@ class PageContent extends H5P.EventDispatcher {
     for (let i = 0; i < config.chapters.length; i++) {
       const columnNode = document.createElement('div');
       this.overrideParameters(i, config.chapters[i]);
+
       const newInstance = H5P.newRunnable(config.chapters[i], contentId, undefined, undefined, contentData);
+      newInstance.on('resize', () => {
+        // preventResizeLoop is needed because parent's resize listener might resize the instance - can this be done using the H5P.Event?
+        this.preventResizeLoop = true;
+        this.parent.trigger('resize');
+        this.preventResizeLoop = false;
+      });
 
       const chapter = {
         isInitialized: false,
@@ -185,10 +215,21 @@ class PageContent extends H5P.EventDispatcher {
     }
 
     this.parent.on('resize', () => {
-      // Only resize the visible column
       const currentChapterId = this.parent.getActiveChapter();
-      if (this.columnNodes[currentChapterId].offsetParent !== null) {
-        this.chapters[currentChapterId].instance.trigger('resize');
+      const currentNode = this.columnNodes[currentChapterId];
+
+      // Only resize the visible column
+      if (currentNode.offsetParent !== null) {
+        // Prevent re-resizing if called by instance
+        if (!this.preventResizeLoop) {
+          this.chapters[currentChapterId].instance.trigger('resize');
+        }
+
+        // Resize if necessary and not animating
+        if (this.content.style.height !== `${currentNode.offsetHeight}px` && !currentNode.classList.contains('h5p-digibook-animate')) {
+          this.content.style.height = `${currentNode.offsetHeight}px`;
+          this.parent.trigger('resize');
+        }
       }
     });
 
@@ -214,7 +255,7 @@ class PageContent extends H5P.EventDispatcher {
 
     this.columnNodes.forEach(node => {
       if (node.id !== chapterUUID) {
-        node.classList.add('h5p-content-hidden');
+        // node.classList.add('h5p-content-hidden');
       }
     });
 
@@ -288,7 +329,7 @@ class PageContent extends H5P.EventDispatcher {
    * @param {object} target Target.
    */
   changeChapter(redirectOnLoad, target) {
-    if (this.parent.animationInProgress) {
+    if (this.columnNodes[this.parent.getActiveChapter()].classList.contains('h5p-digibook-animate')) {
       return;
     }
 
@@ -304,23 +345,44 @@ class PageContent extends H5P.EventDispatcher {
       const hasChangedChapter = chapterIdOld !== chapterIdNew;
 
       if (hasChangedChapter && !redirectOnLoad) {
-        this.parent.animationInProgress = true;
         this.parent.setActiveChapter(chapterIdNew);
 
-        // The pages will progress from right to left or vice versa.
-        const newPageProgress = (chapterIdOld < chapterIdNew) ? 'right' : 'left';
-        const oldPageProgress = (chapterIdOld < chapterIdNew) ? 'left' : 'right';
+        const direction = (chapterIdOld < chapterIdNew) ? 'next' : 'previous';
 
-        // Set up the slides
-        targetChapter.classList.add('h5p-digibook-animate-new');
-        targetChapter.classList.add(`h5p-digibook-offset-${newPageProgress}`);
-        targetChapter.classList.remove('h5p-content-hidden');
+        targetChapter.classList.add(`h5p-digibook-${direction}`);
 
-        // Play the animation
+        /*
+         * Animation done by making the current and the target node
+         * visible and then applying the correct translation in x-direction
+         */
+        targetChapter.classList.add('h5p-digibook-animate');
+        oldChapter.classList.add('h5p-digibook-animate');
+
+        // Start the animation
         setTimeout(() => {
-          oldChapter.classList.add(`h5p-digibook-offset-${oldPageProgress}`);
-          targetChapter.classList.remove(`h5p-digibook-offset-${newPageProgress}`);
-        }, 50);
+          if (direction === 'previous') {
+            oldChapter.classList.add('h5p-digibook-next');
+          }
+          else {
+            oldChapter.classList.remove('h5p-digibook-current');
+            oldChapter.classList.add('h5p-digibook-previous');
+          }
+          targetChapter.classList.remove(`h5p-digibook-${direction}`);
+        }, 1);
+
+        // End the animation
+        setTimeout(() => {
+          oldChapter.classList.remove('h5p-digibook-current');
+          targetChapter.classList.add('h5p-digibook-current');
+
+          targetChapter.classList.remove('h5p-digibook-animate');
+          oldChapter.classList.remove('h5p-digibook-animate');
+
+          this.updateFooter();
+          this.redirectSection(this.targetPage.section, this.targetPage.headerNumber);
+
+          this.parent.trigger('resize');
+        }, 250);
 
         this.handleChapterChange(chapterIdNew, chapterIdOld);
       }
@@ -340,40 +402,6 @@ class PageContent extends H5P.EventDispatcher {
         this.parent.updateChapterProgress(chapterIdOld, hasChangedChapter);
       }
     }
-  }
-
-  /**
-   * Add content listener.
-   */
-  addcontentListener() {
-    this.content.addEventListener('transitionend', (event) => {
-      const activeChapter = this.parent.getActiveChapter();
-
-      if (event.propertyName === 'transform' && event.target === this.columnNodes[activeChapter]) {
-        // Remove all animation-related classes
-        this.columnNodes
-          .forEach(node => {
-            if (node !== this.columnNodes[activeChapter]) {
-              node.classList.remove('h5p-digibook-offset-right');
-              node.classList.remove('h5p-digibook-offset-left');
-              node.classList.add('h5p-content-hidden');
-            }
-          });
-
-        const activeNode = this.columnNodes[activeChapter];
-
-        activeNode.classList.remove('h5p-digibook-offset-right');
-        activeNode.classList.remove('h5p-digibook-offset-left');
-        activeNode.classList.remove('h5p-digibook-animate-new');
-        this.updateFooter();
-
-        // Focus on section only after the page scrolling is finished
-        this.parent.animationInProgress = false;
-        this.redirectSection(this.targetPage.section, this.targetPage.headerNumber);
-
-        this.parent.trigger('resize');
-      }
-    });
   }
 
   /**

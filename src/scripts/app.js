@@ -33,8 +33,6 @@ export default class DigiBook extends H5P.EventDispatcher {
     this.params.behaviour.enableSolutionsButton = false;
     this.params.behaviour.enableRetry = false;
 
-    this.animationInProgress = false;
-
     /**
      * Check if result has been submitted or input has been given.
      *
@@ -223,9 +221,10 @@ export default class DigiBook extends H5P.EventDispatcher {
     });
 
     this.on('newChapter', (event) => {
-      if (this.animationInProgress) {
+      if (this.pageContent.columnNodes[this.getActiveChapter()].classList.contains('h5p-digibook-animate')) {
         return;
       }
+
       this.newHandler = event.data;
 
       // Create the new hash

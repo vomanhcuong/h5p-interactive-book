@@ -1,15 +1,37 @@
 .h5p-digibook-chapter {
+  display: none;
+  left: 0;
   max-width: 1058px;
+  position: absolute;
+  top: 0;
+  transform: translateX(0);
   transition: .25s;
   width: 100%;
   z-index: -1;
+
+  &.h5p-digibook-previous {
+    transform: translateX(-100%);
+  }
+
+  &.h5p-digibook-current {
+    display: block;
+    transform: translateX(0);
+  }
+
+  &.h5p-digibook-next {
+    transform: translateX(100%);
+  }
+}
+
+.h5p-digibook-animate {
+  display: block;
+  transition: transform .25s ease-in-out;
 }
 
 .h5p-digibook-content {
   margin: 1rem;
   overflow: hidden;
   position: relative;
-  transition: 1s;
   width: 100%;
 
   &.hidden {
@@ -28,22 +50,6 @@
       }
     }
   }
-}
-
-
-.h5p-digibook-animate-new {
-  position: absolute;
-  top: 0;
-}
-
-.h5p-digibook-offset-left {
-  transform: translate(-100%);
-}
-
-.h5p-digibook-offset-right {
-  opacity: 0;
-  transform: translate(100%);
-  transition: visibility 0s, opacity .5s linear;
 }
 
 .h5p-digibook-status-progress-marker {
