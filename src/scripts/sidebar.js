@@ -361,8 +361,7 @@ class SideBar extends H5P.EventDispatcher {
    */
   setSectionMarker(chapterId, sectionId) {
     const icon = this.chapterNodes[chapterId]
-      .getElementsByClassName('h5p-digibook-navigation-section')[sectionId]
-      .querySelector('.h5p-digibook-navigation-section-icon');
+      .querySelector('.h5p-digibook-navigation-section-' + sectionId + ' .h5p-digibook-navigation-section-icon');
 
     if (icon) {
       icon.classList.remove('icon-chapter-blank');
@@ -561,6 +560,7 @@ class SideBar extends H5P.EventDispatcher {
 
     const sectionNode = document.createElement('li');
     sectionNode.classList.add('h5p-digibook-navigation-section');
+    sectionNode.classList.add('h5p-digibook-navigation-section-' + i);
     sectionNode.appendChild(sectionLink);
 
     return sectionNode;
