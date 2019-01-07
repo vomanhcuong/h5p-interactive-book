@@ -372,6 +372,9 @@ class PageContent extends H5P.EventDispatcher {
 
         // End the animation
         setTimeout(() => {
+          oldChapter.classList.remove('h5p-digibook-next');
+          oldChapter.classList.remove('h5p-digibook-previous');
+
           oldChapter.classList.remove('h5p-digibook-current');
           targetChapter.classList.add('h5p-digibook-current');
 
