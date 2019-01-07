@@ -61,12 +61,12 @@ class StatusBar extends H5P.EventDispatcher {
 
       if (event.data.direction === 'next') {
         if (this.parent.activeChapter + 1 < this.parent.chapters.length) {
-          eventInput.chapter = this.parent.chapters[this.parent.activeChapter+1].instance.subContentId;
+          eventInput.chapter = `h5p-digibook-chapter-${this.parent.chapters[this.parent.activeChapter+1].instance.subContentId}`;
         }
       }
       else if (event.data.direction === 'prev') {
         if (this.parent.activeChapter > 0) {
-          eventInput.chapter = this.parent.chapters[this.parent.activeChapter-1].instance.subContentId;
+          eventInput.chapter = `h5p-digibook-chapter-${this.parent.chapters[this.parent.activeChapter-1].instance.subContentId}`;
         }
       }
       if (eventInput.chapter) {
