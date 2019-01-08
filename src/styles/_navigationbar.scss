@@ -5,6 +5,8 @@
   max-width: 16.563em;
   min-height: 19em;
   overflow: hidden;
+  position: sticky;
+  top: 0;
   transition: width .15s linear, flex-basis .15s linear, max-width .15s linear;
   width: 16.563em;
   z-index: 1;
