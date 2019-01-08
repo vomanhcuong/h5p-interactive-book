@@ -225,6 +225,10 @@ export default class DigiBook extends H5P.EventDispatcher {
      */
 
     this.on('resize', () => {
+      if (!this.pageContent) {
+        return;
+      }
+
       const currentChapterId = this.getActiveChapter();
       const currentNode = this.pageContent.columnNodes[currentChapterId];
 
