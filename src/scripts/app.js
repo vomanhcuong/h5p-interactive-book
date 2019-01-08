@@ -273,8 +273,8 @@ export default class DigiBook extends H5P.EventDispatcher {
 
     this.on('scrollToTop', () => {
       if (H5P.isFullscreen === true) {
-        const content = this.pageContent.content;
-        content.scrollBy(0, -content.scrollHeight);
+        const container = this.pageContent.container;
+        container.scrollBy(0, -container.scrollHeight);
       }
       else {
         this.statusBarHeader.wrapper.scrollIntoView(true);
