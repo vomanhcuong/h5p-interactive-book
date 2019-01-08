@@ -266,7 +266,9 @@ export default class DigiBook extends H5P.EventDispatcher {
 
       // We need to resize the whole book since the internactions are getting
       // more width and those with a static ratio will increase their height.
-      this.trigger('resize');
+      setTimeout(() => {
+        this.trigger('resize');
+      }, 150);
     });
 
     this.on('scrollToTop', () => {
