@@ -259,6 +259,14 @@ export default class DigiBook extends H5P.EventDispatcher {
         this.pageContent.toggle();
       }
       this.sideBar.toggle();
+
+      // Update the menu button
+      const menuButton = this.statusBarHeader.wrapper.querySelector('.h5p-digibook-status-menu');
+      menuButton.setAttribute('aria-expanded', menuButton.classList.toggle('h5p-digibook-status-menu-active') ? 'true' : 'false');
+
+      // We need to resize the whole book since the internactions are getting
+      // more width and those with a static ratio will increase their height.
+      this.trigger('resize');
     });
 
     this.on('scrollToTop', () => {

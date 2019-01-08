@@ -183,13 +183,8 @@ class StatusBar extends H5P.EventDispatcher {
     buttonWrapperMenu.setAttribute('aria-expanded', 'false');
     buttonWrapperMenu.setAttribute('aria-controls', 'h5p-digibook-navigation-menu');
 
-    buttonWrapperMenu.onclick = (event) => {
+    buttonWrapperMenu.onclick = () => {
       this.parent.trigger('toggleMenu');
-      event.currentTarget.classList.toggle('h5p-digibook-status-menu-active');
-      event.currentTarget.setAttribute(
-        'aria-expanded',
-        event.currentTarget.classList.contains('h5p-digibook-status-menu-active') ? 'true' : 'false'
-      );
     };
 
     buttonWrapperMenu.appendChild(button);
