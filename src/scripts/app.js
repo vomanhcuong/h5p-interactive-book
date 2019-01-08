@@ -243,6 +243,7 @@ export default class DigiBook extends H5P.EventDispatcher {
         // Resize if necessary and not animating
         if (this.pageContent.content.style.height !== `${currentNode.offsetHeight}px` && !currentNode.classList.contains('h5p-digibook-animate')) {
           this.pageContent.content.style.height = `${currentNode.offsetHeight}px`;
+          this.sideBar.container.style.minHeight = `${currentNode.offsetHeight + this.pageContentMargin}px`;
 
           this.pageContent.updateFooter();
 
@@ -566,6 +567,9 @@ export default class DigiBook extends H5P.EventDispatcher {
       $wrapper.get(0).appendChild(this.statusBarFooter.wrapper);
 
       this.pageContent.updateFooter();
+
+      const style = window.getComputedStyle(this.pageContent.content);
+      this.pageContentMargin = parseInt(style.getPropertyValue('margin-top')) + parseInt(style.getPropertyValue('margin-bottom'));
     };
 
     /**
