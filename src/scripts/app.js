@@ -442,7 +442,7 @@ export default class DigiBook extends H5P.EventDispatcher {
      * @param {number} chapterHeight Chapter height.
      */
     this.shouldFooterBeHidden = (chapterHeight) => {
-      return chapterHeight <= window.outerHeight && !this.isFullscreen;
+      return chapterHeight <= window.outerHeight || this.isFullscreen;
     };
 
     /**
