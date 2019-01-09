@@ -127,6 +127,8 @@
 .h5p-digibook-status-chapter {
   flex-grow: 1;
   overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
   .title {
     color: $mud;
