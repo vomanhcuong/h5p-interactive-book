@@ -41,11 +41,12 @@
     background-size: cover;
   }
 
-}
-
-.h5p-digibook-status-button[disabled]:hover {
-  cursor: default;
-  background-color: transparent;
+  &[disabled] {
+    &:hover {
+      background-color: transparent;
+      cursor: default;
+    }
+  }
 }
 
 .h5p-digibook-status-menu {
