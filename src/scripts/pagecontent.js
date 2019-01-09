@@ -28,6 +28,11 @@ class PageContent extends H5P.EventDispatcher {
 
     this.container = document.createElement('div');
     this.container.classList.add('h5p-digibook-main');
+
+    if (this.params.behaviour.defaultTableOfContents) {
+      this.container.classList.add('h5p-digibook-navigation-open');
+    }
+
     this.container.appendChild(this.content);
 
     this.parent.on('coverRemoved', () => {
@@ -506,10 +511,10 @@ class PageContent extends H5P.EventDispatcher {
   }
 
   /**
-   * Toggle main content visibility.
+   * Toggle the navigation menu.
    */
-  toggle() {
-    this.content.classList.toggle('hidden');
+  toggleNavigationMenu() {
+    this.container.classList.toggle('h5p-digibook-navigation-open');
   }
 }
 

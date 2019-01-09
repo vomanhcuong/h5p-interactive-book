@@ -2,13 +2,13 @@
   background-color: $background-color;
   background-size: cover;
   box-shadow: .625em .625em 1.875em $dark-grey-20;
-  max-width: 16.563em;
+  max-width: 0;
   min-height: 19em;
   overflow: hidden;
   position: sticky;
   top: 0;
   transition: width .15s linear, flex-basis .15s linear, max-width .15s linear;
-  width: 16.563em;
+  width: 0;
   z-index: 1;
 
   >a {
@@ -19,17 +19,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-  }
-
-  &.h5p-digibook-hide {
-    flex: 0 0 0;
-    max-width: 0;
-    width: 0;
-  }
-
-  &.h5p-digibook-fullwidth {
-    max-width: none;
-    width: 100%;
   }
 
   .navigation-list {
@@ -115,7 +104,6 @@
   }
 
   .h5p-digibook-navigation-sectionlist {
-    margin: 0;
     max-height: 0;
     overflow: hidden;
     transition: max-height .5s ease-out;
@@ -142,10 +130,6 @@
   text-align: initial;
   text-decoration: none solid $mud;
   width: 100%;
-
-  &.h5p-digibook-navigation-mobile {
-    background-color: $background-color;
-  }
 
   &.h5p-digibook-navigation-current {
     background-color: $base-color-10;

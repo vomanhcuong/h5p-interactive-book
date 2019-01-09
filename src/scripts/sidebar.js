@@ -9,10 +9,9 @@ class SideBar extends H5P.EventDispatcher {
     this.id = contentId;
     this.parent = parent;
     this.behaviour = config.behaviour;
-    this.isMobilePhone = parent.isMobilePhone();
     this.content = document.createElement('div');
     this.content.classList.add('navigation-list');
-    this.container = this.addSideBar(!this.behaviour.defaultTableOfContents || this.isMobilePhone);
+    this.container = this.addSideBar();
 
     this.chapters = this.findAllChapters(config.chapters);
     this.chapterNodes = this.getChapterNodes();
@@ -156,17 +155,12 @@ class SideBar extends H5P.EventDispatcher {
   /**
    * Get sidebar DOM.
    *
-   * @param {boolean} [hide=false] If true, sidebar will not be shown on start.
    * @return {HTMLElement} DOM for sidebar.
    */
-  addSideBar(hide = false) {
+  addSideBar() {
     const container = document.createElement('div');
     container.id = 'h5p-digibook-navigation-menu';
     container.classList.add('h5p-digibook-navigation');
-
-    if (hide) {
-      container.classList.add('h5p-digibook-hide');
-    }
 
     return container;
   }
@@ -285,7 +279,7 @@ class SideBar extends H5P.EventDispatcher {
    */
   redirectHandler(chapterId) {
     this.chapterNodes.forEach((node, index) => {
-      this.toggleChapter(node, this.isMobilePhone ? false : index !== chapterId);
+      this.toggleChapter(node, index !== chapterId);
     });
 
     // Focus new chapter button if active chapter was closed
@@ -370,16 +364,6 @@ class SideBar extends H5P.EventDispatcher {
   }
 
   /**
-   * Toggle sidebar visibility.
-   */
-  toggle() {
-    this.container.classList.toggle('h5p-digibook-hide');
-    if (this.isMobilePhone) {
-      this.container.classList.toggle('h5p-digibook-fullwidth');
-    }
-  }
-
-  /**
    * Create chapter.
    *
    * @param {object} chapter Chapter data.
@@ -405,9 +389,6 @@ class SideBar extends H5P.EventDispatcher {
     const chapterNodeTitle = document.createElement('button');
     chapterNodeTitle.setAttribute('tabindex', chapterId === 0 ? '0' : '-1');
     chapterNodeTitle.classList.add('h5p-digibook-navigation-chapter-button');
-    if (this.isMobilePhone) {
-      chapterNodeTitle.classList.add('h5p-digibook-navigation-mobile');
-    }
     if (this.parent.activeChapter !== chapterId) {
       chapterCollapseIcon.classList.add('icon-collapsed');
       chapterNodeTitle.setAttribute('aria-expanded', 'false');
@@ -423,13 +404,12 @@ class SideBar extends H5P.EventDispatcher {
       const isExpandable = !accordion.classList.contains('hidden');
       const isExpanded = event.currentTarget.getAttribute('aria-expanded') === 'true';
 
-      // On mobile, menu shall be hidden when page content is changed
-      if (this.isMobilePhone && !isExpandable) {
+      if (this.isOpenOnMobile()) {
         this.parent.trigger('toggleMenu');
       }
 
       // Open chapter in main content
-      if (chapterId !== this.focusedChapter && (!isExpandable || (!this.isMobilePhone && !isExpanded))) {
+      if (chapterId !== this.focusedChapter && (this.isOpenOnMobile() || !isExpandable || !isExpanded)) {
         const newChapter = {
           h5pbookid: this.parent.contentId,
           chapter: this.chapters[chapterId].id,
@@ -457,7 +437,7 @@ class SideBar extends H5P.EventDispatcher {
       chapterNode.querySelector('.h5p-digibook-navigation-chapter-button').classList.add('h5p-digibook-navigation-current');
     }
     else {
-      this.toggleChapter(chapterNode, false || !this.isMobilePhone);
+      this.toggleChapter(chapterNode, true);
     }
 
     const sectionsWrapper = document.createElement('ul');
@@ -500,7 +480,7 @@ class SideBar extends H5P.EventDispatcher {
     }
 
     // Don't show collapse arrow if there are no sections or on mobile
-    if (sectionLinks.length === 0 || this.isMobilePhone) {
+    if (sectionLinks.length === 0) {
       const arrowIconElement = chapterNode.querySelector('.h5p-digibook-navigation-chapter-accordion');
       if (arrowIconElement) {
         arrowIconElement.classList.add('hidden');
@@ -549,7 +529,7 @@ class SideBar extends H5P.EventDispatcher {
 
       this.parent.trigger('newChapter', newChapter);
 
-      if (this.isMobilePhone) {
+      if (this.isOpenOnMobile()) {
         this.parent.trigger('toggleMenu');
       }
 
@@ -573,6 +553,14 @@ class SideBar extends H5P.EventDispatcher {
    */
   getChapterNodes() {
     return this.chapters.map((chapter, index) => this.getNodesFromChapter(chapter, index));
+  }
+
+  /**
+   * Detect whether navigation is open on mobileView (if it takes full width).
+   * @return {boolean} True, if navigation is open on mobile view.
+   */
+  isOpenOnMobile() {
+    return this.container.offsetWidth > 0 && this.container.offsetWidth === this.parent.getContainerWidth();
   }
 
   /**
