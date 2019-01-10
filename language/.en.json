@@ -1,9 +1,25 @@
 {
   "semantics": [
     {
-      "label": "Title",
-      "placeholder": "Here you can add an optional title.",
-      "description": "The title you'd like to show above the image"
+      "label": "Enable book cover",
+      "description": "A cover that shows info regarding the book before access"
+    },
+    {
+      "label": "Cover Page",
+      "fields": [
+        {
+          "label": "Cover description",
+          "description": "This text will be the description of your book."
+        },
+        {
+          "label": "Cover image",
+          "description": "An optional background image for the introduction."
+        },
+        {
+          "label": "Cover image alternative text",
+          "description": "An alternative text for the cover image"
+        }
+      ]
     },
     {
       "label": "Chapters",
@@ -17,11 +33,6 @@
         "label": "Item",
         "fields": [
           {
-            "label": "Chapter title",
-            "placeholder": "Insert chapter here",
-            "description": "The name of the chapter"
-          },
-          {
             "label": "Chapter"
           }
         ]
@@ -31,7 +42,7 @@
       "label": "Behavioural settings",
       "fields": [
         {
-          "label": "Display table of contents",
+          "label": "Display table of contents as default",
           "description": "When enabled the table of contents is showed when opening the book"
         },
         {
@@ -39,8 +50,8 @@
           "description": "When enabled there will be indicators per page showing the user if he is done with the page or not."
         },
         {
-          "label": "Enable automatic progress type",
-          "description": "If enabled a page without tasks is considered done when viewed. A page with tasks when all tasks are done. If unchecked there will be a button at the bottom of every page for the user to click when done with the page."
+          "label": "Enable automatic progress",
+          "description": "If enabled a page without tasks is considered done when viewed. A page with tasks when all tasks are done. If disabled there will be a button at the bottom of every page for the user to click when done with the page."
         }
       ]
     },
@@ -87,6 +98,28 @@
     {
       "label": "Translation for \"I have finished this page\"",
       "default": "I have finished this page"
+    },
+    {
+      "label": "Fullscreen button label",
+      "default": "Fullscreen"
+    },
+    {
+      "label": "Exit fullscreen button label",
+      "default": "Exit fullscreen"
+    },
+    {
+      "label": "Accessibility texts",
+      "fields": [
+        {
+          "label": "Page progress textual alternative",
+          "description": "An alternative text for the visual page progress. @page and @total variables available.",
+          "default": "Page @page of @total."
+        },
+        {
+          "label": "Label for expanding/collapsing navigation menu",
+          "default": "Toggle navigation menu"
+        }
+      ]
     }
   ]
 }
