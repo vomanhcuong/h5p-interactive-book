@@ -1,20 +1,20 @@
 {
-  "title": "Digital book",
-  "description": "A digital book which displays content in chapters and sections",
+  "title": "Interactive book",
+  "description": "An interactive book which displays content in chapters and sections",
   "majorVersion": 1,
   "minorVersion": 0,
-  "patchVersion": 1,
+  "patchVersion": 0,
   "runnable": 1,
   "fullscreen": 1,
   "author": "Joubel",
   "license": "MIT",
-  "machineName": "H5P.DigiBook",
+  "machineName": "H5P.InteractiveBook",
   "embedTypes": [
     "iframe"
   ],
   "preloadedJs": [
     {
-      "path": "dist/dist.js"
+      "path": "dist/h5p-interactive-book.js"
     }
   ],
   "preloadedDependencies": [

@@ -38,7 +38,7 @@ class Cover extends H5P.EventDispatcher {
    */
   createContainer() {
     const container = document.createElement('div');
-    container.classList.add('h5p-digibook-cover');
+    container.classList.add('h5p-interactive-book-cover');
     return container;
   }
 
@@ -54,7 +54,7 @@ class Cover extends H5P.EventDispatcher {
     }
 
     const visuals = document.createElement('div');
-    visuals.classList.add('h5p-digibook-cover-graphics');
+    visuals.classList.add('h5p-interactive-book-cover-graphics');
     visuals.appendChild(this.createImage(params.coverImage.path, contentId, params.coverAltText));
     visuals.appendChild(this.createCoverBar());
 
@@ -70,7 +70,7 @@ class Cover extends H5P.EventDispatcher {
    */
   createImage(path, contentId, altText) {
     const img = document.createElement('img');
-    img.classList.add('h5p-digibook-cover-image');
+    img.classList.add('h5p-interactive-book-cover-image');
     img.src = H5P.getPath(path, contentId);
     img.setAttribute('draggable', 'false');
     if (altText) {
@@ -87,7 +87,7 @@ class Cover extends H5P.EventDispatcher {
    */
   createCoverBar() {
     const coverBar = document.createElement('div');
-    coverBar.classList.add('h5p-digibook-cover-bar');
+    coverBar.classList.add('h5p-interactive-book-cover-bar');
     return coverBar;
   }
 
@@ -102,7 +102,7 @@ class Cover extends H5P.EventDispatcher {
     title.innerHTML = titleText;
 
     const titleWrapper = document.createElement('div');
-    titleWrapper.classList.add('h5p-digibook-cover-title');
+    titleWrapper.classList.add('h5p-interactive-book-cover-title');
     titleWrapper.appendChild(title);
 
     return titleWrapper;
@@ -120,7 +120,7 @@ class Cover extends H5P.EventDispatcher {
     }
 
     const descriptionElement = document.createElement('div');
-    descriptionElement.classList.add('h5p-digibook-cover-description');
+    descriptionElement.classList.add('h5p-interactive-book-cover-description');
     descriptionElement.innerHTML = descriptionText;
 
     return descriptionElement;
@@ -140,7 +140,7 @@ class Cover extends H5P.EventDispatcher {
     };
 
     const buttonWrapper = document.createElement('div');
-    buttonWrapper.classList.add('h5p-digibook-cover-readbutton');
+    buttonWrapper.classList.add('h5p-interactive-book-cover-readbutton');
     buttonWrapper.appendChild(button);
 
     return buttonWrapper;

@@ -5,7 +5,7 @@
   #{$property}: $value;
 }
 
-.h5p-digibook-status {
+.h5p-interactive-book-status {
   align-items: center;
   background-color: $background-color;
   background-size: cover;
@@ -17,7 +17,7 @@
   overflow: hidden;
   padding: .5em;
 
-  .h5p-digibook-status-button {
+  .h5p-interactive-book-status-button {
     align-items: center;
     border-radius: 3px;
     display: flex;
@@ -27,7 +27,7 @@
   }
 }
 
-.h5p-digibook-status-button {
+.h5p-interactive-book-status-button {
   border-radius: 3px;
 
   &:hover {
@@ -49,7 +49,7 @@
   }
 }
 
-.h5p-digibook-status-menu {
+.h5p-interactive-book-status-menu {
   background-color: $background-color;
   background-size: cover;
   border: 2px solid $background-color;
@@ -62,7 +62,7 @@
     margin: auto;
   }
 
-  &.h5p-digibook-status-menu-active {
+  &.h5p-interactive-book-status-menu-active {
     background-color: $base-color;
     opacity: 20;
     position: relative;
@@ -88,14 +88,14 @@
   }
 }
 
-.h5p-digibook-status-progress {
+.h5p-interactive-book-status-progress {
   flex-shrink: 0;
   margin: 0;
   white-space: nowrap;
   width: 86px;
 }
 
-.h5p-digibook-status-progress-number {
+.h5p-interactive-book-status-progress-number {
   color: $base-color;
   font-family: Arial;
   font-size: 20px;
@@ -104,7 +104,7 @@
   text-decoration: none solid $base-color;
 }
 
-.h5p-digibook-status-progress-divider {
+.h5p-interactive-book-status-progress-divider {
   color: $mud;
   font-family: Arial;
   font-size: 20px;
@@ -113,19 +113,19 @@
   text-decoration: none solid $mud;
 }
 
-.h5p-digibook-status-progressbar-back {
+.h5p-interactive-book-status-progressbar-back {
   background-color: $base-color-20;
   background-size: cover;
   width: 100%;
 }
 
-.h5p-digibook-status-progressbar-front {
+.h5p-interactive-book-status-progressbar-front {
   background-color: $base-color;
   height: .313em;
   transition: 1s;
 }
 
-.h5p-digibook-status-chapter {
+.h5p-interactive-book-status-chapter {
   flex-grow: 1;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -144,7 +144,7 @@
   }
 }
 
-.h5p-digibook-status-arrow {
+.h5p-interactive-book-status-arrow {
   background-color: $background-color;
   background-size: cover;
   border: .125em solid $background-color;
@@ -166,22 +166,22 @@
   }
 }
 
-.h5p-digibook-status-header {
+.h5p-interactive-book-status-header {
   @include prefix(position, sticky, webkit);
 
   background: $background-color;
   top: 0;
   z-index: 2;
 
-  .h5p-digibook-status-to-top {
+  .h5p-interactive-book-status-to-top {
     display: none;
   }
 }
 
-.h5p-digibook-status-footer {
+.h5p-interactive-book-status-footer {
   bottom: 0;
 
-  .h5p-digibook-status-menu {
+  .h5p-interactive-book-status-menu {
     display: none;
   }
 

@@ -1,8 +1,7 @@
 {
-  "name": "h5p-digibook",
+  "name": "h5p-interactive-book",
   "version": "1.0.0",
-  "description": "A digital book which displays content in chapters and sections",
-  "private": true,
+  "description": "An interactive book which displays content in chapters and sections",
   "scripts": {
     "build": "cross-env NODE_ENV='production' webpack -p",
     "watch": "webpack --watch"

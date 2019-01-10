@@ -1,4 +1,4 @@
-.h5p-digibook-chapter {
+.h5p-interactive-book-chapter {
   display: none;
   left: 0;
   overflow: hidden;
@@ -9,16 +9,16 @@
   transition: .25s;
   width: 100%;
 
-  &.h5p-digibook-previous {
+  &.h5p-interactive-book-previous {
     transform: translateX(-100%);
   }
 
-  &.h5p-digibook-current {
+  &.h5p-interactive-book-current {
     display: block;
     transform: translateX(0);
   }
 
-  &.h5p-digibook-next {
+  &.h5p-interactive-book-next {
     transform: translateX(100%);
   }
 
@@ -29,12 +29,12 @@
   }
 }
 
-.h5p-digibook-animate {
+.h5p-interactive-book-animate {
   display: block;
   transition: transform .25s ease-in-out;
 }
 
-.h5p-digibook-content {
+.h5p-interactive-book-content {
   margin: 1rem;
   overflow: hidden;
   position: relative;
@@ -58,7 +58,7 @@
   }
 }
 
-.h5p-digibook-status-progress-marker {
+.h5p-interactive-book-status-progress-marker {
   align-items: center;
   border-top: 1px solid $cool-grey;
   display: flex;

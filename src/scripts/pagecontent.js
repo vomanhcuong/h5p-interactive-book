@@ -27,10 +27,10 @@ class PageContent extends H5P.EventDispatcher {
     this.content = this.createPageContent();
 
     this.container = document.createElement('div');
-    this.container.classList.add('h5p-digibook-main');
+    this.container.classList.add('h5p-interactive-book-main');
 
     if (this.params.behaviour.defaultTableOfContents) {
-      this.container.classList.add('h5p-digibook-navigation-open');
+      this.container.classList.add('h5p-interactive-book-navigation-open');
     }
 
     this.container.appendChild(this.content);
@@ -56,7 +56,7 @@ class PageContent extends H5P.EventDispatcher {
    */
   createPageContent() {
     const content = document.createElement('div');
-    content.classList.add('h5p-digibook-content');
+    content.classList.add('h5p-interactive-book-content');
     this.columnNodes.forEach(element => {
       content.appendChild(element);
     });
@@ -72,18 +72,18 @@ class PageContent extends H5P.EventDispatcher {
     }
 
     this.columnNodes.forEach((element, index) => {
-      element.classList.remove('h5p-digibook-previous');
-      element.classList.remove('h5p-digibook-current');
-      element.classList.remove('h5p-digibook-next');
+      element.classList.remove('h5p-interactive-book-previous');
+      element.classList.remove('h5p-interactive-book-current');
+      element.classList.remove('h5p-interactive-book-next');
 
       if (index === currentId - 1) {
-        // element.classList.add('h5p-digibook-previous');
+        // element.classList.add('h5p-interactive-book-previous');
       }
       else if (index === currentId) {
-        element.classList.add('h5p-digibook-current');
+        element.classList.add('h5p-interactive-book-current');
       }
       else if (index === currentId + 1) {
-        // element.classList.add('h5p-digibook-next');
+        // element.classList.add('h5p-interactive-book-next');
       }
     });
   }
@@ -104,7 +104,7 @@ class PageContent extends H5P.EventDispatcher {
     checkText.innerHTML = this.params.l10n.markAsFinished;
 
     const wrapper = document.createElement('div');
-    wrapper.classList.add('h5p-digibook-status-progress-marker');
+    wrapper.classList.add('h5p-interactive-book-status-progress-marker');
     wrapper.appendChild(checkbox);
     wrapper.appendChild(checkText);
 
@@ -121,7 +121,7 @@ class PageContent extends H5P.EventDispatcher {
     const columnContent = columnNode.getElementsByClassName('h5p-column-content');
 
     for (let i = 0; i < sections.length; i++) {
-      columnContent[i].id = `h5p-digibook-section-${sections[i].instance.subContentId}`;
+      columnContent[i].id = `h5p-interactive-book-section-${sections[i].instance.subContentId}`;
     }
   }
 
@@ -194,8 +194,8 @@ class PageContent extends H5P.EventDispatcher {
         }))
       };
 
-      columnNode.classList.add('h5p-digibook-chapter');
-      columnNode.id = `h5p-digibook-chapter-${newInstance.subContentId}`;
+      columnNode.classList.add('h5p-interactive-book-chapter');
+      columnNode.id = `h5p-interactive-book-chapter-${newInstance.subContentId}`;
 
       // Find sections with tasks and tracks them
       if (this.behaviour.progressIndicators) {
@@ -310,7 +310,7 @@ class PageContent extends H5P.EventDispatcher {
    * @param {object} target Target.
    */
   changeChapter(redirectOnLoad, target) {
-    if (this.columnNodes[this.parent.getActiveChapter()].classList.contains('h5p-digibook-animate')) {
+    if (this.columnNodes[this.parent.getActiveChapter()].classList.contains('h5p-interactive-book-animate')) {
       return;
     }
 
@@ -334,33 +334,33 @@ class PageContent extends H5P.EventDispatcher {
          * Animation done by making the current and the target node
          * visible and then applying the correct translation in x-direction
          */
-        targetChapter.classList.add(`h5p-digibook-${direction}`);
+        targetChapter.classList.add(`h5p-interactive-book-${direction}`);
 
-        targetChapter.classList.add('h5p-digibook-animate');
-        oldChapter.classList.add('h5p-digibook-animate');
+        targetChapter.classList.add('h5p-interactive-book-animate');
+        oldChapter.classList.add('h5p-interactive-book-animate');
 
         // Start the animation
         setTimeout(() => {
           if (direction === 'previous') {
-            oldChapter.classList.add('h5p-digibook-next');
+            oldChapter.classList.add('h5p-interactive-book-next');
           }
           else {
-            oldChapter.classList.remove('h5p-digibook-current');
-            oldChapter.classList.add('h5p-digibook-previous');
+            oldChapter.classList.remove('h5p-interactive-book-current');
+            oldChapter.classList.add('h5p-interactive-book-previous');
           }
-          targetChapter.classList.remove(`h5p-digibook-${direction}`);
+          targetChapter.classList.remove(`h5p-interactive-book-${direction}`);
         }, 1);
 
         // End the animation
         setTimeout(() => {
-          oldChapter.classList.remove('h5p-digibook-next');
-          oldChapter.classList.remove('h5p-digibook-previous');
+          oldChapter.classList.remove('h5p-interactive-book-next');
+          oldChapter.classList.remove('h5p-interactive-book-previous');
 
-          oldChapter.classList.remove('h5p-digibook-current');
-          targetChapter.classList.add('h5p-digibook-current');
+          oldChapter.classList.remove('h5p-interactive-book-current');
+          targetChapter.classList.add('h5p-interactive-book-current');
 
-          targetChapter.classList.remove('h5p-digibook-animate');
-          oldChapter.classList.remove('h5p-digibook-animate');
+          targetChapter.classList.remove('h5p-interactive-book-animate');
+          oldChapter.classList.remove('h5p-interactive-book-animate');
 
           this.redirectSection(this.targetPage.section, this.targetPage.headerNumber);
 
@@ -514,7 +514,7 @@ class PageContent extends H5P.EventDispatcher {
    * Toggle the navigation menu.
    */
   toggleNavigationMenu() {
-    this.container.classList.toggle('h5p-digibook-navigation-open');
+    this.container.classList.toggle('h5p-interactive-book-navigation-open');
   }
 }
 

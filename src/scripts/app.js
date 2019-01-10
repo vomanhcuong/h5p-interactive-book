@@ -4,7 +4,7 @@ import StatusBar from './statusbar';
 import Cover from './cover';
 import PageContent from './pagecontent';
 
-export default class DigiBook extends H5P.EventDispatcher {
+export default class InteractiveBook extends H5P.EventDispatcher {
   /**
    * @constructor
    *
@@ -241,7 +241,7 @@ export default class DigiBook extends H5P.EventDispatcher {
         }
 
         // Resize if necessary and not animating
-        if (this.pageContent.content.style.height !== `${currentNode.offsetHeight}px` && !currentNode.classList.contains('h5p-digibook-animate')) {
+        if (this.pageContent.content.style.height !== `${currentNode.offsetHeight}px` && !currentNode.classList.contains('h5p-interactive-book-animate')) {
           this.pageContent.content.style.height = `${currentNode.offsetHeight}px`;
 
           this.pageContent.updateFooter();
@@ -258,8 +258,8 @@ export default class DigiBook extends H5P.EventDispatcher {
       this.pageContent.toggleNavigationMenu();
 
       // Update the menu button
-      const menuButton = this.statusBarHeader.wrapper.querySelector('.h5p-digibook-status-menu');
-      menuButton.setAttribute('aria-expanded', menuButton.classList.toggle('h5p-digibook-status-menu-active') ? 'true' : 'false');
+      const menuButton = this.statusBarHeader.wrapper.querySelector('.h5p-interactive-book-status-menu');
+      menuButton.setAttribute('aria-expanded', menuButton.classList.toggle('h5p-interactive-book-status-menu-active') ? 'true' : 'false');
 
       // We need to resize the whole book since the internactions are getting
       // more width and those with a static ratio will increase their height.
@@ -279,7 +279,7 @@ export default class DigiBook extends H5P.EventDispatcher {
     });
 
     this.on('newChapter', (event) => {
-      if (this.pageContent.columnNodes[this.getActiveChapter()].classList.contains('h5p-digibook-animate')) {
+      if (this.pageContent.columnNodes[this.getActiveChapter()].classList.contains('h5p-interactive-book-animate')) {
         return;
       }
 
@@ -398,7 +398,7 @@ export default class DigiBook extends H5P.EventDispatcher {
      * @return {number} Chapter Id.
      */
     this.getChapterId = (chapterUUID) => {
-      chapterUUID = chapterUUID.replace('h5p-digibook-chapter-', '');
+      chapterUUID = chapterUUID.replace('h5p-interactive-book-chapter-', '');
 
       return this.chapters
         .map(chapter => chapter.instance.subContentId).indexOf(chapterUUID);
@@ -512,7 +512,7 @@ export default class DigiBook extends H5P.EventDispatcher {
         }
         else {
           self.newHandler = {
-            chapter: `h5p-digibook-chapter-${self.chapters[0].instance.subContentId}`,
+            chapter: `h5p-interactive-book-chapter-${self.chapters[0].instance.subContentId}`,
             h5pbookid: self.h5pbookid
           };
         }
@@ -551,7 +551,7 @@ export default class DigiBook extends H5P.EventDispatcher {
      */
     this.attach = ($wrapper) => {
       // Needed to enable scrolling in fullscreen
-      $wrapper[0].classList.add('h5p-digibook');
+      $wrapper[0].classList.add('h5p-interactive-book');
       $wrapper[0].classList.add('h5p-scrollable-fullscreen');
       if (this.cover) {
         $wrapper.get(0).appendChild(this.cover.container);
@@ -588,13 +588,13 @@ export default class DigiBook extends H5P.EventDispatcher {
       if (hide) {
         nodes.forEach(node => {
           node.classList.add('h5p-content-hidden');
-          node.classList.add('digibook-cover-present');
+          node.classList.add('h5p-interactive-book-cover-present');
         });
       }
       else {
         nodes.forEach(node => {
           node.classList.remove('h5p-content-hidden');
-          node.classList.remove('digibook-cover-present');
+          node.classList.remove('h5p-interactive-book-cover-present');
         });
       }
     };
@@ -619,8 +619,8 @@ export default class DigiBook extends H5P.EventDispatcher {
       };
 
       this.fullScreenButton = document.createElement('button');
-      this.fullScreenButton.classList.add('h5p-digibook-fullscreen-button');
-      this.fullScreenButton.classList.add('h5p-digibook-enter-fullscreen');
+      this.fullScreenButton.classList.add('h5p-interactive-book-fullscreen-button');
+      this.fullScreenButton.classList.add('h5p-interactive-book-enter-fullscreen');
       this.fullScreenButton.setAttribute('title', this.params.fullscreen);
       this.fullScreenButton.setAttribute('aria-label', this.params.fullscreen);
       this.fullScreenButton.addEventListener('click', toggleFullScreen);
@@ -633,8 +633,8 @@ export default class DigiBook extends H5P.EventDispatcher {
 
       this.on('enterFullScreen', () => {
         this.isFullscreen = true;
-        this.fullScreenButton.classList.remove('h5p-digibook-enter-fullscreen');
-        this.fullScreenButton.classList.add('h5p-digibook-exit-fullscreen');
+        this.fullScreenButton.classList.remove('h5p-interactive-book-enter-fullscreen');
+        this.fullScreenButton.classList.add('h5p-interactive-book-exit-fullscreen');
         this.fullScreenButton.setAttribute('title', this.params.exitFullscreen);
         this.fullScreenButton.setAttribute('aria-label', this.params.exitFullScreen);
 
@@ -643,8 +643,8 @@ export default class DigiBook extends H5P.EventDispatcher {
 
       this.on('exitFullScreen', () => {
         this.isFullscreen = false;
-        this.fullScreenButton.classList.remove('h5p-digibook-exit-fullscreen');
-        this.fullScreenButton.classList.add('h5p-digibook-enter-fullscreen');
+        this.fullScreenButton.classList.remove('h5p-interactive-book-exit-fullscreen');
+        this.fullScreenButton.classList.add('h5p-interactive-book-enter-fullscreen');
         this.fullScreenButton.setAttribute('title', this.params.fullscreen);
         this.fullScreenButton.setAttribute('aria-label', this.params.fullscreen);
 
@@ -652,7 +652,7 @@ export default class DigiBook extends H5P.EventDispatcher {
       });
 
       const fullScreenButtonWrapper = document.createElement('div');
-      fullScreenButtonWrapper.classList.add('h5p-digibook-fullscreen-button-wrapper');
+      fullScreenButtonWrapper.classList.add('h5p-interactive-book-fullscreen-button-wrapper');
       fullScreenButtonWrapper.appendChild(this.fullScreenButton);
 
       $wrapper.prepend(fullScreenButtonWrapper);
@@ -681,7 +681,7 @@ export default class DigiBook extends H5P.EventDispatcher {
       },
       a11y: this.params.a11y,
       behaviour: this.params.behaviour
-    }, 'h5p-digibook-status-header');
+    }, 'h5p-interactive-book-status-header');
 
     this.statusBarFooter = new StatusBar(contentId, config.chapters.length, this, {
       l10n: {
@@ -691,7 +691,7 @@ export default class DigiBook extends H5P.EventDispatcher {
       },
       a11y: this.params.a11y,
       behaviour: this.params.behaviour
-    }, 'h5p-digibook-status-footer');
+    }, 'h5p-interactive-book-status-footer');
 
     if (this.hasCover()) {
 

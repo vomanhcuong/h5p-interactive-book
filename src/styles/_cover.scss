@@ -1,4 +1,4 @@
-.h5p-digibook-cover {
+.h5p-interactive-book-cover {
   align-items: center;
   background: $background-color;
   display: flex;
@@ -21,7 +21,7 @@
   }
 }
 
-.h5p-digibook-cover-graphics {
+.h5p-interactive-book-cover-graphics {
   align-items: center;
   display: flex;
   height: 15em;
@@ -30,14 +30,14 @@
   width: 100%;
 }
 
-.h5p-digibook-cover-bar {
+.h5p-interactive-book-cover-bar {
   background-color: $base-color-5;
   background-size: cover;
   height: 70%;
   width: inherit;
 }
 
-.h5p-digibook-cover-image {
+.h5p-interactive-book-cover-image {
   box-shadow: 10px 4px 47px 0 $black-20;
   height: 100%;
   left: 50%;
@@ -47,7 +47,7 @@
   z-index: 3;
 }
 
-.h5p-digibook-cover-title {
+.h5p-interactive-book-cover-title {
   color: $medium-grey;
   font-size: 2.188em;
   font-weight: 700;
@@ -55,7 +55,7 @@
   text-decoration: none solid $medium-grey;
 }
 
-.h5p-digibook-cover-description {
+.h5p-interactive-book-cover-description {
   color: $medium-grey;
   font-size: 1.25em;
   font-weight: 400;
@@ -65,7 +65,7 @@
   text-decoration: none solid $medium-grey;
 }
 
-.h5p-digibook-cover-readbutton {
+.h5p-interactive-book-cover-readbutton {
   margin-top: .5em;
 
   button {

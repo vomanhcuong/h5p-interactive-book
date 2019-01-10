@@ -1,7 +1,7 @@
 import "../styles/main.scss";
 import "../styles/style.scss";
-import DigiBook from "../scripts/app";
+import InteractiveBook from "../scripts/app";
 
 // Load library
 H5P = H5P || {};
-H5P.DigiBook = DigiBook;
+H5P.InteractiveBook = InteractiveBook;

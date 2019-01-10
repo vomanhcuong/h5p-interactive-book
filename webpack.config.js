@@ -5,11 +5,11 @@ var isDev = (nodeEnv !== 'production');
 var config = {
   mode: nodeEnv,
   entry: {
-    dist: './src/entries/digibook.js'
+    dist: './src/entries/main.js'
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js'
+    filename: 'h5p-interactive-book.js'
   },
   module: {
     rules: [

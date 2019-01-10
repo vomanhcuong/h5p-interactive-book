@@ -19,43 +19,43 @@ $mud-80: rgba($mud, .8);
 
 $fullscreen-button-size: 1.8em;
 
-.h5p-digibook {
+.h5p-interactive-book {
   // Mobile or narrow view
   @media (max-device-width: 480px), (max-width: 767px) {
-    .h5p-digibook-main {
+    .h5p-interactive-book-main {
 
-      &.h5p-digibook-navigation-open {
+      &.h5p-interactive-book-navigation-open {
 
-        .h5p-digibook-navigation {
+        .h5p-interactive-book-navigation {
           max-width: none;
           width: 100%;
         }
 
-        .h5p-digibook-navigation-chapter-accordion {
+        .h5p-interactive-book-navigation-chapter-accordion {
           opacity: 0;
           visibility: hidden;
         }
 
-        .h5p-digibook-navigation-chapter-button {
+        .h5p-interactive-book-navigation-chapter-button {
           background-color: $background-color;
 
-          &.h5p-digibook-navigation-current {
+          &.h5p-interactive-book-navigation-current {
             background-color: $base-color-10;
           }
 
-          .h5p-digibook-navigation-chapter-title-text {
+          .h5p-interactive-book-navigation-chapter-title-text {
             color: $base-color;
           }
         }
 
-        .h5p-digibook-navigation-sectionlist {
+        .h5p-interactive-book-navigation-sectionlist {
           max-height: none;
           overflow: inherit;
           transition: max-height .5s ease-in;
           visibility: inherit;
         }
 
-        .h5p-digibook-content {
+        .h5p-interactive-book-content {
           display: none;
         }
       }
@@ -66,7 +66,7 @@ $fullscreen-button-size: 1.8em;
     overflow-y: auto;
   }
 
-  .h5p-digibook-fullscreen-button-wrapper {
+  .h5p-interactive-book-fullscreen-button-wrapper {
     background-color: $mud-80;
     border: 0;
     border-radius: 100%;
@@ -78,11 +78,11 @@ $fullscreen-button-size: 1.8em;
     z-index: 3;
   }
 
-  .h5p-digibook-fullscreen-button {
+  .h5p-interactive-book-fullscreen-button {
     background-color: unset;
     border: 0;
     border-radius: 100%;
-    font-family: 'h5p-book';
+    font-family: 'h5p-interactive-book';
     font-size: 1em;
     height: $fullscreen-button-size;
     line-height: normal;
@@ -91,23 +91,23 @@ $fullscreen-button-size: 1.8em;
     top: $fullscreen-button-size;
     width: $fullscreen-button-size;
 
-    &.h5p-digibook-enter-fullscreen {
+    &.h5p-interactive-book-enter-fullscreen {
       &::before {
         bottom: .5em;
         color: $background-color;
         content: '\e90b';
-        font-family: 'h5p-book';
+        font-family: 'h5p-interactive-book';
         left: .5em;
         position: absolute;
       }
     }
 
-    &.h5p-digibook-exit-fullscreen {
+    &.h5p-interactive-book-exit-fullscreen {
       &::before {
         bottom: .5em;
         color: $background-color;
         content: '\e90c';
-        font-family: 'h5p-book';
+        font-family: 'h5p-interactive-book';
         left: .5em;
         position: absolute;
       }
@@ -127,14 +127,14 @@ $fullscreen-button-size: 1.8em;
   }
 }
 
-.h5p-digibook-main {
+.h5p-interactive-book-main {
   display: flex;
   flex: 1;
   overflow: hidden;
 
-  &.h5p-digibook-navigation-open {
+  &.h5p-interactive-book-navigation-open {
 
-    .h5p-digibook-navigation {
+    .h5p-interactive-book-navigation {
       max-width: 16.563em;
       width: 16.563em;
     }
@@ -142,28 +142,28 @@ $fullscreen-button-size: 1.8em;
 }
 
 .h5p-content-hidden {
-  .digibook-cover-present {
+  .h5p-interactive-book-cover-present {
     display: none;
   }
 }
 
 .h5p-fullscreen {
-  .h5p-digibook {
+  .h5p-interactive-book {
     display: flex;
     flex-direction: column;
   }
 
-  .h5p-digibook-main {
+  .h5p-interactive-book-main {
     flex: 1;
     overflow: auto;
 
-    .h5p-digibook-content {
+    .h5p-interactive-book-content {
       overflow-x: hidden;
       overflow-y: auto;
     }
   }
 
-  .h5p-digibook-navigation {
+  .h5p-interactive-book-navigation {
     display: flex;
     flex-direction: column;
 
