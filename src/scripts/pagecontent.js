@@ -198,15 +198,17 @@ class PageContent extends H5P.EventDispatcher {
       columnNode.id = `h5p-interactive-book-chapter-${newInstance.subContentId}`;
 
       // Find sections with tasks and tracks them
-      if (this.behaviour.progressIndicators) {
-        chapter.sections.forEach(section => {
-          if (H5P.Column.isTask(section.instance)) {
-            section.isTask = true;
+      chapter.sections.forEach(section => {
+        if (H5P.Column.isTask(section.instance)) {
+          section.isTask = true;
+
+          if (this.behaviour.progressIndicators) {
             section.taskDone = false;
             chapter.tasksLeft += 1;
           }
-        });
-      }
+        }
+      });
+
       chapter.maxTasks = chapter.tasksLeft;
 
       // Register both the HTML-element and the H5P-element

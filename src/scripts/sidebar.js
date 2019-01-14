@@ -327,6 +327,10 @@ class SideBar extends H5P.EventDispatcher {
    * @param {string} status Status.
    */
   updateChapterProgressIndicator(chapterId, status) {
+    if (!this.behaviour.progressIndicators) {
+      return;
+    }
+
     const progressIndicator = this.chapterNodes[chapterId]
       .getElementsByClassName('h5p-interactive-book-navigation-chapter-progress')[0];
 
