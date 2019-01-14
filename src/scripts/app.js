@@ -439,7 +439,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
      * @param {number} chapterHeight Chapter height.
      */
     this.shouldFooterBeHidden = (chapterHeight) => {
-      return chapterHeight <= window.outerHeight || this.isFullscreen;
+      return chapterHeight <= window.innerHeight || this.isFullscreen;
     };
 
     /**
