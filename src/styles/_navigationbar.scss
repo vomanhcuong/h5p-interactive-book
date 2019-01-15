@@ -53,6 +53,7 @@
     text-overflow: ellipsis;
 
     .section-button {
+      position: relative;
       background: transparent;
       border: 0;
       padding: 0 1.125em;
@@ -65,7 +66,7 @@
       font-size: 4px;
       visibility: hidden;
       width: 2.17em;
-      margin-top: 4px;
+      top: 4px;
 
       &.h5p-interactive-book-navigation-section-task {
         visibility: inherit;
