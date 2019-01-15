@@ -81,3 +81,10 @@
 .h5p-content-hidden {
   display: none;
 }
+
+/* Help Course Presentation to resize properly with initial height of max-width / 9 * 16 */
+.h5p-course-presentation {
+  .h5p-wrapper {
+    height: 596px;
+  }
+}
