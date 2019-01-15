@@ -127,6 +127,10 @@ $fullscreen-button-size: 1.8em;
   }
 }
 
+body.h5p-fullscreen .h5p-interactive-book-fullscreen-button-wrapper {
+  display: none;
+}
+
 .h5p-interactive-book-main {
   display: flex;
   flex: 1;

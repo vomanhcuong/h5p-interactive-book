@@ -91,6 +91,16 @@ class StatusBar extends H5P.EventDispatcher {
   }
 
   /**
+   * Update aria label of progress text
+   * @param {number} chapterId Index of chapter
+   */
+  updateA11yProgress(chapterId) {
+    this.progressIndicator.hiddenButRead.innerHTML = this.params.a11y.progress
+      .replace('@page', chapterId)
+      .replace('@total', this.totalChapters);
+  }
+
+  /**
    * Update status bar.
    */
   updateStatusBar() {
@@ -100,6 +110,7 @@ class StatusBar extends H5P.EventDispatcher {
 
     this.progressIndicator.current.innerHTML = currentChapter;
 
+    this.updateA11yProgress(currentChapter);
     this.updateProgressBar(currentChapter);
 
     this.chapterTitle.text.innerHTML = chapterTitle;
@@ -275,20 +286,27 @@ class StatusBar extends H5P.EventDispatcher {
   createProgressIndicator() {
     const current = document.createElement('span');
     current.classList.add('h5p-interactive-book-status-progress-number');
+    current.setAttribute('aria-hidden', 'true');
 
     const divider = document.createElement('span');
     divider.classList.add('h5p-interactive-book-status-progress-divider');
     divider.innerHTML = ' / ';
+    divider.setAttribute('aria-hidden', 'true');
 
     const total = document.createElement('span');
     total.classList.add('h5p-interactive-book-status-progress-number');
     total.innerHTML = this.totalChapters;
+    total.setAttribute('aria-hidden', 'true');
+
+    const hiddenButRead = document.createElement('p');
+    hiddenButRead.classList.add('hidden-but-read');
 
     const progressText = document.createElement('p');
     progressText.classList.add('h5p-interactive-book-status-progress');
     progressText.appendChild(current);
     progressText.appendChild(divider);
     progressText.appendChild(total);
+    progressText.appendChild(hiddenButRead);
 
     const wrapper = document.createElement('div');
     wrapper.appendChild(progressText);
@@ -298,7 +316,8 @@ class StatusBar extends H5P.EventDispatcher {
       current,
       total,
       divider,
-      progressText
+      progressText,
+      hiddenButRead
     };
   }
 
