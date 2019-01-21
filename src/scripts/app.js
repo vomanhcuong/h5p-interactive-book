@@ -439,7 +439,9 @@ export default class InteractiveBook extends H5P.EventDispatcher {
      * @param {number} chapterHeight Chapter height.
      */
     this.shouldFooterBeHidden = (chapterHeight) => {
-      return chapterHeight <= window.innerHeight || this.isFullscreen;
+      // Always show except for in fullscreen
+      // Ideally we'd check on the top window size but we can't always get it.
+      return this.isFullscreen;
     };
 
     /**
