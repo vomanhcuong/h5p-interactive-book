@@ -482,10 +482,8 @@ export default class InteractiveBook extends H5P.EventDispatcher {
     });
 
     H5P.externalDispatcher.on('xAPI', function (event) {
-      if (event.getVerb() === 'answered' || event.getVerb() === 'completed') {
-        if (self.params.behaviour.progressIndicators && self !== this) {
-          self.setSectionStatusByID(this.subContentId || this.contentData.subContentId, self.activeChapter);
-        }
+      if (self !== this && (event.getVerb() === 'answered' || event.getVerb() === 'completed')) {
+        self.setSectionStatusByID(this.subContentId || this.contentData.subContentId, self.activeChapter);
       }
     });
 
