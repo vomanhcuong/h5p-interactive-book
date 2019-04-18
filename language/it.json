@@ -1,0 +1,125 @@
+{
+  "semantics": [
+    {
+      "label": "Attiva la copertina del libro",
+      "description": "Una copertina che mostra informazioni sul libro prima dell'accesso"
+    },
+    {
+      "label": "Copertina",
+      "fields": [
+        {
+          "label": "Descrizione della copertina",
+          "description": "Questo testo descriverà il tuo libro."
+        },
+        {
+          "label": "Immagine di copertina",
+          "description": "Un'immagine di sfondo facoltativa per l'introduzione."
+        },
+        {
+          "label": "Testo alternativo per l'immagine di copertina",
+          "description": "Un testo alternativo per l'immagine di copertina"
+        }
+      ]
+    },
+    {
+      "label": "Capitoli",
+      "entity": "Capitolo",
+      "widgets": [
+        {
+          "label": "Predefinito"
+        }
+      ],
+      "field": {
+        "label": "Item",
+        "fields": [
+          {
+            "label": "Capitolo"
+          }
+        ]
+      }
+    },
+    {
+      "label": "Impostazioni di esecuzione",
+      "fields": [
+        {
+          "label": "Mostra la tavola dei contenuti di default",
+          "description": "Quando attivo, la tavola dei contenuti viene mostrata all'apertura del libro"
+        },
+        {
+          "label": "Mostra gli indicatori di progresso",
+          "description": "Quando attivo, ci saranno degli indicatori in ogni pagina, per mostrare all'utente se ha o non ha finito con quella pagina."
+        },
+        {
+          "label": "Attiva progressione automatica",
+          "description": "Se attivo, una pagine senza compiti è considerata fatta quando è stata visualizzata. Una pagina con compiti, invece, quando tutti sono stati portati a termine. Se disabilitata, in fondo a ogni pagina ci sarà un pulsante su cui l'utente può cliccare quando ha finito con quella pagina."
+        }
+      ]
+    },
+    {
+      "label": "Traduzione per \"Leggi\"",
+      "default": "Leggi"
+    },
+    {
+      "label": "Traduzione per \"Mostra 'Tavola dei contenuti'\"",
+      "default": "Mostra 'Tavola dei contenuti'"
+    },
+    {
+      "label": "Traduzione per \"Nascondi 'Tavola dei contenuti'\"",
+      "default": "Nascondi 'Tavola dei contenuti'"
+    },
+    {
+      "label": "Traduzione per \"Prossima pagina\"",
+      "default": "Prossima pagina"
+    },
+    {
+      "label": "Traduzione per \"Prossima pagina\"",
+      "default": "Prossima pagina"
+    },
+    {
+      "label": "Traduzione per \"Pagina precedente\"",
+      "default": "Pagina precedente"
+    },
+    {
+      "label": "Traduzione per \"Capitolo completato!\"",
+      "default": "Capitolo completato!"
+    },
+    {
+      "label": "Traduzione per \"@pages di @total completate\" (@pages e @total sarà sostituito dai valori attuali)",
+      "default": "@pages di @total completate"
+    },
+    {
+      "label": "Traduzione per \"Capitolo incompleto\"",
+      "default": "Capitolo incompleto"
+    },
+    {
+      "label": "Traduzione per \"Torna in alto\"",
+      "default": "Torna in alto"
+    },
+    {
+      "label": "Traduzione per \"Ho finito questa pagina\"",
+      "default": "Ho finito questa pagina"
+    },
+    {
+      "label": "Etichetta del pulsante schermo intero",
+      "default": "Schermo intero"
+    },
+    {
+      "label": "Etichetta del pulsante di uscita da schermo intero",
+      "default": "Esci da schermo intero"
+    },
+    {
+      "label": "Testi per l'accessibilità",
+      "fields": [
+        {
+          "label": "Alternativa testuale per la progressione di pagina",
+          "description": "Un testo alternativo alla progressione di pagina visuale. @page e @total variabili disponibili.",
+          "default": "Pagine @page di @total."
+        },
+        {
+          "label": "Etichetta per espandere/ridurre il menu di navigazione",
+          "default": "Mostra/Nascondi il menu di navigazione"
+        }
+      ]
+    }
+  ]
+}
