@@ -97,11 +97,11 @@
     },
     {
       "label": "Translation for \"I have finished this page\"",
-      "default": "Jeg er ferdig med siden"
+      "default": "Eg er ferdig med sida"
     },
     {
       "label": "Fullscreen button label",
-      "default": "Fullscreen"
+      "default": "Fullskjerm"
     },
     {
       "label": "Exit fullscreen button label",
