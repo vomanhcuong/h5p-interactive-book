@@ -36,7 +36,8 @@
           "sup",
           "strong",
           "em",
-          "p"
+          "p",
+          "code"
         ]
       },
       {
