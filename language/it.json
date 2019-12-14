@@ -42,7 +42,7 @@
       "label": "Impostazioni di esecuzione",
       "fields": [
         {
-          "label": "Mostra la tavola dei contenuti di default",
+          "label": "Mostra la tavola dei contenuti predefiniti",
           "description": "Quando attivo, la tavola dei contenuti viene mostrata all'apertura del libro"
         },
         {
@@ -51,7 +51,7 @@
         },
         {
           "label": "Attiva progressione automatica",
-          "description": "Se attivo, una pagine senza compiti è considerata fatta quando è stata visualizzata. Una pagina con compiti, invece, quando tutti sono stati portati a termine. Se disabilitata, in fondo a ogni pagina ci sarà un pulsante su cui l'utente può cliccare quando ha finito con quella pagina."
+          "description": "Se abilitato, una pagina senza compiti è considerata fatta quando è stata visualizzata; viceversa, una pagina con compiti lo è quando tutti sono stati portati a termine. Se disabilitato, in fondo a ogni pagina ci sarà un pulsante su cui l'utente può cliccare quando ha finito con quella pagina"
         }
       ]
     },
@@ -60,12 +60,12 @@
       "default": "Leggi"
     },
     {
-      "label": "Traduzione per \"Mostra 'Tavola dei contenuti'\"",
-      "default": "Mostra 'Tavola dei contenuti'"
+      "label": "Traduzione per \"Mostra 'Indice dei contenuti'\"",
+      "default": "Mostra 'Indice dei contenuti'"
     },
     {
-      "label": "Traduzione per \"Nascondi 'Tavola dei contenuti'\"",
-      "default": "Nascondi 'Tavola dei contenuti'"
+      "label": "Traduzione per \"Nascondi 'Indice dei contenuti'\"",
+      "default": "Nascondi 'Indice dei contenuti'"
     },
     {
       "label": "Traduzione per \"Prossima pagina\"",
@@ -96,8 +96,8 @@
       "default": "Torna in alto"
     },
     {
-      "label": "Traduzione per \"Ho finito questa pagina\"",
-      "default": "Ho finito questa pagina"
+      "label": "Traduzione per \"Ho terminato questa pagina\"",
+      "default": "Ho terminato questa pagina"
     },
     {
       "label": "Etichetta del pulsante schermo intero",
@@ -112,8 +112,8 @@
       "fields": [
         {
           "label": "Alternativa testuale per la progressione di pagina",
-          "description": "Un testo alternativo alla progressione di pagina visuale. @page e @total variabili disponibili.",
-          "default": "Pagine @page di @total."
+          "description": "Un testo alternativo alla progressione di pagina visuale. @page e @total variabili disponibili",
+          "default": "Pagine @page di @total"
         },
         {
           "label": "Etichetta per espandere/ridurre il menu di navigazione",
