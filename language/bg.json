@@ -42,16 +42,16 @@
       "label": "Настройки на поведение",
       "fields": [
         {
-          "label": "Display table of contents as default",
-          "description": "When enabled the table of contents is showed when opening the book"
+          "label": "Показване съдържанието по подразбиране ",
+          "description": "Когато е активирано, съдържанието се показва при отваряне на книгата"
         },
         {
-          "label": "Display Progress Indicators",
-          "description": "When enabled there will be indicators per page showing the user if he is done with the page or not."
+          "label": "Показване на индикатори за напредъка",
+          "description": "Когато е активирана, ще има индикатори на страница, показващи на потребителя дали е прочел страницата или не."
         },
         {
-          "label": "Enable automatic progress",
-          "description": "If enabled a page without tasks is considered done when viewed. A page with tasks when all tasks are done. If disabled there will be a button at the bottom of every page for the user to click when done with the page."
+          "label": "Активиране на автоматичния индикатор за напредък",
+          "description": "Ако е активирано, страница без задачи се счита за извършена, когато е видяна, а страница със задачи, когато всички задачи са изпълнени. Ако е деактивиран, в долната част на всяка страница ще има бутон, който потребителят да щракне, когато приключи със страницата."
         }
       ]
     },
@@ -60,12 +60,12 @@
       "default": "Чети"
     },
     {
-      "label": "Превод за \"Display 'Table of contents'\"",
-      "default": "Display 'Table of contents'"
+      "label": "Превод за \"Показване на 'Съдържание'\"",
+      "default": "Покзване на 'Съдържание'"
     },
     {
-      "label": "Превод за \"Hide 'Table of contents'\"",
-      "default": "Hide 'Table of contents'"
+      "label": "Превод за \"Скриване на 'Съдържание'\"",
+      "default": "Скриване на 'Съдържание'"
     },
     {
       "label": "Превод за \"Следваща страница\"",
@@ -84,20 +84,20 @@
       "default": "Разделът е завършен!"
     },
     {
-      "label": "Превод за \"@pages of @total completed\" (@pages and @total will be replaced by actual values)",
-      "default": "@pages of @total completed"
+      "label": "Превод за \"@pages от @total страници са завършени\" (@pages и @total ще бъдат подменени с действителни стойности)",
+      "default": "@pages от @total страници са завършени"
     },
     {
-      "label": "Превод за \"Incomplete chapter\"",
+      "label": "Превод за \"Непълен раздел\"",
       "default": "Непълен раздел"
     },
     {
-      "label": "Превод за \"Navigate to the top\"",
-      "default": "Navigate to the top"
+      "label": "Превод за \"Връщане в началото\"",
+      "default": "Връщане в началото"
     },
     {
-      "label": "Превод за \"I have finished this page\"",
-      "default": "Свърших тази страница"
+      "label": "Превод за \"Завърших тази страница\"",
+      "default": "Завърших тази страница"
     },
     {
       "label": "Етикет на бутона На цял екран",
@@ -111,12 +111,12 @@
       "label": "Текстове за достъпност",
       "fields": [
         {
-          "label": "Page progress textual alternative",
-          "description": "An alternative text for the visual page progress. @page and @total variables available.",
-          "default": "Page @page of @total."
+          "label": "Текстова алтернатива за напредък на страницата",
+          "description": "Алтернативен текст за визуалния напредък на страница. Достъпни са променливите @page и @total.",
+          "default": "Страница @page от @total."
         },
         {
-          "label": "Label for expanding/collapsing navigation menu",
+          "label": "Етикет за разпъване/свиване на навигационното меню",
           "default": "Превключване на менюто за навигация"
         }
       ]
