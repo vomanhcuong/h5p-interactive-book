@@ -1,0 +1,125 @@
+{
+  "semantics": [
+    {
+      "label": "Добавяне на корица на книгата",
+      "description": "Корица, която показва информация за книгата преди да бъде отворена"
+    },
+    {
+      "label": "Корица",
+      "fields": [
+        {
+          "label": "Описание на корицата",
+          "description": "Този текст ще бъде описанието на вашата книга."
+        },
+        {
+          "label": "Изображение на корицата",
+          "description": "Незадължително изображение на корицата за увода."
+        },
+        {
+          "label": "Алтернативен текст за изображението на корицата",
+          "description": "Алтернативен текст за изображението на корицата"
+        }
+      ]
+    },
+    {
+      "label": "Раздели",
+      "entity": "Раздел",
+      "widgets": [
+        {
+          "label": "По подразбиране"
+        }
+      ],
+      "field": {
+        "label": "Елемент",
+        "fields": [
+          {
+            "label": "Раздел"
+          }
+        ]
+      }
+    },
+    {
+      "label": "Настройки на поведение",
+      "fields": [
+        {
+          "label": "Display table of contents as default",
+          "description": "When enabled the table of contents is showed when opening the book"
+        },
+        {
+          "label": "Display Progress Indicators",
+          "description": "When enabled there will be indicators per page showing the user if he is done with the page or not."
+        },
+        {
+          "label": "Enable automatic progress",
+          "description": "If enabled a page without tasks is considered done when viewed. A page with tasks when all tasks are done. If disabled there will be a button at the bottom of every page for the user to click when done with the page."
+        }
+      ]
+    },
+    {
+      "label": "Превод за \"Чети\"",
+      "default": "Чети"
+    },
+    {
+      "label": "Превод за \"Display 'Table of contents'\"",
+      "default": "Display 'Table of contents'"
+    },
+    {
+      "label": "Превод за \"Hide 'Table of contents'\"",
+      "default": "Hide 'Table of contents'"
+    },
+    {
+      "label": "Превод за \"Следваща страница\"",
+      "default": "Следваща страница"
+    },
+    {
+      "label": "Превод за \"Следваща страница\"",
+      "default": "Следваща страница"
+    },
+    {
+      "label": "Превод за \"Предишна страница\"",
+      "default": "Предишна страница"
+    },
+    {
+      "label": "Превод за \"Разделът е завършен!\"",
+      "default": "Разделът е завършен!"
+    },
+    {
+      "label": "Превод за \"@pages of @total completed\" (@pages and @total will be replaced by actual values)",
+      "default": "@pages of @total completed"
+    },
+    {
+      "label": "Превод за \"Incomplete chapter\"",
+      "default": "Непълен раздел"
+    },
+    {
+      "label": "Превод за \"Navigate to the top\"",
+      "default": "Navigate to the top"
+    },
+    {
+      "label": "Превод за \"I have finished this page\"",
+      "default": "Свърших тази страница"
+    },
+    {
+      "label": "Етикет на бутона На цял екран",
+      "default": "На цял екран"
+    },
+    {
+      "label": "Етикет на бутона Изход от цял екран",
+      "default": "Изход от цял екран"
+    },
+    {
+      "label": "Текстове за достъпност",
+      "fields": [
+        {
+          "label": "Page progress textual alternative",
+          "description": "An alternative text for the visual page progress. @page and @total variables available.",
+          "default": "Page @page of @total."
+        },
+        {
+          "label": "Label for expanding/collapsing navigation menu",
+          "default": "Превключване на менюто за навигация"
+        }
+      ]
+    }
+  ]
+}
