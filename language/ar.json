@@ -1,123 +1,123 @@
 {
   "semantics": [
     {
-      "label": "Enable book cover",
-      "description": "A cover that shows info regarding the book before access"
+      "label": "تفعيل غلاف الكتاب",
+      "description": "غلاف يعرض المعلومات المتعلقة بالكتاب قبل الدخول"
     },
     {
-      "label": "Cover Page",
+      "label": "غلاف الصفحة",
       "fields": [
         {
-          "label": "Cover description",
-          "description": "This text will be the description of your book."
+          "label": "وصف الغلاف",
+          "description": "هذا النص سيكون وصف كتابك."
         },
         {
-          "label": "Cover image",
-          "description": "An optional background image for the introduction."
+          "label": "صورة الغلاف",
+          "description": "صورة خلفية اختيارية للمقدمة."
         },
         {
-          "label": "Cover image alternative text",
-          "description": "An alternative text for the cover image"
+          "label": "صورة الغلاف النص البديل",
+          "description": "نص بديل لصورة الغلاف"
         }
       ]
     },
     {
-      "label": "Chapters",
-      "entity": "Chapter",
+      "label": "الفصول",
+      "entity": "الفصل",
       "widgets": [
         {
-          "label": "Default"
+          "label": "إفتراضي"
         }
       ],
       "field": {
-        "label": "Item",
+        "label": "عنصر",
         "fields": [
           {
-            "label": "Chapter"
+            "label": "فصل"
           }
         ]
       }
     },
     {
-      "label": "Behavioural settings",
+      "label": "الإعدادات السلوكية",
       "fields": [
         {
-          "label": "Display table of contents as default",
-          "description": "When enabled the table of contents is showed when opening the book"
+          "label": "عرض جدول المحتويات كافتراضي",
+          "description": "عند التفعيل ، يتم عرض جدول المحتويات عند فتح الكتاب"
         },
         {
-          "label": "Display Progress Indicators",
-          "description": "When enabled there will be indicators per page showing the user if he is done with the page or not."
+          "label": "عرض مؤشرات التقدم",
+          "description": "عند التمكين ، ستظهر مؤشرات في كل صفحة توضح ما إذا كان المستخدم قد انتهى من الصفحة أم لا."
         },
         {
-          "label": "Enable automatic progress",
-          "description": "If enabled a page without tasks is considered done when viewed. A page with tasks when all tasks are done. If disabled there will be a button at the bottom of every page for the user to click when done with the page."
+          "label": "تمكين التقدم التلقائي",
+          "description": "في حالة التمكين ، يتم اعتبار الصفحة بدون مهام عند عرضها. صفحة بها مهام عند الانتهاء من جميع المهام. في حالة التعطيل ، سيكون هناك زر في أسفل كل صفحة لينقر عليها المستخدم عند الانتهاء من الصفحة."
         }
       ]
     },
     {
-      "label": "Translation for \"Read\"",
-      "default": "Read"
+      "label": "ترجمة تتعلق بـ \"القراءاة\"",
+      "default": "القراءاة"
     },
     {
-      "label": "Translation for \"Display 'Table of contents'\"",
-      "default": "Display 'Table of contents'"
+      "label": "ترجمة تتعلق بـ \"عرض 'جدول المحتويات'\"",
+      "default": "عرض 'جدول المحتويات'"
     },
     {
-      "label": "Translation for \"Hide 'Table of contents'\"",
-      "default": "Hide 'Table of contents'"
+      "label": "ترجمة تتعلق بـ \"إخفاء 'جدول  المحتويات'\"",
+      "default": "إخفاء  'جدول المحتويات'"
     },
     {
-      "label": "Translation for \"Next page\"",
-      "default": "Next page"
+      "label": "ترجمة تتعلق بـ \"الصفحة التالية\"",
+      "default": "الصفحة التالية"
     },
     {
-      "label": "Translation for \"Next page\"",
-      "default": "Next page"
+      "label": "ترجمة تتعلق بـ \"الصفحة التالية\"",
+      "default": "الصفحة التالية"
     },
     {
-      "label": "Translation for \"Previous page\"",
-      "default": "Previous page"
+      "label": "ترجمة تتعلق بـ \"الصفحة السابقة\"",
+      "default": "الصفحة السابقة"
     },
     {
-      "label": "Translation for \"Chapter completed!\"",
-      "default": "Chapter completed!"
+      "label": "ترجمة تتعلق بـ \"الانتهاء من الفصل!\"",
+      "default": "الانتهاء من الفصل!"
     },
     {
-      "label": "Translation for \"@pages of @total completed\" (@pages and @total will be replaced by actual values)",
-      "default": "@pages of @total completed"
+      "label": "ترجمة تتعلق بـ \"@pages من @total منتهي\" (@pages و @total سيتم استبدال القيم الفعلية)",
+      "default": "@pages من @total منتهي"
     },
     {
-      "label": "Translation for \"Incomplete chapter\"",
-      "default": "Incomplete chapter"
+      "label": "ترجمة تتعلق بـ \"فصل غير منتهي\"",
+      "default": "فصل غير منتهي"
     },
     {
-      "label": "Translation for \"Navigate to the top\"",
-      "default": "Navigate to the top"
+      "label": "ترجمة تتعلق بـ \"الذهاب إلى الأعلى\"",
+      "default": "الذهاب إلى الأعلى"
     },
     {
-      "label": "Translation for \"I have finished this page\"",
-      "default": "I have finished this page"
+      "label": "ترجمة تتعلق بـ \"أنهيت هذه الصفحة\"",
+      "default": "أنهيت هذه الصفحة"
     },
     {
-      "label": "Fullscreen button label",
-      "default": "Fullscreen"
+      "label": "تسمية زر ملء الشاشة",
+      "default": "ملء الشاشة"
     },
     {
-      "label": "Exit fullscreen button label",
-      "default": "Exit fullscreen"
+      "label": "تسميةالخروج من  ملىء الشاشة",
+      "default": "الخروج من الشاشة الكاملة"
     },
     {
-      "label": "Accessibility texts",
+      "label": "إمكانية الوصول للنصوص",
       "fields": [
         {
-          "label": "Page progress textual alternative",
-          "description": "An alternative text for the visual page progress. @page and @total variables available.",
-          "default": "Page @page of @total."
+          "label": "تقدم الصفحة النصية البديلة",
+          "description": "نص بديل للتقدم في الصفحة المرئية. @page و @total ومتغيرات  المتاحة.",
+          "default": "صفحة @page من @total."
         },
         {
-          "label": "Label for expanding/collapsing navigation menu",
-          "default": "Toggle navigation menu"
+          "label": "وضع علامة لتوسيع / طي قائمة التنقل",
+          "default": "تبديل قائمة التنقل"
         }
       ]
     }
