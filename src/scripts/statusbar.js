@@ -13,6 +13,8 @@ class StatusBar extends H5P.EventDispatcher {
       nextPage: 'Next page',
       previousPage: 'Previous page',
       navigateToTop: 'Navigate to the top',
+      fullscreen: 'Fullscreen',
+      exitFullscreen: 'Exit fullscreen',
     }, this.params.l10n || {});
 
     this.params.a11y = Object.assign({
@@ -38,6 +40,10 @@ class StatusBar extends H5P.EventDispatcher {
     wrapperInfo.appendChild(this.progressIndicator.wrapper);
     wrapperInfo.appendChild(this.arrows.buttonWrapperPrevious);
     wrapperInfo.appendChild(this.arrows.buttonWrapperNext);
+
+    if( this.params.displayFullScreenButton ){
+      wrapperInfo.appendChild(this.addFullScreenButton());
+    }
 
     this.wrapper = document.createElement('div');
     this.wrapper.classList.add(styleClassName);
@@ -337,5 +343,62 @@ class StatusBar extends H5P.EventDispatcher {
       this.arrows['button' + target].classList.remove('disabled');
     }
   }
+
+  /**
+   * Add fullscreen button.
+   *
+   * @param {jQuery} $wrapper HTMLElement to attach button to.
+   */
+  addFullScreenButton() {
+    if (H5P.canHasFullScreen !== true) {
+      return;
+    }
+
+    const toggleFullScreen = () => {
+      if (H5P.isFullscreen === true) {
+        H5P.exitFullScreen();
+      }
+      else {
+        H5P.fullScreen(this.parent.mainWrapper, this.parent);
+      }
+    };
+
+    const fullScreenButton = document.createElement('button');
+    fullScreenButton.classList.add('h5p-interactive-book-status-fullscreen');
+    fullScreenButton.classList.add('h5p-interactive-book-status-button');
+    fullScreenButton.classList.add('h5p-interactive-book-enter-fullscreen');
+    fullScreenButton.setAttribute('title', this.params.l10n.fullscreen);
+    fullScreenButton.setAttribute('aria-label', this.params.l10n.fullscreen);
+    fullScreenButton.addEventListener('click', toggleFullScreen);
+    fullScreenButton.addEventListener('keyPress', (event) => {
+      if (event.which === 13 || event.which === 32) {
+        toggleFullScreen();
+        event.preventDefault();
+      }
+    });
+
+    this.parent.on('enterFullScreen', () => {
+      this.parent.isFullscreen = true;
+      fullScreenButton.classList.remove('h5p-interactive-book-enter-fullscreen');
+      fullScreenButton.classList.add('h5p-interactive-book-exit-fullscreen');
+      fullScreenButton.setAttribute('title', this.params.l10n.exitFullscreen);
+      fullScreenButton.setAttribute('aria-label', this.params.l10n.exitFullScreen);
+
+      this.parent.pageContent.updateFooter();
+    });
+
+    this.parent.on('exitFullScreen', () => {
+      this.parent.isFullscreen = false;
+      fullScreenButton.classList.remove('h5p-interactive-book-exit-fullscreen');
+      fullScreenButton.classList.add('h5p-interactive-book-enter-fullscreen');
+      fullScreenButton.setAttribute('title', this.params.l10n.fullscreen);
+      fullScreenButton.setAttribute('aria-label', this.params.l10n.fullscreen);
+
+      this.parent.pageContent.updateFooter();
+    });
+
+    return fullScreenButton;
+  };
+
 }
 export default StatusBar;

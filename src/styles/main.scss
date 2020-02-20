@@ -66,58 +66,6 @@ $fullscreen-button-size: 1.8em;
     overflow-y: auto;
   }
 
-  .h5p-interactive-book-fullscreen-button-wrapper {
-    background-color: $mud-80;
-    border: 0;
-    border-radius: 0 0 0 100%;
-    height: $fullscreen-button-size;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: $fullscreen-button-size;
-    z-index: 3;
-  }
-
-  .h5p-interactive-book-fullscreen-button {
-    background-color: rgba(0, 0, 0, 0);
-    border: 0;
-    border-radius: 0 0 0 100%;
-    font-family: 'h5p-interactive-book';
-    font-size: 1em;
-    height: $fullscreen-button-size;
-    line-height: normal;
-    position: absolute;
-    text-indent: inherit;
-    top: 0;
-    width: $fullscreen-button-size;
-
-    &.h5p-interactive-book-enter-fullscreen {
-      &::before {
-        bottom: .5em;
-        color: $background-color;
-        content: '\e90b';
-        font-family: 'h5p-interactive-book';
-        left: .5em;
-        position: absolute;
-      }
-    }
-
-    &.h5p-interactive-book-exit-fullscreen {
-      &::before {
-        bottom: .5em;
-        color: $background-color;
-        content: '\e90c';
-        font-family: 'h5p-interactive-book';
-        left: .5em;
-        position: absolute;
-      }
-    }
-
-    &:hover {
-      cursor: pointer;
-    }
-  }
-
   &.h5p-fullscreen {
     background-color: $background-color;
   }
