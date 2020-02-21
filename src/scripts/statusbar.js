@@ -150,7 +150,7 @@ class StatusBar extends H5P.EventDispatcher {
     acm.buttonWrapperPrevious.onclick = () => {
       this.trigger('seqChapter', {
         direction:'prev',
-        toTop: false
+        toTop: true
       });
     };
     acm.buttonWrapperPrevious.appendChild(acm.buttonPrevious);
@@ -166,7 +166,7 @@ class StatusBar extends H5P.EventDispatcher {
     acm.buttonWrapperNext.onclick = () => {
       this.trigger('seqChapter', {
         direction:'next',
-        toTop: false
+        toTop: true
       });
     };
     acm.buttonWrapperNext.appendChild(acm.buttonNext);
