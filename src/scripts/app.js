@@ -3,6 +3,7 @@ import SideBar from './sidebar';
 import StatusBar from './statusbar';
 import Cover from './cover';
 import PageContent from './pagecontent';
+import 'element-scroll-polyfill';
 
 export default class InteractiveBook extends H5P.EventDispatcher {
   /**
@@ -317,6 +318,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       }
 
       H5P.trigger(this, 'changeHash', event.data);
+      H5P.trigger(this, 'scrollToTop');
     });
 
     /**
