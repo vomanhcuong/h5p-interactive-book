@@ -23,6 +23,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
 
     this.params = config;
     this.params.behaviour = this.params.behaviour || {};
+    this.mainWrapper = null;
 
     /*
      * this.params.behaviour.enableSolutionsButton and this.params.behaviour.enableRetry
@@ -550,6 +551,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
      * @param {jQuery} $wrapper
      */
     this.attach = ($wrapper) => {
+      this.mainWrapper = $wrapper;
       // Needed to enable scrolling in fullscreen
       $wrapper[0].classList.add('h5p-interactive-book');
       $wrapper[0].classList.add('h5p-scrollable-fullscreen');
@@ -557,8 +559,6 @@ export default class InteractiveBook extends H5P.EventDispatcher {
         $wrapper.get(0).appendChild(this.cover.container);
         $wrapper.get(0).classList.add('covered');
       }
-
-      this.addFullScreenButton($wrapper);
 
       $wrapper.get(0).appendChild(this.statusBarHeader.wrapper);
 
@@ -599,65 +599,6 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       }
     };
 
-    /**
-     * Add fullscreen button.
-     *
-     * @param {jQuery} $wrapper HTMLElement to attach button to.
-     */
-    this.addFullScreenButton = function ($wrapper) {
-      if (H5P.canHasFullScreen !== true) {
-        return;
-      }
-
-      const toggleFullScreen = () => {
-        if (H5P.isFullscreen === true) {
-          H5P.exitFullScreen();
-        }
-        else {
-          H5P.fullScreen($wrapper, this);
-        }
-      };
-
-      this.fullScreenButton = document.createElement('button');
-      this.fullScreenButton.classList.add('h5p-interactive-book-fullscreen-button');
-      this.fullScreenButton.classList.add('h5p-interactive-book-enter-fullscreen');
-      this.fullScreenButton.setAttribute('title', this.params.fullscreen);
-      this.fullScreenButton.setAttribute('aria-label', this.params.fullscreen);
-      this.fullScreenButton.addEventListener('click', toggleFullScreen);
-      this.fullScreenButton.addEventListener('keyPress', (event) => {
-        if (event.which === 13 || event.which === 32) {
-          toggleFullScreen();
-          event.preventDefault();
-        }
-      });
-
-      this.on('enterFullScreen', () => {
-        this.isFullscreen = true;
-        this.fullScreenButton.classList.remove('h5p-interactive-book-enter-fullscreen');
-        this.fullScreenButton.classList.add('h5p-interactive-book-exit-fullscreen');
-        this.fullScreenButton.setAttribute('title', this.params.exitFullscreen);
-        this.fullScreenButton.setAttribute('aria-label', this.params.exitFullScreen);
-
-        this.pageContent.updateFooter();
-      });
-
-      this.on('exitFullScreen', () => {
-        this.isFullscreen = false;
-        this.fullScreenButton.classList.remove('h5p-interactive-book-exit-fullscreen');
-        this.fullScreenButton.classList.add('h5p-interactive-book-enter-fullscreen');
-        this.fullScreenButton.setAttribute('title', this.params.fullscreen);
-        this.fullScreenButton.setAttribute('aria-label', this.params.fullscreen);
-
-        this.pageContent.updateFooter();
-      });
-
-      const fullScreenButtonWrapper = document.createElement('div');
-      fullScreenButtonWrapper.classList.add('h5p-interactive-book-fullscreen-button-wrapper');
-      fullScreenButtonWrapper.appendChild(this.fullScreenButton);
-
-      $wrapper.prepend(fullScreenButtonWrapper);
-    };
-
     // Initialize the support components
     if (config.showCoverPage) {
       this.cover = new Cover(config.bookCover, contentData.metadata.title, config.read, contentId, this);
@@ -677,10 +618,13 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       l10n: {
         nextPage: config.nextPage,
         previousPage: config.previousPage,
-        navigateToTop: config.navigateToTop
+        navigateToTop: config.navigateToTop,
+        fullscreen: this.params.fullscreen,
+        exitFullscreen: this.params.exitFullscreen,
       },
       a11y: this.params.a11y,
-      behaviour: this.params.behaviour
+      behaviour: this.params.behaviour,
+      displayFullScreenButton: true,
     }, 'h5p-interactive-book-status-header');
 
     this.statusBarFooter = new StatusBar(contentId, config.chapters.length, this, {
