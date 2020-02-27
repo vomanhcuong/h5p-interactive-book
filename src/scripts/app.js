@@ -21,7 +21,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
 
     this.completed = false;
 
-    this.params = config;
+    this.params = InteractiveBook.sanitizeConfig(config);
     this.params.behaviour = this.params.behaviour || {};
 
     /*
@@ -710,4 +710,21 @@ export default class InteractiveBook extends H5P.EventDispatcher {
     this.statusBarHeader.updateStatusBar();
     this.statusBarFooter.updateStatusBar();
   }
+
+  /**
+   * Make sure that the config used is in a good state
+   *
+   * @param config
+   * @return {*}
+   */
+  static sanitizeConfig(config) {
+    config.chapters = config.chapters
+      .map(chapter => {
+        chapter.params.content = chapter.params.content.filter(content => content.content);
+        return chapter;
+      })
+      .filter(chapter => chapter.params.content && chapter.params.content.length > 0);
+    return config;
+  }
+
 }
