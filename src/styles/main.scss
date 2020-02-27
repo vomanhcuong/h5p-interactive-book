@@ -29,6 +29,10 @@ $fullscreen-button-size: 1.8em;
         .h5p-interactive-book-navigation {
           max-width: none;
           width: 100%;
+
+          .large-navigation-list {
+            min-height: 1px;
+          }
         }
 
         .h5p-interactive-book-navigation-chapter-accordion {
@@ -123,6 +127,10 @@ body.h5p-fullscreen .h5p-interactive-book-fullscreen-button-wrapper {
       flex: 1;
       overflow-x: hidden;
       overflow-y: auto;
+    }
+
+    .large-navigation-list {
+      min-height: 1px;
     }
   }
 }
