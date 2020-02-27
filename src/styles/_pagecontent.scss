@@ -63,6 +63,7 @@
   border-top: 1px solid $cool-grey;
   display: flex;
   padding: 1em 0 0 1em;
+  clear: both;
 
   input {
     &[type='checkbox'] {

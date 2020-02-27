@@ -103,7 +103,7 @@ class PageContent extends H5P.EventDispatcher {
     const checkText = document.createElement('p');
     checkText.innerHTML = this.params.l10n.markAsFinished;
 
-    const wrapper = document.createElement('div');
+    const wrapper = document.createElement('label');
     wrapper.classList.add('h5p-interactive-book-status-progress-marker');
     wrapper.appendChild(checkbox);
     wrapper.appendChild(checkText);
