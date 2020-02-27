@@ -64,10 +64,12 @@
   display: flex;
   padding: 1em 0 0 1em;
   clear: both;
+  cursor: pointer;
 
   input {
     &[type='checkbox'] {
       transform: scale(1.75);
+      cursor: pointer;
     }
   }
 
