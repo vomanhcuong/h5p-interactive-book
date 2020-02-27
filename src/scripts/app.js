@@ -324,7 +324,15 @@ export default class InteractiveBook extends H5P.EventDispatcher {
      *
      * @returns {boolean} True, if current chapter was read.
      */
-    this.isCurrentChapterRead = () => this.chapters[this.activeChapter].completed;
+    this.isCurrentChapterRead = () => this.isChapterRead(this.activeChapter);
+
+    /**
+     * Checks if a chapter is read
+     *
+     * @param chapterId
+     * @returns {boolean}
+     */
+    this.isChapterRead = chapterId => this.chapters[chapterId].completed;
 
     /**
      * Check if chapter is final one, has no tasks and all other chapters are done.
@@ -346,7 +354,17 @@ export default class InteractiveBook extends H5P.EventDispatcher {
      */
     this.setChapterRead = (chapterId = this.activeChapter, read = true) => {
       this.handleChapterCompletion(chapterId, read);
-      this.sideBar.updateChapterProgressIndicator(chapterId, read ? 'DONE' : 'BLANK');
+      this.sideBar.updateChapterProgressIndicator(chapterId, read ? 'DONE' : this.hasChapterStartedTasks(this.chapters[chapterId]) ? 'STARTED' : 'BLANK');
+    };
+
+    /**
+     * Checks if chapter has started on any of the sections
+     *
+     * @param chapter
+     * @return {boolean}
+     */
+    this.hasChapterStartedTasks = function (chapter) {
+      return chapter.sections.filter(section => section.taskDone).length > 0;
     };
 
     /**
@@ -356,13 +374,24 @@ export default class InteractiveBook extends H5P.EventDispatcher {
      * @param {boolean} hasChangedChapter
      */
     this.updateChapterProgress = (chapterId, hasChangedChapter = false) => {
-      if (!this.params.behaviour.progressIndicators || !this.params.behaviour.progressAuto) {
+      if (!this.params.behaviour.progressIndicators) {
         return;
       }
 
       const chapter = this.chapters[chapterId];
       let status;
-      if (chapter.maxTasks) {
+      if (!this.params.behaviour.progressAuto) {
+        if ( this.isChapterRead(chapterId)) {
+          status = "DONE";
+        }
+        else if ( this.hasChapterStartedTasks(chapter)) {
+          status = 'STARTED';
+        }
+        else {
+          status = 'BLANK';
+        }
+      }
+      else if (chapter.maxTasks) {
         if (chapter.tasksLeft === chapter.maxTasks) {
           status = 'BLANK';
         }
@@ -534,9 +563,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
           section.taskDone = true;
           this.sideBar.setSectionMarker(chapterId, index);
           this.chapters[chapterId].tasksLeft -= 1;
-          if (this.params.behaviour.progressAuto) {
-            this.updateChapterProgress(chapterId);
-          }
+          this.updateChapterProgress(chapterId);
         }
       });
     };
