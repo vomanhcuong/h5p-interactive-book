@@ -22,7 +22,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
 
     this.completed = false;
 
-    this.params = config;
+    this.params = InteractiveBook.sanitizeConfig(config);
     this.params.behaviour = this.params.behaviour || {};
     this.mainWrapper = null;
 
@@ -173,6 +173,13 @@ export default class InteractiveBook extends H5P.EventDispatcher {
     this.hasCover = () => this.cover && this.cover.container;
 
     /**
+     * Check if there are valid chapters.
+     *
+     * @return {boolean} True, if there are valid(not empty) chapters.
+     */
+    this.hasValidChapters = () => this.params.chapters.length > 0;
+
+    /**
      * Get number of active chapter.
      *
      * @return {number} Number of active chapter.
@@ -227,7 +234,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
      */
 
     this.on('resize', () => {
-      if (!this.pageContent) {
+      if (!this.pageContent || !this.hasValidChapters()) {
         return;
       }
 
@@ -652,8 +659,27 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       });
     }
 
-    // Kickstart the statusbar
-    this.statusBarHeader.updateStatusBar();
-    this.statusBarFooter.updateStatusBar();
+    if ( this.hasValidChapters() ) {
+      // Kickstart the statusbar
+      this.statusBarHeader.updateStatusBar();
+      this.statusBarFooter.updateStatusBar();
+    }
   }
+
+  /**
+   * Make sure that the config used is in a good state
+   *
+   * @param config
+   * @return {*}
+   */
+  static sanitizeConfig(config) {
+    config.chapters = config.chapters
+      .map(chapter => {
+        chapter.params.content = chapter.params.content.filter(content => content.content);
+        return chapter;
+      })
+      .filter(chapter => chapter.params.content && chapter.params.content.length > 0);
+    return config;
+  }
+
 }
