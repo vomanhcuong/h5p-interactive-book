@@ -72,10 +72,11 @@
     .h5p-interactive-book-navigation-section-icon {
       position: absolute;
       color: $black;
-      font-size: 4px;
+      font-size: 5px;
       visibility: hidden;
       width: 2.17em;
-      top: 4px;
+      top: 50%;
+      transform: translateY(-50%);
 
       &.h5p-interactive-book-navigation-section-task {
         visibility: inherit;
@@ -83,11 +84,10 @@
     }
 
     .h5p-interactive-book-navigation-section-title {
-      font-size: .8em;
+      font-size: .85em;
       margin-left: 15px;
       margin-right: 2em;
       overflow: hidden;
-      text-align: initial;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
@@ -139,6 +139,7 @@
 
   &.h5p-interactive-book-navigation-current {
     background-color: $base-color-10;
+    border-bottom-color: white;
   }
 
   &:hover {
