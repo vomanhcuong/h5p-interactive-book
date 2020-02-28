@@ -25,6 +25,10 @@ class SideBar extends H5P.EventDispatcher {
       this.content.appendChild(element);
     });
 
+    if (this.chapters.length > 20) {
+      this.content.classList.add('large-navigation-list');
+    }
+
     this.container.appendChild(this.content);
 
     this.addTransformListener();

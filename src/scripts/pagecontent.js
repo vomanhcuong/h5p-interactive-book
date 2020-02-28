@@ -7,6 +7,8 @@ class PageContent extends H5P.EventDispatcher {
    * @param {object} config
    * @param {string} contentId
    * @param {object} contentData
+   * @param {object} parent
+   * @param {object} params
    */
   constructor(config, contentId, contentData, parent, params) {
     super();

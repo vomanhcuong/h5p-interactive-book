@@ -10,6 +10,8 @@
   transition: width .15s linear, flex-basis .15s linear, max-width .15s linear;
   width: 0;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
 
   >a {
     font-weight: bold;
@@ -24,6 +26,13 @@
   .navigation-list {
     margin: 0;
     padding: 0;
+  }
+
+  .large-navigation-list {
+    height: 0;
+    overflow-y: auto;
+    flex: 1 1 auto;
+    min-height: 58em;
   }
 }
 
