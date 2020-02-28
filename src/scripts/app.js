@@ -171,6 +171,13 @@ export default class InteractiveBook extends H5P.EventDispatcher {
     this.hasCover = () => this.cover && this.cover.container;
 
     /**
+     * Check if there are valid chapters.
+     *
+     * @return {boolean} True, if there are valid(not empty) chapters.
+     */
+    this.hasValidChapters = () => this.params.chapters.length > 0;
+
+    /**
      * Get number of active chapter.
      *
      * @return {number} Number of active chapter.
@@ -225,7 +232,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
      */
 
     this.on('resize', () => {
-      if (!this.pageContent) {
+      if (!this.pageContent || !this.hasValidChapters()) {
         return;
       }
 
@@ -706,9 +713,11 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       });
     }
 
-    // Kickstart the statusbar
-    this.statusBarHeader.updateStatusBar();
-    this.statusBarFooter.updateStatusBar();
+    if ( this.hasValidChapters() ) {
+      // Kickstart the statusbar
+      this.statusBarHeader.updateStatusBar();
+      this.statusBarFooter.updateStatusBar();
+    }
   }
 
   /**

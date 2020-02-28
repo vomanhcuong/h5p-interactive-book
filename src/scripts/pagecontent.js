@@ -21,8 +21,10 @@ class PageContent extends H5P.EventDispatcher {
     this.shouldAutoplay = [];
     this.chapters = [];
 
-    const startChapter = this.createColumns(config, contentId, contentData);
-    this.preloadChapter(startChapter);
+    if (parent.hasValidChapters()) {
+      const startChapter = this.createColumns(config, contentId, contentData);
+      this.preloadChapter(startChapter);
+    }
 
     this.content = this.createPageContent();
 
@@ -393,6 +395,9 @@ class PageContent extends H5P.EventDispatcher {
    * Update footer.
    */
   updateFooter() {
+    if ( this.chapters.length === 0) {
+      return;
+    }
     const activeChapter = this.parent.getActiveChapter();
     const column = this.columnNodes[activeChapter];
     const hide = this.parent.shouldFooterBeHidden(column.clientHeight);
