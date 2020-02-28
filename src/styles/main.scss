@@ -14,6 +14,9 @@ $dark-grey-20: rgba(166, 166, 166, .2);
 $ghost-white: #e9e4ed;
 $light-grey: #bebebe;
 $medium-grey: #363636;
+$scrollbar: #6C7992;
+$scrollbar-30: rgba($scrollbar, .35);
+$scrollbar-75: rgba($scrollbar, .75);
 $mud: #4c4452;
 $mud-80: rgba($mud, .8);
 
@@ -76,6 +79,20 @@ $fullscreen-button-size: 1.8em;
 
   .h5p-content-controls {
     display: none;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    background: $scrollbar-30;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: $scrollbar-75;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: $scrollbar;
   }
 }
 
