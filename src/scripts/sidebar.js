@@ -568,7 +568,7 @@ class SideBar extends H5P.EventDispatcher {
    * @return {boolean} True, if navigation is open on mobile view.
    */
   isOpenOnMobile() {
-    return this.container.offsetWidth > 0 && this.container.offsetWidth === this.parent.getContainerWidth();
+    return this.parent.isMenuOpen() && this.parent.isSmallSurface();
   }
 
   /**

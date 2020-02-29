@@ -31,17 +31,18 @@ class StatusBar extends H5P.EventDispatcher {
     this.progressBar = this.createProgressBar();
     this.progressIndicator = this.createProgressIndicator();
     this.chapterTitle = this.addChapterTitle();
+    this.menuToggleButton = this.createMenuToggleButton();
 
     const wrapperInfo = document.createElement('div');
     wrapperInfo.classList.add('h5p-interactive-book-status');
-    wrapperInfo.appendChild(this.createMenuToggleButton());
+    wrapperInfo.appendChild(this.menuToggleButton);
     wrapperInfo.appendChild(this.createToTopButton());
     wrapperInfo.appendChild(this.chapterTitle.wrapper);
     wrapperInfo.appendChild(this.progressIndicator.wrapper);
     wrapperInfo.appendChild(this.arrows.buttonWrapperPrevious);
     wrapperInfo.appendChild(this.arrows.buttonWrapperNext);
 
-    if( this.params.displayFullScreenButton ){
+    if ( this.params.displayFullScreenButton ) {
       wrapperInfo.appendChild(this.addFullScreenButton());
     }
 
@@ -190,10 +191,6 @@ class StatusBar extends H5P.EventDispatcher {
     button.classList.add('icon-menu');
 
     const buttonWrapperMenu = document.createElement('button');
-    if (this.params.behaviour.defaultTableOfContents) {
-      buttonWrapperMenu.classList.add('h5p-interactive-book-status-menu-active');
-      buttonWrapperMenu.setAttribute('aria-expanded', 'true');
-    }
     buttonWrapperMenu.classList.add('h5p-interactive-book-status-menu');
     buttonWrapperMenu.classList.add('h5p-interactive-book-status-button');
     buttonWrapperMenu.title = this.params.a11y.menu;
@@ -206,6 +203,10 @@ class StatusBar extends H5P.EventDispatcher {
 
     buttonWrapperMenu.appendChild(button);
     return buttonWrapperMenu;
+  }
+
+  isMenuOpen() {
+    return this.menuToggleButton.classList.contains('h5p-interactive-book-status-menu-active');
   }
 
   /**
@@ -398,7 +399,7 @@ class StatusBar extends H5P.EventDispatcher {
     });
 
     return fullScreenButton;
-  };
+  }
 
 }
 export default StatusBar;

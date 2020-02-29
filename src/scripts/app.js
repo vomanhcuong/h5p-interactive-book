@@ -25,6 +25,10 @@ export default class InteractiveBook extends H5P.EventDispatcher {
     this.params = InteractiveBook.sanitizeConfig(config);
     this.params.behaviour = this.params.behaviour || {};
     this.mainWrapper = null;
+    this.currentRatio = null;
+    this.smallSurface = 'h5p-interactive-book-small';
+    this.mediumSurface = 'h5p-interactive-book-medium';
+    this.largeSurface = 'h5p-interactive-book-large';
 
     /*
      * this.params.behaviour.enableSolutionsButton and this.params.behaviour.enableRetry
@@ -229,15 +233,53 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       });
     };
 
-    /*
-     * Establish all triggers
+    /**
+     * Check if menu is open
+     * @return {boolean}
      */
+    this.isMenuOpen = () => this.statusBarHeader.isMenuOpen();
 
-    this.on('resize', () => {
-      if (!this.pageContent || !this.hasValidChapters()) {
+    /**
+     * Detect if wrapper is a small surface
+     * @return {*}
+     */
+    this.isSmallSurface = () => this.mainWrapper && this.mainWrapper.hasClass(this.smallSurface);
+
+    /**
+     * Get the ratio of the wrapper
+     *
+     * @return {number}
+     */
+    this.getRatio = () => this.mainWrapper.width() / parseFloat(this.mainWrapper.css('font-size'));
+
+    /**
+     * Add/remove classname based on the ratio
+     * @param {jQuery} wrapper
+     * @param {number} ratio
+     */
+    this.setWrapperClassFromRatio = (wrapper, ratio = this.getRatio()) => {
+      if ( ratio === this.currentRatio) {
         return;
       }
+      this.breakpoints().forEach(item => {
+        if (item.shouldAdd(ratio)) {
+          this.mainWrapper.addClass(item.className);
+        }
+        else {
+          this.mainWrapper.removeClass(item.className);
+        }
+      });
+      this.currentRatio = ratio;
+    };
 
+    /**
+     * Handle resizing of the content
+     */
+    this.resize = () => {
+      if (!this.pageContent || !this.hasValidChapters() || !this.mainWrapper) {
+        return;
+      }
+      this.setWrapperClassFromRatio(this.mainWrapper);
       const currentChapterId = this.getActiveChapter();
       const currentNode = this.pageContent.columnNodes[currentChapterId];
 
@@ -261,16 +303,20 @@ export default class InteractiveBook extends H5P.EventDispatcher {
           }, 10);
         }
       }
-    });
+    };
+
+    /*
+     * Establish all triggers
+     */
+    this.on('resize', this.resize, this);
 
     this.on('toggleMenu', () => {
       this.pageContent.toggleNavigationMenu();
 
       // Update the menu button
-      const menuButton = this.statusBarHeader.wrapper.querySelector('.h5p-interactive-book-status-menu');
-      menuButton.setAttribute('aria-expanded', menuButton.classList.toggle('h5p-interactive-book-status-menu-active') ? 'true' : 'false');
+      this.statusBarHeader.menuToggleButton.setAttribute('aria-expanded', this.statusBarHeader.menuToggleButton.classList.toggle('h5p-interactive-book-status-menu-active') ? 'true' : 'false');
 
-      // We need to resize the whole book since the internactions are getting
+      // We need to resize the whole book since the interactions are getting
       // more width and those with a static ratio will increase their height.
       setTimeout(() => {
         this.trigger('resize');
@@ -503,6 +549,27 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       this.newHandler.redirectFromComponent = false;
     };
 
+    /**
+     *
+     *
+     * @return {[{className: string, shouldAdd: (function(*): boolean)}, {className: string, shouldAdd: (function(*): boolean|boolean)}, {className: string, shouldAdd: (function(*): boolean)}]}
+     */
+    this.breakpoints = () => {
+      return [
+        {
+          "className": this.smallSurface,
+          "shouldAdd": ratio => ratio < 43,
+        },
+        {
+          "className": this.mediumSurface,
+          "shouldAdd": ratio => ratio >= 43 && ratio < 60,
+        },
+        {
+          "className": this.largeSurface,
+          "shouldAdd": ratio => ratio >= 60,
+        },
+      ];
+    };
 
     /**
      * Triggers whenever the hash changes, indicating that a chapter redirect is happening
@@ -589,22 +656,26 @@ export default class InteractiveBook extends H5P.EventDispatcher {
     this.attach = ($wrapper) => {
       this.mainWrapper = $wrapper;
       // Needed to enable scrolling in fullscreen
-      $wrapper[0].classList.add('h5p-interactive-book');
-      $wrapper[0].classList.add('h5p-scrollable-fullscreen');
+      $wrapper.addClass('h5p-interactive-book h5p-scrollable-fullscreen');
+      this.setWrapperClassFromRatio(this.mainWrapper);
       if (this.cover) {
-        $wrapper.get(0).appendChild(this.cover.container);
-        $wrapper.get(0).classList.add('covered');
+        $wrapper.append(this.cover.container);
+        $wrapper.addClass('covered');
       }
 
-      $wrapper.get(0).appendChild(this.statusBarHeader.wrapper);
+      $wrapper.append(this.statusBarHeader.wrapper);
 
       const first = this.pageContent.container.firstChild;
       if (first) {
         this.pageContent.container.insertBefore(this.sideBar.container, first);
       }
 
-      $wrapper.get(0).appendChild(this.pageContent.container);
-      $wrapper.get(0).appendChild(this.statusBarFooter.wrapper);
+      $wrapper.append(this.pageContent.container);
+      $wrapper.append(this.statusBarFooter.wrapper);
+
+      if (this.params.behaviour.defaultTableOfContents && !this.isSmallSurface()) {
+        this.trigger('toggleMenu');
+      }
 
       this.pageContent.updateFooter();
     };
