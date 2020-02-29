@@ -69,6 +69,11 @@ $fullscreen-button-size: 1.8em;
     }
   }
 
+  &.h5p-scrollable-fullscreen.h5p-semi-fullscreen {
+    overflow-y: scroll; /* has to be scroll, not auto */
+    -webkit-overflow-scrolling: touch;
+  }
+
   .h5p-scrollable-fullscreen {
     overflow-y: auto;
   }
