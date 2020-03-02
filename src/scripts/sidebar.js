@@ -564,11 +564,11 @@ class SideBar extends H5P.EventDispatcher {
   }
 
   /**
-   * Detect whether navigation is open on mobileView (if it takes full width).
+   * Detect whether navigation is open on a small surface(pc or mobile).
    * @return {boolean} True, if navigation is open on mobile view.
    */
   isOpenOnMobile() {
-    return this.container.offsetWidth > 0 && this.container.offsetWidth === this.parent.getContainerWidth();
+    return this.parent.isMenuOpen() && this.parent.isSmallSurface();
   }
 
   /**

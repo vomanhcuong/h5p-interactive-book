@@ -33,10 +33,6 @@ class PageContent extends H5P.EventDispatcher {
     this.container = document.createElement('div');
     this.container.classList.add('h5p-interactive-book-main');
 
-    if (this.params.behaviour.defaultTableOfContents) {
-      this.container.classList.add('h5p-interactive-book-navigation-open');
-    }
-
     this.container.appendChild(this.content);
 
     this.parent.on('coverRemoved', () => {

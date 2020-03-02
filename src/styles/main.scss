@@ -23,8 +23,7 @@ $mud-80: rgba($mud, .8);
 $fullscreen-button-size: 1.8em;
 
 .h5p-interactive-book {
-  // Mobile or narrow view
-  @media (max-device-width: 480px), (max-width: 767px) {
+  &.h5p-interactive-book-small {
     .h5p-interactive-book-main {
 
       &.h5p-interactive-book-navigation-open {
@@ -34,7 +33,7 @@ $fullscreen-button-size: 1.8em;
           width: 100%;
 
           .large-navigation-list {
-            min-height: 1px;
+            height: auto;
           }
         }
 
@@ -47,11 +46,7 @@ $fullscreen-button-size: 1.8em;
           background-color: $background-color;
 
           &.h5p-interactive-book-navigation-current {
-            background-color: $base-color-10;
-          }
-
-          .h5p-interactive-book-navigation-chapter-title-text {
-            color: $base-color;
+            border-bottom: solid 1px $ghost-white;
           }
         }
 
@@ -60,6 +55,7 @@ $fullscreen-button-size: 1.8em;
           overflow: inherit;
           transition: max-height .5s ease-in;
           visibility: inherit;
+          padding-left: 0.3rem;
         }
 
         .h5p-interactive-book-content {
@@ -94,10 +90,6 @@ $fullscreen-button-size: 1.8em;
   ::-webkit-scrollbar-thumb:hover {
     background: $scrollbar;
   }
-}
-
-body.h5p-fullscreen .h5p-interactive-book-fullscreen-button-wrapper {
-  display: none;
 }
 
 .h5p-interactive-book-main {
