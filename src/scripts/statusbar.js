@@ -205,6 +205,11 @@ class StatusBar extends H5P.EventDispatcher {
     return buttonWrapperMenu;
   }
 
+  /**
+   * Check if menu is active/open
+   *
+   * @return {boolean}
+   */
   isMenuOpen() {
     return this.menuToggleButton.classList.contains('h5p-interactive-book-status-menu-active');
   }
