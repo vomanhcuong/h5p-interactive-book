@@ -27,6 +27,11 @@
       "machineName": "H5P.Column",
       "majorVersion": 1,
       "minorVersion": 10
+    },
+    {
+      "machineName": "H5P.JoubelUI",
+      "majorVersion": 1,
+      "minorVersion": 3
     }
   ],
   "editorDependencies": [

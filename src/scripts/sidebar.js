@@ -12,6 +12,7 @@ class SideBar extends H5P.EventDispatcher {
     this.content = document.createElement('div');
     this.content.classList.add('navigation-list');
     this.container = this.addSideBar();
+    this.l10n = config.l10n;
 
     this.chapters = this.findAllChapters(config.chapters);
     this.chapterNodes = this.getChapterNodes();
@@ -238,7 +239,17 @@ class SideBar extends H5P.EventDispatcher {
       chapters.push({
         sections: sections,
         title: chapterTitle,
-        id: id
+        id: id,
+        isSummary: false,
+      });
+    }
+
+    if ( this.parent.hasSummary()) {
+      chapters.push({
+        sections: [],
+        title: this.l10n.summaryHeader,
+        id: `h5p-interactive-book-chapter-summary`,
+        isSummary: true,
       });
     }
     return chapters;
@@ -286,8 +297,9 @@ class SideBar extends H5P.EventDispatcher {
       this.toggleChapter(node, index !== chapterId);
     });
 
+    const chapter = this.parent.getActiveChapter(true);
     // Focus new chapter button if active chapter was closed
-    if (chapterId !== this.focusedChapter) {
+    if (!chapter.isSummary && chapterId !== this.focusedChapter) {
       const chapterButton = this.chapterNodes[chapterId].querySelector('.h5p-interactive-book-navigation-chapter-button');
       this.setFocusToItem(chapterButton, chapterId, true);
     }
@@ -335,6 +347,11 @@ class SideBar extends H5P.EventDispatcher {
       return;
     }
 
+    const chapter = this.chapters[chapterId];
+    if ( chapter.isSummary ) {
+      return;
+    }
+
     const progressIndicator = this.chapterNodes[chapterId]
       .getElementsByClassName('h5p-interactive-book-navigation-chapter-progress')[0];
 
@@ -379,6 +396,18 @@ class SideBar extends H5P.EventDispatcher {
    * @return {HTMLElement} Chapter node.
    */
   getNodesFromChapter(chapter, chapterId) {
+    const chapterNode = document.createElement('li');
+    chapterNode.classList.add('h5p-interactive-book-navigation-chapter');
+
+    if ( chapter.isSummary) {
+      chapterNode.classList.add('h5p-interactive-book-navigation-summary-button');
+      const summary = this.parent.chapters[chapterId];
+      const summaryButton = summary.instance.summaryMenuButton;
+      summaryButton.classList.add('h5p-interactive-book-navigation-chapter-button');
+      chapterNode.appendChild(summaryButton);
+      return chapterNode;
+    }
+
     // TODO: Clean this up. Will require to receive chapter info from parent instead of building itself
     const chapterCollapseIcon = document.createElement('div');
     chapterCollapseIcon.classList.add('h5p-interactive-book-navigation-chapter-accordion');
@@ -436,8 +465,6 @@ class SideBar extends H5P.EventDispatcher {
     chapterNodeTitle.appendChild(chapterTitleText);
     chapterNodeTitle.appendChild(chapterCompletionIcon);
 
-    const chapterNode = document.createElement('li');
-    chapterNode.classList.add('h5p-interactive-book-navigation-chapter');
     chapterNode.appendChild(chapterNodeTitle);
 
     // Collapse all but current chapters in menu and highlight current

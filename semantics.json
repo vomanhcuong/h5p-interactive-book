@@ -125,6 +125,13 @@
             }
           ]
         }
+      },
+      {
+        "name": "displaySummary",
+        "type": "boolean",
+        "label": "Display summary",
+        "description": "When enabled the user can see a summary and submit the progress/answers",
+        "default": true
       }
     ]
   },

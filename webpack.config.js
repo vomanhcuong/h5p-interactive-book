@@ -29,6 +29,9 @@ var config = {
         loader: 'url-loader?limit=100000'
       }
     ]
+  },
+  externals: {
+    jquery: 'H5P.jQuery'
   }
 };
 

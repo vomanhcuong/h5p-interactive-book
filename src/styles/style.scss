@@ -95,3 +95,21 @@
     content: '\e90c';
   }
 }
+
+.icon-restart {
+  &::before {
+    content: '\e90d';
+  }
+}
+
+.icon-paper-pencil {
+  &::before {
+    content: '\e90e';
+  }
+}
+
+.icon-paper {
+  &::before {
+    content: '\e90f';
+  }
+}
