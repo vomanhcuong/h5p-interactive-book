@@ -853,6 +853,8 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       })
       .filter(chapter => chapter.params.content && chapter.params.content.length > 0);
 
+    config.behaviour.displaySummary = config.behaviour.displaySummary === undefined || config.behaviour.displaySummary;
+
     config.l10n = {
       read,
       displayTOC,
