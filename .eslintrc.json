@@ -1,8 +1,8 @@
 {
   "globals": {
-    "H5P": true,
-    "H5PIntegration": true,
-    "H5PEditor": true
+    "H5P": "readonly",
+    "H5PIntegration": "readonly",
+    "H5PEditor": "readonly"
   },
   "env": {
     "es6": true,

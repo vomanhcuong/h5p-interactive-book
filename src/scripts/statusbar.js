@@ -9,13 +9,7 @@ class StatusBar extends H5P.EventDispatcher {
 
     this.params = params || {};
 
-    this.params.l10n = Object.assign({
-      nextPage: 'Next page',
-      previousPage: 'Previous page',
-      navigateToTop: 'Navigate to the top',
-      fullscreen: 'Fullscreen',
-      exitFullscreen: 'Exit fullscreen',
-    }, this.params.l10n || {});
+    this.params.l10n = params.l10n;
 
     this.params.a11y = Object.assign({
       progress: 'Page @page of @total',
@@ -69,6 +63,9 @@ class StatusBar extends H5P.EventDispatcher {
       if (event.data.direction === 'next') {
         if (this.parent.activeChapter + 1 < this.parent.chapters.length) {
           eventInput.chapter = `h5p-interactive-book-chapter-${this.parent.chapters[this.parent.activeChapter+1].instance.subContentId}`;
+        }
+        else if (this.parent.hasSummary() && this.parent.activeChapter + 1 === this.parent.chapters.length) {
+          this.parent.trigger('viewSummary', eventInput);
         }
       }
       else if (event.data.direction === 'prev') {
