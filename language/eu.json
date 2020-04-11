@@ -104,8 +104,8 @@
       "default": "Pantaila-osoan"
     },
     {
-      "label": "Exit fullscreen button label",
-      "default": "Exit fullscreen"
+      "label": "Irten pantaila-osotik botoiaren etiketa",
+      "default": "Irten pantaila-osotik"
     },
     {
       "label": "Eskuragarritasun testuak",
