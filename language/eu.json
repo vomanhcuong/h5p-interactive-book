@@ -1,0 +1,125 @@
+{
+  "semantics": [
+    {
+      "label": "Gaitu liburuaren portada",
+      "description": "Liburuan sartu aurretik bere informazioa erakusten duen portada bat"
+    },
+    {
+      "label": "Portadako orria",
+      "fields": [
+        {
+          "label": "Portadaren deskribapena",
+          "description": "Testu hau zure liburuaren deskribapena izango da."
+        },
+        {
+          "label": "Portadaren irudia",
+          "description": "Portadarentzako atzeko planoko hautazko irudi bat."
+        },
+        {
+          "label": "Portadaren irudiaren ordezko testua",
+          "description": "Portadaren irudiarentzako ordezko testu bat"
+        }
+      ]
+    },
+    {
+      "label": "Kapituluak",
+      "entity": "Kapitulua",
+      "widgets": [
+        {
+          "label": "Lehenetsitakoa"
+        }
+      ],
+      "field": {
+        "label": "Elementua",
+        "fields": [
+          {
+            "label": "Kapitulua"
+          }
+        ]
+      }
+    },
+    {
+      "label": "Portaeraren ezarpenak",
+      "fields": [
+        {
+          "label": "Erakutsi eduki-taula modu lehenetsian",
+          "description": "Gaituz gero eduki-taula erakutsiko da liburua irekitzean"
+        },
+        {
+          "label": "Erakutsi aurrerapenaren adierazleak",
+          "description": "Gaituz gero orri bakoitzean erabiltzaileari orri amaitu duen edo ez erakusten duten adierazleak egongo dira."
+        },
+        {
+          "label": "Gaitu aurrerapen autommatikoa",
+          "description": "Gaituz gero zereginik gabeko orri bat ikusitakoan osatutzat emango da. Zereginak dituen orri bat zeregin guztiak osatzean osatuko da. Desgaituz gero orri bakoitzaren amaieran botoi bat agertuko da erabiltzaileak orria amaitzean klik egin dezan."
+        }
+      ]
+    },
+    {
+      "label": "\"Read\"-erako itzulpena",
+      "default": "Irakurri"
+    },
+    {
+      "label": "\"Display 'Table of contents'\"-erako itzulpena",
+      "default": "Erakutsi 'Eduki-taulak'"
+    },
+    {
+      "label": "\"Hide 'Table of contents'\"-erako itzulpena",
+      "default": "Ezkutatu 'Eduki-taulak'"
+    },
+    {
+      "label": "\"Next page\"-erako itzulpena",
+      "default": "Hurrengo orria"
+    },
+    {
+      "label": "\"Next page\"-erako itzulpena",
+      "default": "Hurrengo orria"
+    },
+    {
+      "label": "\"Previous page\"-erako itzulpena",
+      "default": "Aurreko orria"
+    },
+    {
+      "label": "\"Chapter completed!\"-erako itzulpena",
+      "default": "Kapitulua osatu duzu!"
+    },
+    {
+      "label": "\"@pages of @total completed\"-erako itzulpena (@pages eta @total benetako balioekin ordezkatuko dira)",
+      "default": "@total-(e)tik @pages osatu dituzu"
+    },
+    {
+      "label": "\"Incomplete chapter\"-erako itzulpena",
+      "default": "Osatu gabeko kapitulua"
+    },
+    {
+      "label": "\"Navigate to the top\"-erako itzulpena",
+      "default": "Nabigatu goraino"
+    },
+    {
+      "label": "\"I have finished this page\"-erako itzulpena",
+      "default": "Orri hau amaitu dut"
+    },
+    {
+      "label": "Pantaila-osoan botoiaren etiketa",
+      "default": "Pantaila-osoan"
+    },
+    {
+      "label": "Exit fullscreen button label",
+      "default": "Exit fullscreen"
+    },
+    {
+      "label": "Eskuragarritasun testuak",
+      "fields": [
+        {
+          "label": "Orri-aurrerapen ordezko testuala",
+          "description": "Orriaren aurrerapen bisualaren ordezko testua. @page eta @total aldagaiak daude eskuragarri.",
+          "default": "@total-(e)tik @page. orria."
+        },
+        {
+          "label": "Nabigazio-menua zabaldu edo tolesteko etiketa",
+          "default": "Zabaldu/Tolestu nabigazio-menua"
+        }
+      ]
+    }
+  ]
+}
