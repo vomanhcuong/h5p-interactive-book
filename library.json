@@ -1,6 +1,6 @@
 {
   "title": "Interactive Book (alpha)",
-  "description": "An interactive book which displays content in chapters and sections",
+  "description": "An interactive book which displays content in pages and sections",
   "majorVersion": 1,
   "minorVersion": 2,
   "patchVersion": 0,

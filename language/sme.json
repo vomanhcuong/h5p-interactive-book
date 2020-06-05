@@ -22,8 +22,8 @@
       ]
     },
     {
-      "label": "Chapters",
-      "entity": "Chapter",
+      "label": "Pages",
+      "entity": "Page",
       "widgets": [
         {
           "label": "Default"
@@ -33,7 +33,7 @@
         "label": "Item",
         "fields": [
           {
-            "label": "Chapter"
+            "label": "Page"
           }
         ]
       }
@@ -80,16 +80,16 @@
       "default": "Previous page"
     },
     {
-      "label": "Translation for \"Chapter completed!\"",
-      "default": "Chapter completed!"
+      "label": "Translation for \"Page completed!\"",
+      "default": "Page completed!"
     },
     {
       "label": "Translation for \"@pages of @total completed\" (@pages and @total will be replaced by actual values)",
       "default": "@pages of @total completed"
     },
     {
-      "label": "Translation for \"Incomplete chapter\"",
-      "default": "Incomplete chapter"
+      "label": "Translation for \"Incomplete page\"",
+      "default": "Incomplete page"
     },
     {
       "label": "Translation for \"Navigate to the top\"",

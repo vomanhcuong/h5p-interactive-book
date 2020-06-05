@@ -22,8 +22,8 @@
       ]
     },
     {
-      "label": "Chapters",
-      "entity": "Chapter",
+      "label": "Pages",
+      "entity": "Page",
       "widgets": [
         {
           "label": "Default"
@@ -33,7 +33,7 @@
         "label": "Item",
         "fields": [
           {
-            "label": "Chapter"
+            "label": "Page"
           }
         ]
       }
@@ -80,7 +80,7 @@
       "default": "Forrige side"
     },
     {
-      "label": "Translation for \"Chapter completed!\"",
+      "label": "Translation for \"Page completed!\"",
       "default": "Kapittel ferdig!"
     },
     {
@@ -88,7 +88,7 @@
       "default": "@pages of @total completed"
     },
     {
-      "label": "Translation for \"Incomplete chapter\"",
+      "label": "Translation for \"Incomplete page\"",
       "default": "Ikke fullført kapittel"
     },
     {

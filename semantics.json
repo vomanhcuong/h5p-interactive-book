@@ -61,8 +61,8 @@
   {
     "name": "chapters",
     "type": "list",
-    "label": "Chapters",
-    "entity": "Chapter",
+    "label": "Pages",
+    "entity": "Page",
     "widgets": [
       {
         "name": "VerticalTabs",
@@ -80,8 +80,8 @@
       "expanded": true,
       "fields": [
         {
-          "label": "Chapter",
-          "name": "chapter",
+          "label": "Page",
+          "name": "page",
           "type": "library",
           "options": [
             "H5P.Column 1.12"
@@ -192,9 +192,9 @@
   {
     "name": "chapterCompleted",
     "type": "text",
-    "label": "Translation for \"Chapter completed!\"",
+    "label": "Translation for \"Page completed!\"",
     "importance": "low",
-    "default": "Chapter completed!",
+    "default": "Page completed!",
     "common": true,
     "optional": true
   },
@@ -210,9 +210,9 @@
   {
     "name": "incompleteChapter",
     "type": "text",
-    "label": "Translation for \"Incomplete chapter\"",
+    "label": "Translation for \"Incomplete page\"",
     "importance": "low",
-    "default": "Incomplete chapter",
+    "default": "Incomplete page",
     "common": true,
     "optional": true
   },

@@ -80,7 +80,7 @@
       "default": "Aurreko orria"
     },
     {
-      "label": "\"Chapter completed!\"-erako itzulpena",
+      "label": "\"Page completed!\"-erako itzulpena",
       "default": "Kapitulua osatu duzu!"
     },
     {
@@ -88,7 +88,7 @@
       "default": "@total-(e)tik @pages osatu dituzu"
     },
     {
-      "label": "\"Incomplete chapter\"-erako itzulpena",
+      "label": "\"Incomplete page\"-erako itzulpena",
       "default": "Osatu gabeko kapitulua"
     },
     {
