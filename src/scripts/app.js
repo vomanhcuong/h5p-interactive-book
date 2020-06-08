@@ -708,6 +708,11 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       this.mainWrapper = $wrapper;
       // Needed to enable scrolling in fullscreen
       $wrapper.addClass('h5p-interactive-book h5p-scrollable-fullscreen');
+
+      if (this.isEdge18orEarlier()) {
+        $wrapper.addClass('edge-18');
+      }
+
       this.setWrapperClassFromRatio(this.mainWrapper);
       if (this.cover) {
         this.displayCover($wrapper);
@@ -729,6 +734,22 @@ export default class InteractiveBook extends H5P.EventDispatcher {
 
       this.pageContent.updateFooter();
     };
+
+    /**
+     * Checks if browser is IE Edge version 18 or earlier
+     */
+    this.isEdge18orEarlier = function () {
+      const ua = window.navigator.userAgent;
+      const edgeIndex = ua.indexOf('Edge/');
+      if (edgeIndex < 0) {
+        return false;
+      }
+      const edgeVersion = ua.substring(
+        edgeIndex + 5,
+        ua.indexOf('.', edgeIndex)
+      );
+      return parseInt(edgeVersion) <= 18;
+    }
 
     /**
      * Hide all elements.

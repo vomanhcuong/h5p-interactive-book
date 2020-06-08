@@ -121,6 +121,10 @@ $fullscreen-button-size: 1.8em;
   .h5p-interactive-book {
     display: flex;
     flex-direction: column;
+
+    &.edge-18 .h5p-interactive-book-status {
+      padding-right: 9em;
+    }
   }
 
   .h5p-interactive-book-main {
