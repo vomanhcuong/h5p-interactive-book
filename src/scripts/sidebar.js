@@ -282,8 +282,6 @@ class SideBar extends H5P.EventDispatcher {
         arrow.classList.add('icon-expanded');
       }
     }
-
-    this.parent.trigger('resize');
   }
 
   /**
@@ -296,6 +294,9 @@ class SideBar extends H5P.EventDispatcher {
     this.chapterNodes.forEach((node, index) => {
       this.toggleChapter(node, index !== chapterId);
     });
+    // Trigger resize after toggling all chapters
+    this.parent.trigger('resize');
+
 
     const chapter = this.parent.getActiveChapter(true);
     // Focus new chapter button if active chapter was closed
@@ -459,6 +460,7 @@ class SideBar extends H5P.EventDispatcher {
       // Expand chapter in menu
       if (isExpandable) {
         this.toggleChapter(event.currentTarget.parentElement);
+        this.parent.trigger('resize');
       }
     };
     chapterNodeTitle.appendChild(chapterCollapseIcon);
