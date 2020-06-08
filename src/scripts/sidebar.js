@@ -298,9 +298,8 @@ class SideBar extends H5P.EventDispatcher {
     this.parent.trigger('resize');
 
 
-    const chapter = this.parent.getActiveChapter(true);
     // Focus new chapter button if active chapter was closed
-    if (!chapter.isSummary && chapterId !== this.focusedChapter) {
+    if (chapterId !== this.focusedChapter) {
       const chapterButton = this.chapterNodes[chapterId].querySelector('.h5p-interactive-book-navigation-chapter-button');
       this.setFocusToItem(chapterButton, chapterId, true);
     }
