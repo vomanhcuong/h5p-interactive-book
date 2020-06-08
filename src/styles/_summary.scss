@@ -9,22 +9,15 @@
       }
     }
 
-    .h5p-interactive-book-navigation-summary-button {
-      padding-top: 3rem;
-    }
-
     .h5p-interactive-book-summary-menu-button {
       justify-content: center;
       border-width: 0.125rem;
     }
 
-    .h5p-interactive-book-summary-icon {
-      margin-left: initial;
-    }
-
     .h5p-interactive-book-summary-menu-button-arrow {
       visibility: visible;
       opacity: 1;
+      right: 0.6875rem;
     }
 
     .h5p-interactive-book-summary-buttons {
@@ -48,6 +41,17 @@
     .h5p-interactive-book-summary-score-bar {
       margin-top: 1.25rem;
     }
+
+    .h5p-interactive-book-summary-page {
+      padding: 0.5rem;
+    }
+
+    & .h5p-interactive-book-navigation-open .h5p-interactive-book-navigation-chapter-button.h5p-interactive-book-navigation-current[aria-expanded="true"]
+    {
+      border-bottom-color: #0cc9a7;
+      border-bottom-width: 2px;
+    }
+
   }
 }
 
@@ -64,7 +68,14 @@
   color: #0d736e;
   font-weight: 700;
   line-height: 1rem;
-  position: relative;
+  justify-content: space-between;
+  height: 100%;
+  padding: 0.5rem;
+
+  &.h5p-interactive-book-navigation-chapter-button.h5p-interactive-book-navigation-current {
+    background-color: #f1f9f8;
+    border-bottom-color: #0cc9a7;
+  }
 
   &:hover {
     background-color: #f1f9f8;
@@ -72,7 +83,7 @@
     .h5p-interactive-book-summary-menu-button-arrow {
       opacity: 1;
       visibility: visible;
-      right: 20px;
+      transform: rotate(90deg) translateY(-10px);
     }
   }
 
@@ -82,9 +93,11 @@
   }
 
   .h5p-interactive-book-summary-text {
-    margin: 0.6125rem 1rem 0.6125rem 0;
     white-space: normal;
     text-align: left;
+    height: 100%;
+    flex-grow: 2;
+    margin-right: 0.75rem;
   }
 
   .h5p-interactive-book-summary-icon {
@@ -96,13 +109,12 @@
   .h5p-interactive-book-summary-menu-button-arrow {
     transform: rotate(90deg);
     position: absolute;
-    right: 40px;
+    right: 15px;
     visibility: hidden;
     opacity: 0;
-    top: 0;
+    height: auto;
     font-weight: normal;
-    bottom: 0;
-    transition: right 0.4s, opacity 0.2s, visibility 0.2s;
+    transition: transform 0.4s, opacity 0.2s, visibility 0.2s;
   }
 
   &[disabled] {
@@ -112,13 +124,12 @@
 }
 
 .h5p-interactive-book-navigation-summary-button {
-  margin-top: 3rem;
   padding: 1.125rem 0.5rem;
 }
 
 .h5p-interactive-book-summary-page {
 
-  margin: 1rem 1.6875rem;
+  padding: 1.25rem;
 
   ol,
   ul,
@@ -155,7 +166,7 @@
     }
 
     .h5p-interactive-book-summary-progressbox-smalltext {
-      font-size: 0.6125rem;
+      font-size: 0.875rem;
       color: #273c59;
       font-style: italic;
       line-height: 1.25rem;
@@ -176,6 +187,7 @@
       font-weight: bold;
       margin-right: 1rem;
       font-size: 0.75rem;
+      cursor: pointer;
 
       & .icon-restart,
       & .icon-paper-pencil
@@ -283,7 +295,7 @@
   }
 
   .h5p-interactive-book-summary-overview-section {
-    padding: 0.6125rem 1.6125rem;
+    padding: 0.875rem 1.25rem;
     border: 1px solid #e8e8e8;
     border-bottom: 0;
     display: block;
@@ -292,12 +304,15 @@
       margin: 0;
       display: flex;
       align-items: center;
+      color: #2d7ad2;
+      cursor: pointer;
 
       span[class^='icon-'],
       span[class*=' icon-'] {
         margin-left: auto;
         color: #2d7ad2;
         font-weight: 100;
+        cursor: pointer;
       }
     }
   }
@@ -319,9 +334,9 @@
     display: flex;
 
     div {
-      font-size: 0.5rem;
+      font-size: 0.875rem;
       margin-left: auto;
-      line-height: normal;
+      line-height: 2rem;
     }
   }
 
@@ -332,10 +347,15 @@
 
   .h5p-interactive-book-summary-overview-section-details {
     display: flex;
-    border-top: 2px solid #ebebeb;
+    border-top: 1px solid #ebebeb;
+    padding: 0.25rem;
+
+    &:hover {
+      background: #f3f3f3;
+    }
 
     & .h5p-interactive-book-summary-section-title {
-      font-size: 0.6125rem;
+      font-size: 0.875rem;
       border: 0;
       background-color: transparent;
       padding: 0;
@@ -347,7 +367,7 @@
     & .h5p-interactive-book-summary-section-score {
       margin-left: auto;
       white-space: nowrap;
-      font-size: 0.6125rem;
+      font-size: 0.875rem;
     }
   }
 
@@ -362,13 +382,15 @@
   .h5p-interactive-book-summary-chapter-subheader {
     font-style: italic;
     color: #737285;
-    font-size: 0.5rem;
+    font-size: 0.875rem;
     line-height: 0.9375rem;
   }
 
   .h5p-interactive-book-summary-progress-circle {
     width: 3rem;
     height: 3rem;
+    min-height: 3rem;
+    min-width: 3rem;
     border-radius: 50%;
     border: 6px solid #F4F4F4;
     box-shadow: 0 0 0 4px rgba(228,228,237,0.5);
@@ -426,11 +448,15 @@
   position: relative;
   max-width: 200px;
   border: 1px solid #e8e8e8;
-  border-radius: 2px;
+  border-radius: 4px;
   background-color: #ffffff;
-  margin: auto 0.0625rem auto auto;
-  font-size: 0.625rem;
+  margin-left: auto 0.0625rem auto auto;
+  font-size: 0.875rem;
   min-width: 12rem;
+
+  & > button {
+    cursor: pointer;
+  }
 
   &[active]{
 
@@ -440,11 +466,13 @@
 
       button {
         background-color: #ffffff;
+        cursor: pointer;
       }
     }
 
     button {
       background-color: #fafafa;
+      cursor: pointer;
     }
 
   }
@@ -464,11 +492,10 @@
     display: flex;
     width: 100%;
     border: 0;
-    border-bottom: 1px solid #ebebeb;
     background: transparent;
     align-items: center;
     font-size: inherit;
-    padding: 0.6875rem;
+    padding: 0.5rem 0.6875rem;
 
     .icon-expanded {
       margin-left: auto;
