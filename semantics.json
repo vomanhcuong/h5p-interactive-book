@@ -172,15 +172,6 @@
     "optional": true
   },
   {
-    "name": "nextPage",
-    "type": "text",
-    "label": "Translation for \"Next page\"",
-    "importance": "low",
-    "default": "Next page",
-    "common": true,
-    "optional": true
-  },
-  {
     "name": "previousPage",
     "type": "text",
     "label": "Translation for \"Previous page\"",
@@ -249,6 +240,183 @@
     "importance": "low",
     "label": "Exit fullscreen button label",
     "default": "Exit fullscreen",
+    "common": true,
+    "optional": true
+  },
+  {
+    "name": "bookProgressCompletedText",
+    "type": "text",
+    "importance": "low",
+    "label": "Book progress",
+    "description": "\"@percent\" will be replaced by user's progress",
+    "default": "@percent% completed",
+    "common": true,
+    "optional": true
+  },
+  {
+    "name": "progressCompletedText",
+    "type": "text",
+    "importance": "low",
+    "label": "Interaction progress",
+    "description": "\"@percent\" will be replaced by user's progress",
+    "default": "@percent% completed",
+    "common": true,
+    "optional": true
+  },
+  {
+    "name": "bookProgressSubtext",
+    "type": "text",
+    "importance": "low",
+    "label": "Page progress in book",
+    "description": "\"@count\" will be replaced by page count, and \"@total\" with the total number of pages",
+    "default": "@count of @total pages",
+    "common": true,
+    "optional": true
+  },
+  {
+    "name": "interactionsProgressSubtext",
+    "type": "text",
+    "importance": "low",
+    "label": "Interaction progress",
+    "description": "\"@count\" will be replaced by page count, and \"@total\" with the total number of pages",
+    "default": "@count of @total interactions",
+    "common": true,
+    "optional": true
+  },
+  {
+    "name": "submitReport",
+    "type": "text",
+    "importance": "low",
+    "label": "Translation for \"Submit report\"",
+    "default": "Submit Report",
+    "common": true,
+    "optional": true
+  },
+  {
+    "name": "restartLabel",
+    "type": "text",
+    "importance": "low",
+    "label": "Label for \"restart\" button",
+    "default": "Restart",
+    "common": true,
+    "optional": true
+  },
+  {
+    "name": "summaryHeader",
+    "type": "text",
+    "importance": "low",
+    "label": "Summary header",
+    "default": "Summary",
+    "common": true,
+    "optional": true
+  },
+  {
+    "name": "allInteractions",
+    "type": "text",
+    "importance": "low",
+    "label": "Translation for \"All interactions\"",
+    "default": "All interactions",
+    "common": true,
+    "optional": true
+  },
+  {
+    "name": "unansweredInteractions",
+    "type": "text",
+    "importance": "low",
+    "label": "Translation for \"Unanswered interactions\"",
+    "default": "Unanswered interactions",
+    "common": true,
+    "optional": true
+  },
+  {
+    "name": "scoreText",
+    "type": "text",
+    "importance": "low",
+    "label": "Score",
+    "description": "\"@score\" will be replaced with current score, and \"@maxscore\" will be replaced with max achievable score",
+    "default": "@score / @maxscore",
+    "common": true,
+    "optional": true
+  },
+  {
+    "name": "leftOutOfTotalCompleted",
+    "type": "text",
+    "importance": "low",
+    "label": "Per page interactions completion",
+    "description": "\"@left\" will be replaced with remaining interactions, and \"@max\" will be replaced with total number of interactions on the page",
+    "default": "@left of @max interactions completed",
+    "common": true,
+    "optional": true
+  },
+  {
+    "name": "noInteractions",
+    "type": "text",
+    "importance": "low",
+    "label": "Translation for \"No interactions\"",
+    "default": "No interactions",
+    "common": true,
+    "optional": true
+  },
+  {
+    "name": "score",
+    "type": "text",
+    "importance": "low",
+    "label": "Translation for \"Score\"",
+    "default": "Score",
+    "common": true,
+    "optional": true
+  },
+  {
+    "name": "summaryAndSubmit",
+    "type": "text",
+    "importance": "low",
+    "label": "Label for \"Summary & submit\" button",
+    "default": "Summary & submit",
+    "common": true,
+    "optional": true
+  },
+  {
+    "name": "noChapterInteractionBoldText",
+    "type": "text",
+    "importance": "low",
+    "label": "Translation for \"You have not interacted with any pages.\"",
+    "default": "You have not interacted with any pages.",
+    "common": true,
+    "optional": true
+  },
+  {
+    "name": "noChapterInteractionText",
+    "type": "text",
+    "importance": "low",
+    "label": "Translation for \"You have interact with at least one page before you can see the summary.\"",
+    "default": "You have interact with at least one page before you can see the summary.",
+    "common": true,
+    "optional": true
+  },
+  {
+    "name": "yourAnswersAreSubmittedForReview",
+    "type": "text",
+    "importance": "low",
+    "label": "Translation for \"Your answers are submitted for review!\"",
+    "default": "Your answers are submitted for review!",
+    "common": true,
+    "optional": true
+  },
+  {
+    "name": "bookProgress",
+    "type": "text",
+    "importance": "low",
+    "label": "Summary progress label",
+    "default": "Book progress",
+    "common": true,
+    "optional": true
+  },
+  {
+    "name": "interactionsProgress",
+    "type": "text",
+    "importance": "low",
+    "label": "Interactions progress label",
+    "default": "Interactions progress",
     "common": true,
     "optional": true
   },
