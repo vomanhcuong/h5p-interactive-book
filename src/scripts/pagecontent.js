@@ -216,7 +216,8 @@ class PageContent extends H5P.EventDispatcher {
         completed: false,
         tasksLeft: 0,
         isSummary: false,
-        sections: newInstance.getInstances().map(instance => ({
+        sections: newInstance.getInstances().map((instance, contentIndex) => ({
+          content: config.chapters[i].params.content[contentIndex].content,
           instance: instance,
           isTask: false
         }))

@@ -357,7 +357,16 @@ class Summary extends H5P.EventDispatcher {
         this.parent.trigger("newChapter", newChapter);
       };
 
-      title.innerHTML = section.instance.contentData.metadata.title;
+      // We can't expect the content type to always have set contentData as a property on their instance
+      const contentDataTitle = section.instance.contentData
+        && section.instance.contentData.metadata
+        && section.instance.contentData.metadata.title;
+      // Try to get title from params
+      const metadataTitle = section.content
+        && section.content.metadata
+        && section.content.metadata.title;
+      title.innerHTML = contentDataTitle ? contentDataTitle
+        : metadataTitle ? metadataTitle : 'Untitled';
 
       const score = document.createElement("div");
       score.classList.add('h5p-interactive-book-summary-section-score');
