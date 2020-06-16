@@ -52,6 +52,10 @@
         {
           "label": "Habilitar pregreso automático",
           "description": "Si se habilita, una página sin trabajos es considerada hecha cuando es vista. Una página con trabajos cuando todos los trabajos están hechos. Si se deshabilita, habrá un botón al fondo de  cada página para que el usuario pueda hacer clic cuando haya terminado con la página."
+        },
+        {
+          "label": "Display summary",
+          "description": "When enabled the user can see a summary and submit the progress/answers"
         }
       ]
     },
@@ -66,10 +70,6 @@
     {
       "label": "Traducción para \"Ocultar 'Tabla de contenidos'\"",
       "default": "Ocultar 'Tabla de contenidos'"
-    },
-    {
-      "label": "Traducción para \"Página siguiente\"",
-      "default": "Página siguiente"
     },
     {
       "label": "Traducción para \"Página siguiente\"",
@@ -108,6 +108,88 @@
       "default": "Salir de PantallaCompleta"
     },
     {
+      "label": "Book progress",
+      "description": "\"@percent\" will be replaced by user's progress",
+      "default": "@percent% completed"
+    },
+    {
+      "label": "Interaction progress",
+      "description": "\"@percent\" will be replaced by user's progress",
+      "default": "@percent% completed"
+    },
+    {
+      "label": "Page progress in book",
+      "description": "\"@count\" will be replaced by page count, and \"@total\" with the total number of pages",
+      "default": "@count of @total pages"
+    },
+    {
+      "label": "Interaction progress",
+      "description": "\"@count\" will be replaced by page count, and \"@total\" with the total number of pages",
+      "default": "@count of @total interactions"
+    },
+    {
+      "label": "Translation for \"Submit report\"",
+      "default": "Submit Report"
+    },
+    {
+      "label": "Label for \"restart\" button",
+      "default": "Restart"
+    },
+    {
+      "label": "Summary header",
+      "default": "Summary"
+    },
+    {
+      "label": "Translation for \"All interactions\"",
+      "default": "All interactions"
+    },
+    {
+      "label": "Translation for \"Unanswered interactions\"",
+      "default": "Unanswered interactions"
+    },
+    {
+      "label": "Score",
+      "description": "\"@score\" will be replaced with current score, and \"@maxscore\" will be replaced with max achievable score",
+      "default": "@score / @maxscore"
+    },
+    {
+      "label": "Per page interactions completion",
+      "description": "\"@left\" will be replaced with remaining interactions, and \"@max\" will be replaced with total number of interactions on the page",
+      "default": "@left of @max interactions completed"
+    },
+    {
+      "label": "Translation for \"No interactions\"",
+      "default": "No interactions"
+    },
+    {
+      "label": "Translation for \"Score\"",
+      "default": "Score"
+    },
+    {
+      "label": "Label for \"Summary & submit\" button",
+      "default": "Summary & submit"
+    },
+    {
+      "label": "Translation for \"You have not interacted with any pages.\"",
+      "default": "You have not interacted with any pages."
+    },
+    {
+      "label": "Translation for \"You have interact with at least one page before you can see the summary.\"",
+      "default": "You have interact with at least one page before you can see the summary."
+    },
+    {
+      "label": "Translation for \"Your answers are submitted for review!\"",
+      "default": "Your answers are submitted for review!"
+    },
+    {
+      "label": "Summary progress label",
+      "default": "Book progress"
+    },
+    {
+      "label": "Interactions progress label",
+      "default": "Interactions progress"
+    },
+    {
       "label": "Textos de Accesibilidad",
       "fields": [
         {
@@ -118,7 +200,7 @@
         {
           "label": "Etiqueta para menú de navegación expandible/colapsable",
           "default": "Alternar menú de navegación"
-         }
+        }
       ]
     }
   ]
