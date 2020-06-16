@@ -57,15 +57,15 @@
     },
     {
       "label": "Translation for \"Read\"",
-      "default": "Read"
+      "default": "Les"
     },
     {
       "label": "Translation for \"Display 'Table of contents'\"",
-      "default": "Display 'Table of contents'"
+      "default": "Vis 'Table of contents'"
     },
     {
       "label": "Translation for \"Hide 'Table of contents'\"",
-      "default": "Hide 'Table of contents'"
+      "default": "Skjul 'Table of contents'"
     },
     {
       "label": "Translation for \"Next page\"",
@@ -85,7 +85,7 @@
     },
     {
       "label": "Translation for \"@pages of @total completed\" (@pages and @total will be replaced by actual values)",
-      "default": "@pages of @total completed"
+      "default": "@pages av @total fullført"
     },
     {
       "label": "Translation for \"Incomplete page\"",
@@ -113,11 +113,11 @@
         {
           "label": "Page progress textual alternative",
           "description": "An alternative text for the visual page progress. @page and @total variables available.",
-          "default": "Page @page of @total."
+          "default": "Side @page av @total."
         },
         {
           "label": "Label for expanding/collapsing navigation menu",
-          "default": "Toggle navigation menu"
+          "default": "Slå på navigasjonsmeny"
         }
       ]
     }
