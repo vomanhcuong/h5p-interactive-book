@@ -1,57 +1,57 @@
 {
   "semantics": [
     {
-      "label": "Luba tiitelleht",
-      "description": "Leht, mis näitab teavet raamatu kohta enne selle avamist"
+      "label": "Habilitar página de capa",
+      "description": "Habilita capa que mostra informações sobre o livro antes do acesso"
     },
     {
-      "label": "Tiitelleht",
+      "label": "Página de capa",
       "fields": [
         {
-          "label": "Tiitellehe kirjeldus",
-          "description": "See tekst kirjeldab sinu raamatut."
+          "label": "Descrição da capa",
+          "description": "Texto exibido como descrição do livro."
         },
         {
-          "label": "Tiitellehe pilt",
-          "description": "Valikuline taustapilt tutvustusele."
+          "label": "Imagem da capa",
+          "description": "Imagem opcional de fundo para a introdução."
         },
         {
-          "label": "Tiitellehe pildi alternatiivtekst",
-          "description": "Alternatiivne tekst tiitellehe pildile"
+          "label": "Text alternativo da imagem de capa",
+          "description": "Descrição da imagem de capa. É exibido quando a imagem não puder ser apresentada."
         }
       ]
     },
     {
-      "label": "Peatükid",
-      "entity": "Peatükk",
+      "label": "Capítulos",
+      "entity": "Capítulo",
       "widgets": [
         {
-          "label": "Vaikimisi"
+          "label": "Padrão"
         }
       ],
       "field": {
-        "label": "Üksus",
+        "label": "Item",
         "fields": [
           {
-            "label": "Peatükk"
+            "label": "Capítulo"
           }
         ]
       }
     },
     {
-      "label": "Käitumisseaded",
+      "label": "Configurações comportamentais",
       "fields": [
         {
-          "label": "Kuva vaikimisi sisukorda",
-          "description": "Kui on lubatud, siis raamatu avamisel näidatakse sisukorda"
+          "label": "Exibir Estrutura de Tópicos como padrão",
+          "description": "Exibe a Estrutra de Tópicos ao abrir o livro"
         },
         {
-          "label": "Näida edenemisosutit",
-          "description": "Kui on lubatud, siis on lehel osutid, mis näitavad kasutajale, kas ta on lehega lõpule jõudnud või mitte."
+          "label": "Exibir indicador de progresso",
+          "description": "Exibe indicadores por página mostrando o que o usuário já concluiu e o que está pendente."
         },
         {
-          "label": "Võimalda automaatne edenemine",
-          "description": "Kui on lubatud, siis ülesanneteta lehekülg loetakse vaatamisel läbituks, ülesannetega lehekülg peale kõigi ülesannete täitmist. Kui keelatud, siis on iga lehe all nupp, mida kasutaja peab lehe läbituks märkimiseks vajutama."
+          "label": "Habilitar progresso automático",
+          "description": "Se habilitado, as páginas sem atividades são marcadas como concluídas quando são visualizadas, enquanto as páginas com atividades são marcadas apenas quando o usuário envia todas as atividades. Se desabilitado, exibe um botão no rodapé das páginas para o usuário indicar os conteúdos concluídos."
         },
         {
           "label": "Display summary",
@@ -60,52 +60,52 @@
       ]
     },
     {
-      "label": "\"Loetud\" nupu tõlge",
-      "default": "Loetud"
+      "label": "Tradução para \"Ler\"",
+      "default": "Ler"
     },
     {
-      "label": "\"Kuva 'sisukord'\" nupu tõlge",
-      "default": "Kuva 'sisukord'"
+      "label": "Tradução para \"Exibir 'Estrutura de Tópicos'\"",
+      "default": "Display 'Table of contents'"
     },
     {
-      "label": "\"Peida 'sisukord'\" nupu tõlge",
-      "default": "Peida 'sisukord'"
+      "label": "Tradução para \"Hide 'Table of contents'\"",
+      "default": "Hide 'Table of contents'"
     },
     {
-      "label": "\"Järgmine lehekülg\" nupu tõlge",
-      "default": "Järgmine lehekülg"
+      "label": "Tradução para \"Próxima página\"",
+      "default": "Próxima página"
     },
     {
-      "label": "\"Eelmine lehekülg\" nupu tõlge",
-      "default": "Eelmine lehekülg"
+      "label": "Tradução para \"Página anterior\"",
+      "default": "Página anterior"
     },
     {
-      "label": "\"Peatükk läbitud!\" tõlge",
-      "default": "Peatükk läbitud!"
+      "label": "Tradução para \"Aula concluída!\"",
+      "default": "Aula concluída!"
     },
     {
-      "label": "Tõlge tehtud \"@pages leheküljele @total leheküljest\" (@pages ja @total asendatakse tegelike väärtusega)",
-      "default": "@pages / @total läbitud"
+      "label": "Tradução para \"@pages de @total concluídas\" (@pages e @total serão substituídas pelos valores atuais para o usuário)",
+      "default": "@pages de @total concluídas"
     },
     {
-      "label": "\"Peatükk pooleli\" tõlge",
-      "default": "Peatükk pooleli"
+      "label": "Tradução para \"Aula incompleta\"",
+      "default": "Aula incompleta"
     },
     {
-      "label": "\"Liigu lehekülje ülaossa\" tõlge",
-      "default": "Liigu lehkülje ülaossa"
+      "label": "Tradução para \"Retornar ao topo\"",
+      "default": "Retornar ao topo"
     },
     {
-      "label": "\"Olen selle lehe läbinud\" tõlge",
-      "default": "Olen selle lehe läbinud"
+      "label": "Tradução para \"Eu concluí o estudo desta página\"",
+      "default": "Eu concluí o estudo desta página"
     },
     {
-      "label": "Täisekraan nupu silt",
-      "default": "Täisekraan"
+      "label": "Texto do botão de tela cheia",
+      "default": "Tela cheia"
     },
     {
-      "label": "Välju täisekraanilt nupu silt",
-      "default": "Välju täisekraanilt"
+      "label": "Texto do botão Sair da tela cheia",
+      "default": "Sair da tela cheia"
     },
     {
       "label": "Book progress",
@@ -190,16 +190,16 @@
       "default": "Interactions progress"
     },
     {
-      "label": "Puudega inimest toetavad tekstid",
+      "label": "Textos de acessibilidade",
       "fields": [
         {
-          "label": "Lehekülje edenemise tekstialternatiiv",
-          "description": "Alternatiivtekst visuaalsele lehel edenemise osutile. Kasutatavad muutujad on @page ja @total.",
-          "default": "Lehekülg @page kokku @total lehest."
+          "label": "Texto alternativo para progresso da página",
+          "description": "Texto alternativo para indicação visual de progresse da página. Varíaveis @page e @total disponíveis.",
+          "default": "Página @page de @total."
         },
         {
-          "label": "Silt navigeerimismenüü avamiseks ja sulgemiseks",
-          "default": "Ava või sulge navigeerimismenüü"
+          "label": "Texto para expandir/colapsar menu de navegação",
+          "default": "Exibir/Ocultar menu de navegação"
         }
       ]
     }

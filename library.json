@@ -1,9 +1,9 @@
 {
-  "title": "Interactive Book (alpha)",
-  "description": "An interactive book which displays content in chapters and sections",
+  "title": "Interactive Book (beta)",
+  "description": "An interactive book which displays content in pages and sections",
   "majorVersion": 1,
   "minorVersion": 2,
-  "patchVersion": 0,
+  "patchVersion": 1,
   "runnable": 1,
   "fullscreen": 1,
   "author": "Joubel",
@@ -27,6 +27,11 @@
       "machineName": "H5P.Column",
       "majorVersion": 1,
       "minorVersion": 12
+    },
+    {
+      "machineName": "H5P.JoubelUI",
+      "majorVersion": 1,
+      "minorVersion": 3
     }
   ],
   "editorDependencies": [

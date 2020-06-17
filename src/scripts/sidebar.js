@@ -12,6 +12,7 @@ class SideBar extends H5P.EventDispatcher {
     this.content = document.createElement('div');
     this.content.classList.add('navigation-list');
     this.container = this.addSideBar();
+    this.l10n = config.l10n;
 
     this.chapters = this.findAllChapters(config.chapters);
     this.chapterNodes = this.getChapterNodes();
@@ -24,6 +25,10 @@ class SideBar extends H5P.EventDispatcher {
     this.chapterNodes.forEach(element => {
       this.content.appendChild(element);
     });
+
+    if (this.chapters.length > 20) {
+      this.content.classList.add('large-navigation-list');
+    }
 
     this.container.appendChild(this.content);
 
@@ -234,7 +239,17 @@ class SideBar extends H5P.EventDispatcher {
       chapters.push({
         sections: sections,
         title: chapterTitle,
-        id: id
+        id: id,
+        isSummary: false,
+      });
+    }
+
+    if ( this.parent.hasSummary()) {
+      chapters.push({
+        sections: [],
+        title: this.l10n.summaryHeader,
+        id: `h5p-interactive-book-chapter-summary`,
+        isSummary: true,
       });
     }
     return chapters;
@@ -267,8 +282,6 @@ class SideBar extends H5P.EventDispatcher {
         arrow.classList.add('icon-expanded');
       }
     }
-
-    this.parent.trigger('resize');
   }
 
   /**
@@ -281,6 +294,9 @@ class SideBar extends H5P.EventDispatcher {
     this.chapterNodes.forEach((node, index) => {
       this.toggleChapter(node, index !== chapterId);
     });
+    // Trigger resize after toggling all chapters
+    this.parent.trigger('resize');
+
 
     // Focus new chapter button if active chapter was closed
     if (chapterId !== this.focusedChapter) {
@@ -331,6 +347,11 @@ class SideBar extends H5P.EventDispatcher {
       return;
     }
 
+    const chapter = this.chapters[chapterId];
+    if ( chapter.isSummary ) {
+      return;
+    }
+
     const progressIndicator = this.chapterNodes[chapterId]
       .getElementsByClassName('h5p-interactive-book-navigation-chapter-progress')[0];
 
@@ -375,6 +396,18 @@ class SideBar extends H5P.EventDispatcher {
    * @return {HTMLElement} Chapter node.
    */
   getNodesFromChapter(chapter, chapterId) {
+    const chapterNode = document.createElement('li');
+    chapterNode.classList.add('h5p-interactive-book-navigation-chapter');
+
+    if ( chapter.isSummary) {
+      chapterNode.classList.add('h5p-interactive-book-navigation-summary-button');
+      const summary = this.parent.chapters[chapterId];
+      const summaryButton = summary.instance.summaryMenuButton;
+      summaryButton.classList.add('h5p-interactive-book-navigation-chapter-button');
+      chapterNode.appendChild(summaryButton);
+      return chapterNode;
+    }
+
     // TODO: Clean this up. Will require to receive chapter info from parent instead of building itself
     const chapterCollapseIcon = document.createElement('div');
     chapterCollapseIcon.classList.add('h5p-interactive-book-navigation-chapter-accordion');
@@ -426,14 +459,13 @@ class SideBar extends H5P.EventDispatcher {
       // Expand chapter in menu
       if (isExpandable) {
         this.toggleChapter(event.currentTarget.parentElement);
+        this.parent.trigger('resize');
       }
     };
     chapterNodeTitle.appendChild(chapterCollapseIcon);
     chapterNodeTitle.appendChild(chapterTitleText);
     chapterNodeTitle.appendChild(chapterCompletionIcon);
 
-    const chapterNode = document.createElement('li');
-    chapterNode.classList.add('h5p-interactive-book-navigation-chapter');
     chapterNode.appendChild(chapterNodeTitle);
 
     // Collapse all but current chapters in menu and highlight current
@@ -560,11 +592,11 @@ class SideBar extends H5P.EventDispatcher {
   }
 
   /**
-   * Detect whether navigation is open on mobileView (if it takes full width).
+   * Detect whether navigation is open on a small surface(pc or mobile).
    * @return {boolean} True, if navigation is open on mobile view.
    */
   isOpenOnMobile() {
-    return this.container.offsetWidth > 0 && this.container.offsetWidth === this.parent.getContainerWidth();
+    return this.parent.isMenuOpen() && this.parent.isSmallSurface();
   }
 
   /**

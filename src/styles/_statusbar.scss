@@ -31,13 +31,13 @@
   border-radius: 3px;
 
   &:hover {
-    background-color: $base-color-5;
+    background-color: $base-color-10;
     background-size: cover;
     cursor: pointer;
   }
 
   &:active {
-    background-color: $base-color-10;
+    background-color: $base-color-20;
     background-size: cover;
   }
 
@@ -45,6 +45,32 @@
     &:hover {
       background-color: transparent;
       cursor: default;
+    }
+  }
+}
+
+.h5p-interactive-book-status-fullscreen {
+  background-color: $base-color-5;
+  background-size: cover;
+  border: .125em solid $background-color;
+  flex-shrink: 0;
+  justify-content: center;
+
+  &.h5p-interactive-book-enter-fullscreen {
+    &::before {
+      color: $base-color;
+      content: '\e90b';
+      font-family: 'h5p-book';
+      font-size: 1.2em;
+    }
+  }
+
+  &.h5p-interactive-book-exit-fullscreen {
+    &::before {
+      font-size: 1.2em;
+      color: $base-color;
+      content: '\e90c';
+      font-family: 'h5p-book';
     }
   }
 }
@@ -157,7 +183,7 @@
 }
 
 .h5p-interactive-book-status-arrow {
-  background-color: $background-color;
+  background-color: $base-color-5;
   background-size: cover;
   border: .125em solid $background-color;
   border-radius: 3px;

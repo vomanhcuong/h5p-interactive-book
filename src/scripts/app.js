@@ -3,6 +3,7 @@ import SideBar from './sidebar';
 import StatusBar from './statusbar';
 import Cover from './cover';
 import PageContent from './pagecontent';
+import 'element-scroll-polyfill';
 
 export default class InteractiveBook extends H5P.EventDispatcher {
   /**
@@ -21,8 +22,16 @@ export default class InteractiveBook extends H5P.EventDispatcher {
 
     this.completed = false;
 
-    this.params = config;
+    this.params = InteractiveBook.sanitizeConfig(config);
+    this.l10n = this.params.l10n;
     this.params.behaviour = this.params.behaviour || {};
+    this.mainWrapper = null;
+    this.currentRatio = null;
+    this.smallSurface = 'h5p-interactive-book-small';
+    this.mediumSurface = 'h5p-interactive-book-medium';
+    this.largeSurface = 'h5p-interactive-book-large';
+
+    this.chapters = [];
 
     /*
      * this.params.behaviour.enableSolutionsButton and this.params.behaviour.enableRetry
@@ -97,13 +106,32 @@ export default class InteractiveBook extends H5P.EventDispatcher {
      * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-5}
      */
     this.resetTask = () => {
-      this.chapters.forEach(chapter => {
-        if (typeof chapter.instance.resetTask === 'function') {
-          chapter.instance.resetTask();
-        }
-      });
+      if ( this.hasValidChapters()) {
+        this.chapters.forEach((chapter, index) => {
+          if (!chapter.isInitialized || chapter.isSummary) {
+            return;
+          }
+          if (typeof chapter.instance.resetTask === 'function') {
+            chapter.instance.resetTask();
+          }
+          chapter.tasksLeft = chapter.maxTasks;
+          chapter.sections.forEach(section => section.taskDone = false);
+          this.setChapterRead(index, false);
+        });
 
-      this.sideBar.resetIndicators();
+        this.pageContent.resetChapters();
+        this.sideBar.resetIndicators();
+
+        this.trigger('newChapter', {
+          h5pbookid: this.contentId,
+          chapter: this.pageContent.columnNodes[0].id,
+          section: "top",
+        });
+
+        if ( this.hasCover()) {
+          this.displayCover(this.mainWrapper);
+        }
+      }
     };
 
     /**
@@ -171,11 +199,33 @@ export default class InteractiveBook extends H5P.EventDispatcher {
     this.hasCover = () => this.cover && this.cover.container;
 
     /**
+     * Check if the configs are set to use summary
+     * @param chapters
+     * @return {*|boolean}
+     */
+    this.hasSummary = (chapters = this.chapters ) => this.hasChaptersTasks(chapters) && this.params.behaviour.displaySummary && this.params.behaviour.displaySummary === true;
+
+    /**
+     * Check if chapters has tasks
+     *
+     * @param {Array} chapters
+     * @return {boolean}
+     */
+    this.hasChaptersTasks = chapters => chapters.filter(chapter => chapter.sections.filter(section => section.isTask === true).length > 0).length > 0;
+
+    /**
+     * Check if there are valid chapters.
+     *
+     * @return {boolean} True, if there are valid(not empty) chapters.
+     */
+    this.hasValidChapters = () => this.params.chapters.length > 0;
+
+    /**
      * Get number of active chapter.
      *
      * @return {number} Number of active chapter.
      */
-    this.getActiveChapter = () => this.activeChapter;
+    this.getActiveChapter = (getActualChapter = false) => !getActualChapter ? this.activeChapter : this.chapters[this.activeChapter];
 
     /**
      * Set number of active chapter.
@@ -220,15 +270,53 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       });
     };
 
-    /*
-     * Establish all triggers
+    /**
+     * Check if menu is open
+     * @return {boolean}
      */
+    this.isMenuOpen = () => this.statusBarHeader.isMenuOpen();
 
-    this.on('resize', () => {
-      if (!this.pageContent) {
+    /**
+     * Detect if wrapper is a small surface
+     * @return {*}
+     */
+    this.isSmallSurface = () => this.mainWrapper && this.mainWrapper.hasClass(this.smallSurface);
+
+    /**
+     * Get the ratio of the wrapper
+     *
+     * @return {number}
+     */
+    this.getRatio = () => this.mainWrapper.width() / parseFloat(this.mainWrapper.css('font-size'));
+
+    /**
+     * Add/remove classname based on the ratio
+     * @param {jQuery} wrapper
+     * @param {number} ratio
+     */
+    this.setWrapperClassFromRatio = (wrapper, ratio = this.getRatio()) => {
+      if ( ratio === this.currentRatio) {
         return;
       }
+      this.breakpoints().forEach(item => {
+        if (item.shouldAdd(ratio)) {
+          this.mainWrapper.addClass(item.className);
+        }
+        else {
+          this.mainWrapper.removeClass(item.className);
+        }
+      });
+      this.currentRatio = ratio;
+    };
 
+    /**
+     * Handle resizing of the content
+     */
+    this.resize = () => {
+      if (!this.pageContent || !this.hasValidChapters() || !this.mainWrapper) {
+        return;
+      }
+      this.setWrapperClassFromRatio(this.mainWrapper);
       const currentChapterId = this.getActiveChapter();
       const currentNode = this.pageContent.columnNodes[currentChapterId];
 
@@ -252,16 +340,20 @@ export default class InteractiveBook extends H5P.EventDispatcher {
           }, 10);
         }
       }
-    });
+    };
+
+    /*
+     * Establish all triggers
+     */
+    this.on('resize', this.resize, this);
 
     this.on('toggleMenu', () => {
       this.pageContent.toggleNavigationMenu();
 
       // Update the menu button
-      const menuButton = this.statusBarHeader.wrapper.querySelector('.h5p-interactive-book-status-menu');
-      menuButton.setAttribute('aria-expanded', menuButton.classList.toggle('h5p-interactive-book-status-menu-active') ? 'true' : 'false');
+      this.statusBarHeader.menuToggleButton.setAttribute('aria-expanded', this.statusBarHeader.menuToggleButton.classList.toggle('h5p-interactive-book-status-menu-active') ? 'true' : 'false');
 
-      // We need to resize the whole book since the internactions are getting
+      // We need to resize the whole book since the interactions are getting
       // more width and those with a static ratio will increase their height.
       setTimeout(() => {
         this.trigger('resize');
@@ -317,6 +409,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       }
 
       H5P.trigger(this, 'changeHash', event.data);
+      H5P.trigger(this, 'scrollToTop');
     });
 
     /**
@@ -324,7 +417,16 @@ export default class InteractiveBook extends H5P.EventDispatcher {
      *
      * @returns {boolean} True, if current chapter was read.
      */
-    this.isCurrentChapterRead = () => this.chapters[this.activeChapter].completed;
+    this.isCurrentChapterRead = () => this.isChapterRead(this.chapters[this.activeChapter], this.params.behaviour.progressAuto);
+
+    /**
+     * Checks if a chapter is read
+     *
+     * @param chapter
+     * @param {boolean} autoProgress
+     * @returns {boolean}
+     */
+    this.isChapterRead = (chapter, autoProgress = this.params.behaviour.progressAuto) => chapter.isInitialized && (chapter.completed || (autoProgress && chapter.tasksLeft === 0));
 
     /**
      * Check if chapter is final one, has no tasks and all other chapters are done.
@@ -346,7 +448,35 @@ export default class InteractiveBook extends H5P.EventDispatcher {
      */
     this.setChapterRead = (chapterId = this.activeChapter, read = true) => {
       this.handleChapterCompletion(chapterId, read);
-      this.sideBar.updateChapterProgressIndicator(chapterId, read ? 'DONE' : 'BLANK');
+      this.sideBar.updateChapterProgressIndicator(chapterId, read ? 'DONE' : this.hasChapterStartedTasks(this.chapters[chapterId]) ? 'STARTED' : 'BLANK');
+    };
+
+    /**
+     * Checks if chapter has started on any of the sections
+     *
+     * @param chapter
+     * @return {boolean}
+     */
+    this.hasChapterStartedTasks = chapter => chapter.sections.filter(section => section.taskDone).length > 0;
+
+    /**
+     * Get textual status for chapter
+     *
+     * @param chapter
+     * @param {boolean} progressAuto
+     * @return {string}
+     */
+    this.getChapterStatus = (chapter, progressAuto = this.params.behaviour.progressAuto) => {
+      let status = 'BLANK';
+
+      if ( this.isChapterRead(chapter, progressAuto)) {
+        status = "DONE";
+      }
+      else if ( this.hasChapterStartedTasks(chapter)) {
+        status = 'STARTED';
+      }
+
+      return status;
     };
 
     /**
@@ -356,33 +486,22 @@ export default class InteractiveBook extends H5P.EventDispatcher {
      * @param {boolean} hasChangedChapter
      */
     this.updateChapterProgress = (chapterId, hasChangedChapter = false) => {
-      if (!this.params.behaviour.progressIndicators || !this.params.behaviour.progressAuto) {
+      if (!this.params.behaviour.progressIndicators) {
         return;
       }
 
       const chapter = this.chapters[chapterId];
       let status;
-      if (chapter.maxTasks) {
-        if (chapter.tasksLeft === chapter.maxTasks) {
-          status = 'BLANK';
-        }
-        else if (chapter.tasksLeft === 0) {
-          status = 'DONE';
-        }
-        else {
-          status = 'STARTED';
-        }
-      }
-      else if (chapter.maxTasks === 0) {
-        if (hasChangedChapter) {
-          status = 'DONE';
-        }
-        else {
-          status = 'BLANK';
-        }
+      if ( chapter.maxTasks ) {
+        status = this.getChapterStatus(chapter);
       }
       else {
-        status = 'DONE';
+        if (this.isChapterRead(chapter) && hasChangedChapter) {
+          status = 'DONE';
+        }
+        else {
+          status = 'BLANK';
+        }
       }
 
       if (status === 'DONE') {
@@ -413,10 +532,15 @@ export default class InteractiveBook extends H5P.EventDispatcher {
     this.handleChapterCompletion = (chapterId, completed = true) => {
       const chapter = this.chapters[chapterId];
 
+      if (chapter.isSummary === true) {
+        return;
+      }
+
       if (!completed) {
         // Reset chapter and book completion.
         chapter.completed = false;
         this.completed = false;
+        this.trigger('bookCompleted', {completed: this.completed});
         return;
       }
 
@@ -427,8 +551,9 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       }
 
       // All chapters completed
-      if (!this.completed && this.chapters.every(chapter => chapter.completed)) {
+      if (!this.completed && this.chapters.filter(chapter => !chapter.isSummary).every(chapter => chapter.completed)) {
         this.completed = true;
+        this.trigger('bookCompleted', {completed: this.completed});
         this.triggerXAPIScored(this.getScore(), this.getMaxScore(), 'completed');
       }
     };
@@ -464,6 +589,27 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       this.newHandler.redirectFromComponent = false;
     };
 
+    /**
+     * Get list of classname and conditions for when to add the classname to the content type
+     *
+     * @return {[{className: string, shouldAdd: (function(*): boolean)}, {className: string, shouldAdd: (function(*): boolean|boolean)}, {className: string, shouldAdd: (function(*): boolean)}]}
+     */
+    this.breakpoints = () => {
+      return [
+        {
+          "className": this.smallSurface,
+          "shouldAdd": ratio => ratio < 43,
+        },
+        {
+          "className": this.mediumSurface,
+          "shouldAdd": ratio => ratio >= 43 && ratio < 60,
+        },
+        {
+          "className": this.largeSurface,
+          "shouldAdd": ratio => ratio >= 60,
+        },
+      ];
+    };
 
     /**
      * Triggers whenever the hash changes, indicating that a chapter redirect is happening
@@ -534,9 +680,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
           section.taskDone = true;
           this.sideBar.setSectionMarker(chapterId, index);
           this.chapters[chapterId].tasksLeft -= 1;
-          if (this.params.behaviour.progressAuto) {
-            this.updateChapterProgress(chapterId);
-          }
+          this.updateChapterProgress(chapterId);
         }
       });
     };
@@ -546,32 +690,66 @@ export default class InteractiveBook extends H5P.EventDispatcher {
     });
 
     /**
+     * Display book cover
+     *
+     * @param wrapper
+     */
+    this.displayCover = wrapper => {
+      this.hideAllElements(true);
+      wrapper.append(this.cover.container);
+      wrapper.addClass('covered');
+    };
+
+    /**
      * Attach library to wrapper
      * @param {jQuery} $wrapper
      */
     this.attach = ($wrapper) => {
+      this.mainWrapper = $wrapper;
       // Needed to enable scrolling in fullscreen
-      $wrapper[0].classList.add('h5p-interactive-book');
-      $wrapper[0].classList.add('h5p-scrollable-fullscreen');
-      if (this.cover) {
-        $wrapper.get(0).appendChild(this.cover.container);
-        $wrapper.get(0).classList.add('covered');
+      $wrapper.addClass('h5p-interactive-book h5p-scrollable-fullscreen');
+
+      if (this.isEdge18orEarlier()) {
+        $wrapper.addClass('edge-18');
       }
 
-      this.addFullScreenButton($wrapper);
+      this.setWrapperClassFromRatio(this.mainWrapper);
+      if (this.cover) {
+        this.displayCover($wrapper);
+      }
 
-      $wrapper.get(0).appendChild(this.statusBarHeader.wrapper);
+      $wrapper.append(this.statusBarHeader.wrapper);
 
       const first = this.pageContent.container.firstChild;
       if (first) {
         this.pageContent.container.insertBefore(this.sideBar.container, first);
       }
 
-      $wrapper.get(0).appendChild(this.pageContent.container);
-      $wrapper.get(0).appendChild(this.statusBarFooter.wrapper);
+      $wrapper.append(this.pageContent.container);
+      $wrapper.append(this.statusBarFooter.wrapper);
+
+      if (this.params.behaviour.defaultTableOfContents && !this.isSmallSurface()) {
+        this.trigger('toggleMenu');
+      }
 
       this.pageContent.updateFooter();
     };
+
+    /**
+     * Checks if browser is IE Edge version 18 or earlier
+     */
+    this.isEdge18orEarlier = function () {
+      const ua = window.navigator.userAgent;
+      const edgeIndex = ua.indexOf('Edge/');
+      if (edgeIndex < 0) {
+        return false;
+      }
+      const edgeVersion = ua.substring(
+        edgeIndex + 5,
+        ua.indexOf('.', edgeIndex)
+      );
+      return parseInt(edgeVersion) <= 18;
+    }
 
     /**
      * Hide all elements.
@@ -599,96 +777,30 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       }
     };
 
-    /**
-     * Add fullscreen button.
-     *
-     * @param {jQuery} $wrapper HTMLElement to attach button to.
-     */
-    this.addFullScreenButton = function ($wrapper) {
-      if (H5P.canHasFullScreen !== true) {
-        return;
-      }
-
-      const toggleFullScreen = () => {
-        if (H5P.isFullscreen === true) {
-          H5P.exitFullScreen();
-        }
-        else {
-          H5P.fullScreen($wrapper, this);
-        }
-      };
-
-      this.fullScreenButton = document.createElement('button');
-      this.fullScreenButton.classList.add('h5p-interactive-book-fullscreen-button');
-      this.fullScreenButton.classList.add('h5p-interactive-book-enter-fullscreen');
-      this.fullScreenButton.setAttribute('title', this.params.fullscreen);
-      this.fullScreenButton.setAttribute('aria-label', this.params.fullscreen);
-      this.fullScreenButton.addEventListener('click', toggleFullScreen);
-      this.fullScreenButton.addEventListener('keyPress', (event) => {
-        if (event.which === 13 || event.which === 32) {
-          toggleFullScreen();
-          event.preventDefault();
-        }
-      });
-
-      this.on('enterFullScreen', () => {
-        this.isFullscreen = true;
-        this.fullScreenButton.classList.remove('h5p-interactive-book-enter-fullscreen');
-        this.fullScreenButton.classList.add('h5p-interactive-book-exit-fullscreen');
-        this.fullScreenButton.setAttribute('title', this.params.exitFullscreen);
-        this.fullScreenButton.setAttribute('aria-label', this.params.exitFullScreen);
-
-        this.pageContent.updateFooter();
-      });
-
-      this.on('exitFullScreen', () => {
-        this.isFullscreen = false;
-        this.fullScreenButton.classList.remove('h5p-interactive-book-exit-fullscreen');
-        this.fullScreenButton.classList.add('h5p-interactive-book-enter-fullscreen');
-        this.fullScreenButton.setAttribute('title', this.params.fullscreen);
-        this.fullScreenButton.setAttribute('aria-label', this.params.fullscreen);
-
-        this.pageContent.updateFooter();
-      });
-
-      const fullScreenButtonWrapper = document.createElement('div');
-      fullScreenButtonWrapper.classList.add('h5p-interactive-book-fullscreen-button-wrapper');
-      fullScreenButtonWrapper.appendChild(this.fullScreenButton);
-
-      $wrapper.prepend(fullScreenButtonWrapper);
-    };
-
     // Initialize the support components
-    if (config.showCoverPage) {
-      this.cover = new Cover(config.bookCover, contentData.metadata.title, config.read, contentId, this);
+    if (this.params.showCoverPage) {
+      this.cover = new Cover(this.params.bookCover, contentData.metadata.title, this.l10n.read, contentId, this);
     }
 
-    this.pageContent = new PageContent(config, contentId, contentData, this, {
+    this.pageContent = new PageContent(this.params, contentId, contentData, this, {
       l10n: {
-        markAsFinished: config.markAsFinished
+        markAsFinished: this.l10n.markAsFinished
       },
       behaviour: this.params.behaviour
     });
     this.chapters = this.pageContent.getChapters();
 
-    this.sideBar = new SideBar(config, contentId, contentData.metadata.title, this);
+    this.sideBar = new SideBar(this.params, contentId, contentData.metadata.title, this);
 
-    this.statusBarHeader = new StatusBar(contentId, config.chapters.length, this, {
-      l10n: {
-        nextPage: config.nextPage,
-        previousPage: config.previousPage,
-        navigateToTop: config.navigateToTop
-      },
+    this.statusBarHeader = new StatusBar(contentId, this.chapters.length, this, {
+      l10n: this.l10n,
       a11y: this.params.a11y,
-      behaviour: this.params.behaviour
+      behaviour: this.params.behaviour,
+      displayFullScreenButton: true,
     }, 'h5p-interactive-book-status-header');
 
-    this.statusBarFooter = new StatusBar(contentId, config.chapters.length, this, {
-      l10n: {
-        nextPage: config.nextPage,
-        previousPage: config.previousPage,
-        navigateToTop: config.navigateToTop
-      },
+    this.statusBarFooter = new StatusBar(contentId, this.chapters.length, this, {
+      l10n: this.l10n,
       a11y: this.params.a11y,
       behaviour: this.params.behaviour
     }, 'h5p-interactive-book-status-footer');
@@ -706,8 +818,99 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       });
     }
 
-    // Kickstart the statusbar
-    this.statusBarHeader.updateStatusBar();
-    this.statusBarFooter.updateStatusBar();
+    if ( this.hasValidChapters() ) {
+      // Kickstart the statusbar
+      this.statusBarHeader.updateStatusBar();
+      this.statusBarFooter.updateStatusBar();
+    }
   }
+
+  /**
+   * Make sure that the config used is in a good state. This includes default values for all language strings
+   *
+   * @param originalConfig
+   * @return {*}
+   */
+  static sanitizeConfig(originalConfig) {
+    const {
+      read = "Read",
+      displayTOC = "Display &#039;Table of contents&#039;",
+      hideTOC = "Hide &#039;Table of contents&#039;",
+      nextPage = "Next page",
+      previousPage = "Previous page",
+      chapterCompleted = "Page completed!",
+      partCompleted = "@pages of @total completed",
+      incompleteChapter = "Incomplete page",
+      navigateToTop = "Navigate to the top",
+      markAsFinished = "I have finished this page",
+      fullscreen = "Fullscreen",
+      exitFullscreen = "Exit fullscreen",
+      bookProgressCompletedText = "@percent% completed",
+      progressCompletedText = '@percent% completed',
+      bookProgressSubtext = "@count of @total pages",
+      interactionsProgressSubtext = "@count of @total interactions",
+      submitReport = "Submit Report",
+      restartLabel = "Restart",
+      summaryHeader = "Summary",
+      allInteractions = "All interactions",
+      unansweredInteractions = "Unanswered interactions",
+      scoreText = "@score / @maxscore",
+      leftOutOfTotalCompleted = "@left of @max interactinos completed",
+      noInteractions = "No interactions",
+      score = "Score",
+      summaryAndSubmit = "Summary & submit",
+      noChapterInteractionBoldText = "You have not interacted with any pages.",
+      noChapterInteractionText = "You have interact with at least one page before you can see the summary.",
+      yourAnswersAreSubmittedForReview = "Your answers are submitted for review!",
+      bookProgress = "Book progress",
+      interactionsProgress = "Interactions progress",
+      ...config
+    } = originalConfig;
+
+    config.chapters = config.chapters
+      .map(chapter => {
+        chapter.params.content = chapter.params.content.filter(content => content.content);
+        return chapter;
+      })
+      .filter(chapter => chapter.params.content && chapter.params.content.length > 0);
+
+    config.behaviour.displaySummary = config.behaviour.displaySummary === undefined || config.behaviour.displaySummary;
+
+    config.l10n = {
+      read,
+      displayTOC,
+      hideTOC,
+      nextPage,
+      previousPage,
+      chapterCompleted,
+      partCompleted,
+      incompleteChapter,
+      navigateToTop,
+      markAsFinished,
+      fullscreen,
+      exitFullscreen,
+      bookProgressCompletedText,
+      progressCompletedText,
+      bookProgressSubtext,
+      interactionsProgressSubtext,
+      submitReport,
+      restartLabel,
+      summaryHeader,
+      allInteractions,
+      unansweredInteractions,
+      scoreText,
+      leftOutOfTotalCompleted,
+      noInteractions,
+      score,
+      summaryAndSubmit,
+      noChapterInteractionBoldText,
+      noChapterInteractionText,
+      yourAnswersAreSubmittedForReview,
+      bookProgress,
+      interactionsProgress,
+    };
+
+    return config;
+  }
+
 }

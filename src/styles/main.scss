@@ -14,14 +14,16 @@ $dark-grey-20: rgba(166, 166, 166, .2);
 $ghost-white: #e9e4ed;
 $light-grey: #bebebe;
 $medium-grey: #363636;
+$scrollbar: #6C7992;
+$scrollbar-30: rgba($scrollbar, .35);
+$scrollbar-75: rgba($scrollbar, .75);
 $mud: #4c4452;
 $mud-80: rgba($mud, .8);
 
 $fullscreen-button-size: 1.8em;
 
 .h5p-interactive-book {
-  // Mobile or narrow view
-  @media (max-device-width: 480px), (max-width: 767px) {
+  &.h5p-interactive-book-small {
     .h5p-interactive-book-main {
 
       &.h5p-interactive-book-navigation-open {
@@ -29,6 +31,10 @@ $fullscreen-button-size: 1.8em;
         .h5p-interactive-book-navigation {
           max-width: none;
           width: 100%;
+
+          .large-navigation-list {
+            height: auto;
+          }
         }
 
         .h5p-interactive-book-navigation-chapter-accordion {
@@ -40,11 +46,7 @@ $fullscreen-button-size: 1.8em;
           background-color: $background-color;
 
           &.h5p-interactive-book-navigation-current {
-            background-color: $base-color-10;
-          }
-
-          .h5p-interactive-book-navigation-chapter-title-text {
-            color: $base-color;
+            border-bottom: solid 1px $ghost-white;
           }
         }
 
@@ -53,6 +55,7 @@ $fullscreen-button-size: 1.8em;
           overflow: inherit;
           transition: max-height .5s ease-in;
           visibility: inherit;
+          padding-left: 0.3rem;
         }
 
         .h5p-interactive-book-content {
@@ -62,60 +65,13 @@ $fullscreen-button-size: 1.8em;
     }
   }
 
+  &.h5p-scrollable-fullscreen.h5p-semi-fullscreen {
+    overflow-y: scroll; /* has to be scroll, not auto */
+    -webkit-overflow-scrolling: touch;
+  }
+
   .h5p-scrollable-fullscreen {
     overflow-y: auto;
-  }
-
-  .h5p-interactive-book-fullscreen-button-wrapper {
-    background-color: $mud-80;
-    border: 0;
-    border-radius: 0 0 0 100%;
-    height: $fullscreen-button-size;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: $fullscreen-button-size;
-    z-index: 3;
-  }
-
-  .h5p-interactive-book-fullscreen-button {
-    background-color: rgba(0, 0, 0, 0);
-    border: 0;
-    border-radius: 0 0 0 100%;
-    font-family: 'h5p-interactive-book';
-    font-size: 1em;
-    height: $fullscreen-button-size;
-    line-height: normal;
-    position: absolute;
-    text-indent: inherit;
-    top: 0;
-    width: $fullscreen-button-size;
-
-    &.h5p-interactive-book-enter-fullscreen {
-      &::before {
-        bottom: .5em;
-        color: $background-color;
-        content: '\e90b';
-        font-family: 'h5p-interactive-book';
-        left: .5em;
-        position: absolute;
-      }
-    }
-
-    &.h5p-interactive-book-exit-fullscreen {
-      &::before {
-        bottom: .5em;
-        color: $background-color;
-        content: '\e90c';
-        font-family: 'h5p-interactive-book';
-        left: .5em;
-        position: absolute;
-      }
-    }
-
-    &:hover {
-      cursor: pointer;
-    }
   }
 
   &.h5p-fullscreen {
@@ -125,10 +81,20 @@ $fullscreen-button-size: 1.8em;
   .h5p-content-controls {
     display: none;
   }
-}
 
-body.h5p-fullscreen .h5p-interactive-book-fullscreen-button-wrapper {
-  display: none;
+  ::-webkit-scrollbar {
+    width: 6px;
+    background: $scrollbar-30;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: $scrollbar-75;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: $scrollbar;
+  }
 }
 
 .h5p-interactive-book-main {
@@ -155,6 +121,10 @@ body.h5p-fullscreen .h5p-interactive-book-fullscreen-button-wrapper {
   .h5p-interactive-book {
     display: flex;
     flex-direction: column;
+
+    &.edge-18 .h5p-interactive-book-status {
+      padding-right: 9em;
+    }
   }
 
   .h5p-interactive-book-main {
@@ -176,6 +146,10 @@ body.h5p-fullscreen .h5p-interactive-book-fullscreen-button-wrapper {
       overflow-x: hidden;
       overflow-y: auto;
     }
+
+    .large-navigation-list {
+      min-height: 1px;
+    }
   }
 }
 
@@ -183,3 +157,4 @@ body.h5p-fullscreen .h5p-interactive-book-fullscreen-button-wrapper {
 @import 'statusbar';
 @import 'navigationbar';
 @import 'cover';
+@import "summary";

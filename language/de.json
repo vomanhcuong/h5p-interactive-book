@@ -1,57 +1,57 @@
 {
   "semantics": [
     {
-      "label": "Luba tiitelleht",
-      "description": "Leht, mis näitab teavet raamatu kohta enne selle avamist"
+      "label": "Titelseite anzeigen",
+      "description": "Auf der Titelseite werden Informationen über das Buch angezeigt bevor es geöffnet wird"
     },
     {
-      "label": "Tiitelleht",
+      "label": "Titelseite",
       "fields": [
         {
-          "label": "Tiitellehe kirjeldus",
-          "description": "See tekst kirjeldab sinu raamatut."
+          "label": "Untertitel",
+          "description": "Dieser Text wird in kleinerer Schrift unter dem eigentlichen Titel angezeigt."
         },
         {
-          "label": "Tiitellehe pilt",
-          "description": "Valikuline taustapilt tutvustusele."
+          "label": "Titelbild",
+          "description": "Dieses Bild wird auf der Titelseite angezeigt (optional)."
         },
         {
-          "label": "Tiitellehe pildi alternatiivtekst",
-          "description": "Alternatiivne tekst tiitellehe pildile"
+          "label": "Alternativtext des Titelbildes",
+          "description": "Dieser Text wird von Vorlesewerkzeugen verwendet (Barrierefreiheit)"
         }
       ]
     },
     {
-      "label": "Peatükid",
-      "entity": "Peatükk",
+      "label": "Kapitel",
+      "entity": "Kapitel",
       "widgets": [
         {
-          "label": "Vaikimisi"
+          "label": "Eingabemaske"
         }
       ],
       "field": {
-        "label": "Üksus",
+        "label": "Eintrag",
         "fields": [
           {
-            "label": "Peatükk"
+            "label": "Kapitel"
           }
         ]
       }
     },
     {
-      "label": "Käitumisseaded",
+      "label": "Verhaltenseinstellungen",
       "fields": [
         {
-          "label": "Kuva vaikimisi sisukorda",
-          "description": "Kui on lubatud, siis raamatu avamisel näidatakse sisukorda"
+          "label": "standardmäßig Inhaltsverzeichnis anzeigen",
+          "description": "Wenn gewählt, wird das Inhaltsverzeichnis beim Öffnen des Buchs angezeigt"
         },
         {
-          "label": "Näida edenemisosutit",
-          "description": "Kui on lubatud, siis on lehel osutid, mis näitavad kasutajale, kas ta on lehega lõpule jõudnud või mitte."
+          "label": "Fortschrittsanzeige anzeigen",
+          "description": "Wenn gewählt, wird bei jedem Kapitel angezeigt, ob die Lernenden es abgeschlossen haben."
         },
         {
-          "label": "Võimalda automaatne edenemine",
-          "description": "Kui on lubatud, siis ülesanneteta lehekülg loetakse vaatamisel läbituks, ülesannetega lehekülg peale kõigi ülesannete täitmist. Kui keelatud, siis on iga lehe all nupp, mida kasutaja peab lehe läbituks märkimiseks vajutama."
+          "label": "Fortschritt automatisch erfassen",
+          "description": "Wenn gewählt, werden Kapitel ohne Aufgaben als abgeschlossen markiert, sobald sie angezeigt wurden. Kapitel mit interaktiven Aufgaben gelten als abgeschlossen, wenn alle Aufgaben gelöst wurden. Wenn abgewählt, wird am Ende eines Kapitels ein Button angezeigt, den die Lernenden anklicken müssen, wenn sie das Kapitel abgeschlossen haben."
         },
         {
           "label": "Display summary",
@@ -60,52 +60,52 @@
       ]
     },
     {
-      "label": "\"Loetud\" nupu tõlge",
-      "default": "Loetud"
+      "label": "Beschriftung für \"Öffnen\"",
+      "default": "Öffnen"
     },
     {
-      "label": "\"Kuva 'sisukord'\" nupu tõlge",
-      "default": "Kuva 'sisukord'"
+      "label": "Beschriftung für \"Inhaltsverzeichnis anzeigen\"",
+      "default": "Inhaltsverzeichnis anzeigen"
     },
     {
-      "label": "\"Peida 'sisukord'\" nupu tõlge",
-      "default": "Peida 'sisukord'"
+      "label": "Beschriftung für \"Inhaltsverzeichnis ausblenden\"",
+      "default": "Inhaltsverzeichnis ausblenden"
     },
     {
-      "label": "\"Järgmine lehekülg\" nupu tõlge",
-      "default": "Järgmine lehekülg"
+      "label": "Beschriftung für \"Nächstes Kapitel\"",
+      "default": "Nächstes Kapitel"
     },
     {
-      "label": "\"Eelmine lehekülg\" nupu tõlge",
-      "default": "Eelmine lehekülg"
+      "label": "Beschriftung für \"Vorheriges Kapitel\"",
+      "default": "Vorheriges Kapitel"
     },
     {
-      "label": "\"Peatükk läbitud!\" tõlge",
-      "default": "Peatükk läbitud!"
+      "label": "Beschriftung für \"Kapitel abgeschlossen!\"",
+      "default": "Kapitel abgeschlossen!"
     },
     {
-      "label": "Tõlge tehtud \"@pages leheküljele @total leheküljest\" (@pages ja @total asendatakse tegelike väärtusega)",
-      "default": "@pages / @total läbitud"
+      "label": "Beschriftung für \"... von ... Kapiteln abgeschlossen\" (@pages und @total sind Platzhalter und werden von den echten Werten ersetzt)",
+      "default": "@pages von @total Kapiteln abgeschlossen"
     },
     {
-      "label": "\"Peatükk pooleli\" tõlge",
-      "default": "Peatükk pooleli"
+      "label": "Beschriftung für \"Unvollständiges Kapitel\"",
+      "default": "Unvollständiges Kapitel"
     },
     {
-      "label": "\"Liigu lehekülje ülaossa\" tõlge",
-      "default": "Liigu lehkülje ülaossa"
+      "label": "Beschriftung für \"Nach oben springen\"",
+      "default": "Nach oben springen"
     },
     {
-      "label": "\"Olen selle lehe läbinud\" tõlge",
-      "default": "Olen selle lehe läbinud"
+      "label": "Beschriftung für \"Ich habe dieses Kapitel abgeschlossen\"",
+      "default": "Ich habe dieses Kapitel abgeschlossen"
     },
     {
-      "label": "Täisekraan nupu silt",
-      "default": "Täisekraan"
+      "label": "Beschriftung des Vollbild-Buttons",
+      "default": "Vollbild"
     },
     {
-      "label": "Välju täisekraanilt nupu silt",
-      "default": "Välju täisekraanilt"
+      "label": "Beschriftung des \"Vollbild beenden\"-Buttons",
+      "default": "Vollbild beenden"
     },
     {
       "label": "Book progress",
@@ -190,16 +190,16 @@
       "default": "Interactions progress"
     },
     {
-      "label": "Puudega inimest toetavad tekstid",
+      "label": "Texte zur Barrierefreiheit",
       "fields": [
         {
-          "label": "Lehekülje edenemise tekstialternatiiv",
-          "description": "Alternatiivtekst visuaalsele lehel edenemise osutile. Kasutatavad muutujad on @page ja @total.",
-          "default": "Lehekülg @page kokku @total lehest."
+          "label": "Textalternative für die Fortschrittsanzeige",
+          "description": "Dieser Text ersetzt die grafische Fortschrittsanzeige. (Es können die Platzhalter @page und @total verwendet werden.)",
+          "default": "Kapitel @page von @total."
         },
         {
-          "label": "Silt navigeerimismenüü avamiseks ja sulgemiseks",
-          "default": "Ava või sulge navigeerimismenüü"
+          "label": "Beschriftung des Buttons, um das Inhaltsverzeichnis ein- und auszublenden",
+          "default": "Inhaltsverzeichnis ein- bzw. ausschalten"
         }
       ]
     }
