@@ -48,7 +48,7 @@
 
     & .h5p-interactive-book-navigation-open .h5p-interactive-book-navigation-chapter-button.h5p-interactive-book-navigation-current[aria-expanded="true"]
     {
-      border-bottom-color: #0cc9a7;
+      border-bottom-color: #0E7C57;
       border-bottom-width: 2px;
     }
 
@@ -61,7 +61,7 @@
 }
 
 .h5p-interactive-book-summary-menu-button {
-  border: 1px solid #0cc9a7;
+  border: 1px solid #0E7C57;
   border-radius: 2px;
   background-color: #ffffff;
   font-size: 0.8rem;
@@ -74,7 +74,7 @@
 
   &.h5p-interactive-book-navigation-chapter-button.h5p-interactive-book-navigation-current {
     background-color: #f1f9f8;
-    border-bottom-color: #0cc9a7;
+    border-bottom-color: #0E7C57;
   }
 
   &:hover {
@@ -197,13 +197,13 @@
       }
     }
     .h5p-interactive-book-summary-submit {
-      background-color: #0cc9a7;
+      background-color: #0E7C57;
       color: #ffffff;
-      border: 1px solid #0cc9a7;
+      border: 1px solid #0E7C57;
       transition: background-color 150ms;
 
       &:hover {
-        background-color: #0bb09d;
+        background-color: #0c694a;
       }
     }
 
