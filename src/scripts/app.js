@@ -858,8 +858,6 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       markAsFinished = "I have finished this page",
       fullscreen = "Fullscreen",
       exitFullscreen = "Exit fullscreen",
-      bookProgressCompletedText = "@percent% completed",
-      progressCompletedText = '@percent% completed',
       bookProgressSubtext = "@count of @total pages",
       interactionsProgressSubtext = "@count of @total interactions",
       submitReport = "Submit Report",
@@ -877,6 +875,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       yourAnswersAreSubmittedForReview = "Your answers are submitted for review!",
       bookProgress = "Book progress",
       interactionsProgress = "Interactions progress",
+      totalScoreLabel = 'Total score',
       ...config
     } = originalConfig;
 
@@ -902,8 +901,6 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       markAsFinished,
       fullscreen,
       exitFullscreen,
-      bookProgressCompletedText,
-      progressCompletedText,
       bookProgressSubtext,
       interactionsProgressSubtext,
       submitReport,
@@ -921,6 +918,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       yourAnswersAreSubmittedForReview,
       bookProgress,
       interactionsProgress,
+      totalScoreLabel,
     };
 
     return config;

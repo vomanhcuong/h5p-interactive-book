@@ -244,26 +244,6 @@
     "optional": true
   },
   {
-    "name": "bookProgressCompletedText",
-    "type": "text",
-    "importance": "low",
-    "label": "Book progress",
-    "description": "\"@percent\" will be replaced by user's progress",
-    "default": "@percent% completed",
-    "common": true,
-    "optional": true
-  },
-  {
-    "name": "progressCompletedText",
-    "type": "text",
-    "importance": "low",
-    "label": "Interaction progress",
-    "description": "\"@percent\" will be replaced by user's progress",
-    "default": "@percent% completed",
-    "common": true,
-    "optional": true
-  },
-  {
     "name": "bookProgressSubtext",
     "type": "text",
     "importance": "low",
@@ -417,6 +397,15 @@
     "importance": "low",
     "label": "Interactions progress label",
     "default": "Interactions progress",
+    "common": true,
+    "optional": true
+  },
+  {
+    "name": "totalScoreLabel",
+    "type": "text",
+    "importance": "low",
+    "label": "Total score label",
+    "default": "Total score",
     "common": true,
     "optional": true
   },

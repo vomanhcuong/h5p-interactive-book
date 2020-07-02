@@ -149,6 +149,23 @@
       border-radius: 5px;
       display: flex;
       align-items: center;
+      margin-right: 1em;
+
+      .absolute-value {
+        color: black;
+        font-size: 1.25em;
+      }
+
+      .separator {
+        color: black;
+        font-size: 0.75em;
+        margin: auto 0.4em;
+        vertical-align: top;
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
     }
 
     h3 {

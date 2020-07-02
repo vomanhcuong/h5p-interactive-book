@@ -108,16 +108,6 @@
       "default": "បិទពេញអេក្រង់"
     },
     {
-      "label": "Book progress",
-      "description": "\"@percent\" will be replaced by user's progress",
-      "default": "បានបញ្ចប់ @percent%"
-    },
-    {
-      "label": "Interaction progress",
-      "description": "\"@percent\" will be replaced by user's progress",
-      "default": "បានបញ្ចប់ @percent%"
-    },
-    {
       "label": "Page progress in book",
       "description": "\"@count\" will be replaced by page count, and \"@total\" with the total number of pages",
       "default": "@count ចំណោម @total ទំព័រ"
@@ -188,6 +178,10 @@
     {
       "label": "Interactions progress label",
       "default": "វឌ្ឍនភាពអន្តរកម្ម"
+    },
+    {
+      "label": "Total score label",
+      "default": "Total score"
     },
     {
       "label": "Accessibility texts",

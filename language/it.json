@@ -108,16 +108,6 @@
       "default": "Esci da schermo intero"
     },
     {
-      "label": "Book progress",
-      "description": "\"@percent\" will be replaced by user's progress",
-      "default": "@percent% completed"
-    },
-    {
-      "label": "Interaction progress",
-      "description": "\"@percent\" will be replaced by user's progress",
-      "default": "@percent% completed"
-    },
-    {
       "label": "Page progress in book",
       "description": "\"@count\" will be replaced by page count, and \"@total\" with the total number of pages",
       "default": "@count of @total pages"
@@ -188,6 +178,10 @@
     {
       "label": "Interactions progress label",
       "default": "Interactions progress"
+    },
+    {
+      "label": "Total score label",
+      "default": "Total score"
     },
     {
       "label": "Testi per l'accessibilità",
