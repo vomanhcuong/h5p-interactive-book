@@ -727,6 +727,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
 
       $wrapper.append(this.pageContent.container);
       $wrapper.append(this.statusBarFooter.wrapper);
+      this.$wrapper = $wrapper;
 
       if (this.params.behaviour.defaultTableOfContents && !this.isSmallSurface()) {
         this.trigger('toggleMenu');
