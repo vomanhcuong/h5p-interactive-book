@@ -628,7 +628,15 @@ export default class InteractiveBook extends H5P.EventDispatcher {
     });
 
     H5P.externalDispatcher.on('xAPI', function (event) {
-      if (self !== this && (event.getVerb() === 'answered' || event.getVerb() === 'completed')) {
+      const actionVerbs = [
+        'answered',
+        'completed',
+        'interacted',
+        'attempted',
+      ];
+      const isActionVerb = actionVerbs.indexOf(event.getVerb()) > -1;
+
+      if (self !== this && isActionVerb) {
         self.setSectionStatusByID(this.subContentId || this.contentData.subContentId, self.activeChapter);
       }
     });
@@ -678,6 +686,10 @@ export default class InteractiveBook extends H5P.EventDispatcher {
 
         if (sectionInstance.subContentId === sectionUUID && !section.taskDone) {
           section.taskDone = true;
+          // Check if instance has given an answer
+          if (sectionInstance.getAnswerGiven) {
+            section.taskDone = sectionInstance.getAnswerGiven();
+          }
           this.sideBar.setSectionMarker(chapterId, index);
           this.chapters[chapterId].tasksLeft -= 1;
           this.updateChapterProgress(chapterId);
