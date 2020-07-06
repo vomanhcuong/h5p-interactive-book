@@ -352,6 +352,7 @@ class Summary extends H5P.EventDispatcher {
 
     const icon = document.createElement("span");
     icon.classList.add('icon-chapter-done');
+    icon.classList.add('icon-check-mark');
     submittedContainer.appendChild(icon);
 
     const text = document.createElement("p");

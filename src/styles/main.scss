@@ -145,6 +145,9 @@ $fullscreen-button-size: 1.8em;
     .h5p-interactive-book-content {
       overflow-x: hidden;
       overflow-y: auto;
+      // Note: Subtracts padding, do not use box-sizing because then inner div
+      // will have too little space
+      min-height: calc(100% - 5.5em);
     }
   }
 

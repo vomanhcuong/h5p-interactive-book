@@ -48,6 +48,12 @@
   }
 }
 
+.icon-check-mark {
+  &::before {
+    content: '\e910';
+  }
+}
+
 .icon-chapter-blank {
   &::before {
     content: '\e905';
