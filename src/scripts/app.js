@@ -635,8 +635,11 @@ export default class InteractiveBook extends H5P.EventDispatcher {
         'attempted',
       ];
       const isActionVerb = actionVerbs.indexOf(event.getVerb()) > -1;
+      // Some content types may send xAPI events when they are initialized,
+      // so check that chapter is initialized before setting any section change
+      const isInitialized = self.chapters.length;
 
-      if (self !== this && isActionVerb) {
+      if (self !== this && isActionVerb && isInitialized) {
         self.setSectionStatusByID(this.subContentId || this.contentData.subContentId, self.activeChapter);
       }
     });
