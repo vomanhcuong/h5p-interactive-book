@@ -51,11 +51,11 @@
         },
         {
           "label": "Habilitar pregreso automático",
-          "description": "Si se habilita, una página sin trabajos es considerada hecha cuando es vista. Una página con trabajos cuando todos los trabajos están hechos. Si se deshabilita, habrá un botón al fondo de  cada página para que el usuario pueda hacer clic cuando haya terminado con la página."
+          "description": "Si se habilita, una página sin trabajos es considerada hecha cuando es vista. Una página con trabajos cuando todos los trabajos están hechos. Si se deshabilita, habrá un botón al fondo de cada página para que el usuario pueda hacer clic cuando haya terminado con la página."
         },
         {
-          "label": "Display summary",
-          "description": "When enabled the user can see a summary and submit the progress/answers"
+          "label": "Mostrar resumen",
+          "description": "Cuando se habilita, el usuario puede ver un resumen y enviar el progreso/respuestas"
         }
       ]
     },
@@ -76,7 +76,7 @@
       "default": "Página siguiente"
     },
     {
-      "label": "Traducción para \"Página enterior\"",
+      "label": "Traducción para \"Página anterior\"",
       "default": "Página anterior"
     },
     {
@@ -108,80 +108,80 @@
       "default": "Salir de PantallaCompleta"
     },
     {
-      "label": "Page progress in book",
-      "description": "\"@count\" will be replaced by page count, and \"@total\" with the total number of pages",
-      "default": "@count of @total pages"
+      "label": "Progreso de página en libro",
+      "description": "\"@count\" será remplazado por el número de página, y \"@total\" por el número total de páginas",
+      "default": "@count de @total páginas"
     },
     {
-      "label": "Interaction progress",
-      "description": "\"@count\" will be replaced by page count, and \"@total\" with the total number of pages",
-      "default": "@count of @total interactions"
+      "label": "Progreso de interacción",
+      "description": "\"@count\" será remplazado por el número de página, y \"@total\" por el número total de páginas",
+      "default": "@count de @total interacciones"
     },
     {
-      "label": "Translation for \"Submit report\"",
-      "default": "Submit Report"
+      "label": "Traducción para \"Enviar Reporte\"",
+      "default": "Enviar Reporte"
     },
     {
-      "label": "Label for \"restart\" button",
-      "default": "Restart"
+      "label": "Etiqueta para botón \"Reiniciar\" ",
+      "default": "Reiniciar"
     },
     {
-      "label": "Summary header",
-      "default": "Summary"
+      "label": "Encabezado del resumen",
+      "default": "Resumen"
     },
     {
-      "label": "Translation for \"All interactions\"",
-      "default": "All interactions"
+      "label": "Traducción para \"Todas las interacciones\"",
+      "default": "Todas las interacciones"
     },
     {
-      "label": "Translation for \"Unanswered interactions\"",
-      "default": "Unanswered interactions"
+      "label": "Traducción para \"Interacciones no respondidas\"",
+      "default": "Interacciones no respondidas"
     },
     {
-      "label": "Score",
-      "description": "\"@score\" will be replaced with current score, and \"@maxscore\" will be replaced with max achievable score",
+      "label": "Puntaje",
+      "description": "\"@score\" será remplazado por el puntaje actual, y \"@maxscore\" será remplazado por el máximo puntaje obtenible",
       "default": "@score / @maxscore"
     },
     {
-      "label": "Per page interactions completion",
-      "description": "\"@left\" will be replaced with remaining interactions, and \"@max\" will be replaced with total number of interactions on the page",
-      "default": "@left of @max interactions completed"
+      "label": "Finalización de interacciones por página",
+      "description": "\"@left\" será remplazado por las interacciones restantes, y \"@max\" será remplazado por el número total de interacciones en la página",
+      "default": "@left de @max interacciones completadas"
     },
     {
-      "label": "Translation for \"No interactions\"",
-      "default": "No interactions"
+      "label": "Traducción para \"Sin interacciones\"",
+      "default": "Sin interacciones"
     },
     {
-      "label": "Translation for \"Score\"",
-      "default": "Score"
+      "label": "Traducción para \"Puntaje\"",
+      "default": "Puntaje"
     },
     {
-      "label": "Label for \"Summary & submit\" button",
-      "default": "Summary & submit"
+      "label": "Etiqueta para botón \"Resumen y Envío\" ",
+      "default": "Resumen y Envío"
     },
     {
-      "label": "Translation for \"You have not interacted with any pages.\"",
-      "default": "You have not interacted with any pages."
+      "label": "Traducción para \"Usted no ha interactuado con ninguna páginas.\"",
+      "default": "Usted no ha interactuado con ninguna página."
     },
     {
-      "label": "Translation for \"You have interact with at least one page before you can see the summary.\"",
-      "default": "You have interact with at least one page before you can see the summary."
+      "label": "Traducción para \"Usted tiene que interactuar con al menos una página antes de que pueda ver el resumen.\"",
+      "default": "Usted tiene que interactuar con al menos una página antes de que pueda ver el resumen."
     },
     {
-      "label": "Translation for \"Your answers are submitted for review!\"",
-      "default": "Your answers are submitted for review!"
+      "label": "Traducción para \"!Sus respuestas han sido enviadas para revisión!\"",
+      "default": "¡Sus respuestas han sido enviadas para revisión!"
     },
     {
-      "label": "Summary progress label",
-      "default": "Book progress"
+      "label": "etiqueta del progreso del resumen",
+      "default": "Progreso del libro"
     },
     {
-      "label": "Interactions progress label",
-      "default": "Interactions progress"
+      "label": "Etiqueta del progreso de interacciones",
+      "default": "Progreso de interacciones"
     },
     {
-      "label": "Total score label",
-      "default": "Total score"
+      "label": "Etiqueta del puntaje total",
+      "default": "Puntaje total"
     },
     {
       "label": "Textos de Accesibilidad",
