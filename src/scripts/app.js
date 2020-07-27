@@ -874,7 +874,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       score = "Score",
       summaryAndSubmit = "Summary & submit",
       noChapterInteractionBoldText = "You have not interacted with any pages.",
-      noChapterInteractionText = "You have interact with at least one page before you can see the summary.",
+      noChapterInteractionText = "You have to interact with at least one page before you can see the summary.",
       yourAnswersAreSubmittedForReview = "Your answers are submitted for review!",
       bookProgress = "Book progress",
       interactionsProgress = "Interactions progress",
