@@ -426,7 +426,8 @@ export default class InteractiveBook extends H5P.EventDispatcher {
      * @param {boolean} autoProgress
      * @returns {boolean}
      */
-    this.isChapterRead = (chapter, autoProgress = this.params.behaviour.progressAuto) => chapter.isInitialized && (chapter.completed || (autoProgress && chapter.tasksLeft === 0));
+    this.isChapterRead = (chapter, autoProgress = this.params.behaviour.progressAuto) => 
+      chapter.isInitialized && (chapter.completed || (autoProgress && chapter.tasksLeft === 0));
 
     /**
      * Check if chapter is final one, has no tasks and all other chapters are done.
@@ -469,10 +470,10 @@ export default class InteractiveBook extends H5P.EventDispatcher {
     this.getChapterStatus = (chapter, progressAuto = this.params.behaviour.progressAuto) => {
       let status = 'BLANK';
 
-      if ( this.isChapterRead(chapter, progressAuto)) {
+      if (this.isChapterRead(chapter, progressAuto)) {
         status = "DONE";
       }
-      else if ( this.hasChapterStartedTasks(chapter)) {
+      else if (this.hasChapterStartedTasks(chapter)) {
         status = 'STARTED';
       }
 
@@ -492,7 +493,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
 
       const chapter = this.chapters[chapterId];
       let status;
-      if ( chapter.maxTasks ) {
+      if (chapter.maxTasks) {
         status = this.getChapterStatus(chapter);
       }
       else {
@@ -507,6 +508,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       if (status === 'DONE') {
         this.handleChapterCompletion(chapterId);
       }
+
       this.sideBar.updateChapterProgressIndicator(chapterId, status);
     };
 
@@ -560,10 +562,8 @@ export default class InteractiveBook extends H5P.EventDispatcher {
 
     /**
      * Check if the content height exceeds the window.
-     *
-     * @param {number} chapterHeight Chapter height.
      */
-    this.shouldFooterBeHidden = (chapterHeight) => {
+    this.shouldFooterBeHidden = () => {
       // Always show except for in fullscreen
       // Ideally we'd check on the top window size but we can't always get it.
       return this.isFullscreen;
@@ -765,7 +765,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
         ua.indexOf('.', edgeIndex)
       );
       return parseInt(edgeVersion) <= 18;
-    }
+    };
 
     /**
      * Hide all elements.

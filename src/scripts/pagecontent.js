@@ -245,7 +245,7 @@ class PageContent extends H5P.EventDispatcher {
       this.columnNodes.push(columnNode);
     }
 
-    if ( this.parent.hasSummary(chapters) ) {
+    if (this.parent.hasSummary(chapters)) {
       const columnNode = document.createElement('div');
       const newInstance = new Summary({
         ...config,
