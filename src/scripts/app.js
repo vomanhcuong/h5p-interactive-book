@@ -688,13 +688,13 @@ export default class InteractiveBook extends H5P.EventDispatcher {
         const sectionInstance = section.instance;
 
         if (sectionInstance.subContentId === sectionUUID && !section.taskDone) {
-          section.taskDone = true;
           // Check if instance has given an answer
-          if (sectionInstance.getAnswerGiven) {
-            section.taskDone = sectionInstance.getAnswerGiven();
-          }
+          section.taskDone = sectionInstance.getAnswerGiven ? sectionInstance.getAnswerGiven() : true;
+                    
           this.sideBar.setSectionMarker(chapterId, index);
-          this.chapters[chapterId].tasksLeft -= 1;
+          if (section.taskDone) {
+            this.chapters[chapterId].tasksLeft -= 1;
+          }
           this.updateChapterProgress(chapterId);
         }
       });
