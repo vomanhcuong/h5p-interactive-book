@@ -326,17 +326,6 @@ class SideBar extends H5P.EventDispatcher {
   }
 
   /**
-   * Manually set the target chapter as complete
-   * @param {number} current - Current chapter
-   */
-  setChapterIndicatorComplete(current) {
-    let targetElem = this.chapterNodes[current].getElementsByClassName('h5p-interactive-book-navigation-chapter-button')[0];
-    targetElem = targetElem.getElementsByClassName('h5p-interactive-book-navigation-chapter-progress')[0];
-    targetElem.classList.remove('icon-chapter-blank');
-    targetElem.classList.add('icon-chapter-done');
-  }
-
-  /**
    * Update the indicator on a specific chapter.
    *
    * @param {number} chapterId The chapter that should be updated.

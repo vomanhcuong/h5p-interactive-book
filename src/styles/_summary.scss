@@ -140,6 +140,7 @@
   .h5p-interactive-box-summary-progress {
     display: flex;
     justify-content: space-between;
+    color: #273C59;
 
     .h5p-interactive-book-summary-progress-container {
       background-color: transparentize(#dbdbdb, 0.7);
@@ -149,6 +150,23 @@
       border-radius: 5px;
       display: flex;
       align-items: center;
+      margin-right: 1em;
+
+      .absolute-value {
+        color: #273C59;
+        font-size: 1.25em;
+      }
+
+      .separator {
+        color: #273C59;
+        font-size: 0.75em;
+        margin: auto 0.4em;
+        vertical-align: top;
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
     }
 
     h3 {

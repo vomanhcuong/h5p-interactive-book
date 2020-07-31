@@ -173,27 +173,54 @@ class Summary extends H5P.EventDispatcher {
    * Create a progress box used at the top of the summary
    *
    * @param title
-   * @param bigText
    * @param smallText
    * @param progressCounter
    * @param progressTotal
+   * @param {boolean} [isAbsoluteValues] Use absolute values for progress instead of percentage
+   * @param {number} [smallProgress] Progress for small text if it differs from the progress counter
+   * @param {number} [smallProgressTotal] Total progress for small text if it differs from the total progress counter
    * @return {HTMLDivElement}
    */
-  createProgress(title, bigText, smallText, progressCounter, progressTotal) {
+  createProgress(title, smallText, progressCounter, progressTotal, isAbsoluteValues = false, smallProgress, smallProgressTotal) {
     const box = document.createElement("div");
 
     const header = document.createElement("h3");
     header.innerHTML = title;
 
     const progressPercentage = progressCounter * 100 / progressTotal;
+    if (smallProgress === undefined) {
+      smallProgress = progressCounter;
+    }
+
+    if (smallProgressTotal === undefined) {
+      smallProgressTotal = progressTotal;
+    }
 
     const progressBigText = document.createElement("p");
     progressBigText.classList.add('h5p-interactive-book-summary-progressbox-bigtext');
-    progressBigText.innerHTML = bigText.replace('@percent', Math.round(progressPercentage));
+    progressBigText.innerHTML = Math.round(progressPercentage) + '%';
+    if (isAbsoluteValues) {
+      const progress = document.createElement('span');
+      progress.classList.add('absolute-value');
+      progress.innerHTML = progressCounter;
+
+      const separator = document.createElement('span');
+      separator.classList.add('separator');
+      separator.innerHTML = '/';
+
+      const total = document.createElement('span');
+      total.classList.add('absolute-value');
+      total.innerHTML = progressTotal;
+
+      progressBigText.innerHTML = '';
+      progressBigText.appendChild(progress);
+      progressBigText.appendChild(separator);
+      progressBigText.appendChild(total);
+    }
 
     const progressSmallText = document.createElement("span");
     progressSmallText.classList.add('h5p-interactive-book-summary-progressbox-smalltext');
-    progressSmallText.innerHTML = smallText.replace('@count', progressCounter).replace('@total', progressTotal);
+    progressSmallText.innerHTML = smallText.replace('@count', smallProgress).replace('@total', smallProgressTotal);
 
     box.appendChild(header);
     box.appendChild(progressBigText);
@@ -207,12 +234,42 @@ class Summary extends H5P.EventDispatcher {
   }
 
   /**
+   * Create total score progress container
+   *
+   * @returns {HTMLDivElement}
+   */
+  addScoreProgress() {
+    let totalInteractions = 0, uncompletedInteractions = 0;
+    for (const chapter of this.chapters) {
+      totalInteractions += chapter.maxTasks;
+      uncompletedInteractions += chapter.tasksLeft;
+    }
+
+    const box = this.createProgress(
+      this.l10n.totalScoreLabel,
+      this.l10n.interactionsProgressSubtext,
+      this.parent.getScore(),
+      this.parent.getMaxScore(),
+      true,
+      Math.max(totalInteractions - uncompletedInteractions, 0),
+      totalInteractions
+    );
+    box.classList.add('h5p-interactive-book-summary-progress-container');
+    box.classList.add('h5p-interactive-book-summary-score-progress');
+    const circle = box.querySelector('.h5p-interactive-book-summary-progress-circle');
+    circle.setAttribute('data-empty-fill', "rgb(198, 220, 212)");
+    circle.setAttribute('data-fill', JSON.stringify({color: '#0e7c57'}));
+
+    return box;
+  }
+
+  /**
    * Creates the book progress container
    *
    * @return {HTMLDivElement}
    */
   addBookProgress() {
-    const box = this.createProgress(this.l10n.bookProgress, this.l10n.progressCompletedText, this.l10n.bookProgressSubtext, this.chapters.filter(chapter => chapter.completed).length, this.chapters.length);
+    const box = this.createProgress(this.l10n.bookProgress, this.l10n.bookProgressSubtext, this.chapters.filter(chapter => chapter.completed).length, this.chapters.length);
     box.classList.add("h5p-interactive-book-summary-progress-container");
     box.classList.add("h5p-interactive-book-summary-book-progress");
     return box;
@@ -229,7 +286,7 @@ class Summary extends H5P.EventDispatcher {
       totalInteractions += chapter.maxTasks;
       uncompletedInteractions += chapter.tasksLeft;
     }
-    const box = this.createProgress(this.l10n.interactionsProgress, this.l10n.progressCompletedText, this.l10n.interactionsProgressSubtext, Math.max(totalInteractions - uncompletedInteractions, 0), totalInteractions);
+    const box = this.createProgress(this.l10n.interactionsProgress, this.l10n.interactionsProgressSubtext, Math.max(totalInteractions - uncompletedInteractions, 0), totalInteractions);
     box.classList.add("h5p-interactive-book-summary-progress-container");
     box.classList.add("h5p-interactive-book-summary-interactions-progress");
     return box;
@@ -244,6 +301,7 @@ class Summary extends H5P.EventDispatcher {
     }
     const progressBox = document.createElement("div");
     progressBox.classList.add('h5p-interactive-box-summary-progress');
+    progressBox.appendChild(this.addScoreProgress());
     progressBox.appendChild(this.addBookProgress());
     progressBox.appendChild(this.addInteractionsProgress());
 
@@ -294,6 +352,7 @@ class Summary extends H5P.EventDispatcher {
 
     const icon = document.createElement("span");
     icon.classList.add('icon-chapter-done');
+    icon.classList.add('icon-check-mark');
     submittedContainer.appendChild(icon);
 
     const text = document.createElement("p");

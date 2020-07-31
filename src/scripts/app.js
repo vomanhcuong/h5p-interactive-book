@@ -426,7 +426,8 @@ export default class InteractiveBook extends H5P.EventDispatcher {
      * @param {boolean} autoProgress
      * @returns {boolean}
      */
-    this.isChapterRead = (chapter, autoProgress = this.params.behaviour.progressAuto) => chapter.isInitialized && (chapter.completed || (autoProgress && chapter.tasksLeft === 0));
+    this.isChapterRead = (chapter, autoProgress = this.params.behaviour.progressAuto) => 
+      chapter.isInitialized && (chapter.completed || (autoProgress && chapter.tasksLeft === 0));
 
     /**
      * Check if chapter is final one, has no tasks and all other chapters are done.
@@ -469,10 +470,10 @@ export default class InteractiveBook extends H5P.EventDispatcher {
     this.getChapterStatus = (chapter, progressAuto = this.params.behaviour.progressAuto) => {
       let status = 'BLANK';
 
-      if ( this.isChapterRead(chapter, progressAuto)) {
+      if (this.isChapterRead(chapter, progressAuto)) {
         status = "DONE";
       }
-      else if ( this.hasChapterStartedTasks(chapter)) {
+      else if (this.hasChapterStartedTasks(chapter)) {
         status = 'STARTED';
       }
 
@@ -492,7 +493,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
 
       const chapter = this.chapters[chapterId];
       let status;
-      if ( chapter.maxTasks ) {
+      if (chapter.maxTasks) {
         status = this.getChapterStatus(chapter);
       }
       else {
@@ -507,6 +508,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       if (status === 'DONE') {
         this.handleChapterCompletion(chapterId);
       }
+
       this.sideBar.updateChapterProgressIndicator(chapterId, status);
     };
 
@@ -560,10 +562,8 @@ export default class InteractiveBook extends H5P.EventDispatcher {
 
     /**
      * Check if the content height exceeds the window.
-     *
-     * @param {number} chapterHeight Chapter height.
      */
-    this.shouldFooterBeHidden = (chapterHeight) => {
+    this.shouldFooterBeHidden = () => {
       // Always show except for in fullscreen
       // Ideally we'd check on the top window size but we can't always get it.
       return this.isFullscreen;
@@ -628,7 +628,18 @@ export default class InteractiveBook extends H5P.EventDispatcher {
     });
 
     H5P.externalDispatcher.on('xAPI', function (event) {
-      if (self !== this && (event.getVerb() === 'answered' || event.getVerb() === 'completed')) {
+      const actionVerbs = [
+        'answered',
+        'completed',
+        'interacted',
+        'attempted',
+      ];
+      const isActionVerb = actionVerbs.indexOf(event.getVerb()) > -1;
+      // Some content types may send xAPI events when they are initialized,
+      // so check that chapter is initialized before setting any section change
+      const isInitialized = self.chapters.length;
+
+      if (self !== this && isActionVerb && isInitialized) {
         self.setSectionStatusByID(this.subContentId || this.contentData.subContentId, self.activeChapter);
       }
     });
@@ -677,9 +688,13 @@ export default class InteractiveBook extends H5P.EventDispatcher {
         const sectionInstance = section.instance;
 
         if (sectionInstance.subContentId === sectionUUID && !section.taskDone) {
-          section.taskDone = true;
+          // Check if instance has given an answer
+          section.taskDone = sectionInstance.getAnswerGiven ? sectionInstance.getAnswerGiven() : true;
+                    
           this.sideBar.setSectionMarker(chapterId, index);
-          this.chapters[chapterId].tasksLeft -= 1;
+          if (section.taskDone) {
+            this.chapters[chapterId].tasksLeft -= 1;
+          }
           this.updateChapterProgress(chapterId);
         }
       });
@@ -727,6 +742,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
 
       $wrapper.append(this.pageContent.container);
       $wrapper.append(this.statusBarFooter.wrapper);
+      this.$wrapper = $wrapper;
 
       if (this.params.behaviour.defaultTableOfContents && !this.isSmallSurface()) {
         this.trigger('toggleMenu');
@@ -749,7 +765,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
         ua.indexOf('.', edgeIndex)
       );
       return parseInt(edgeVersion) <= 18;
-    }
+    };
 
     /**
      * Hide all elements.
@@ -845,8 +861,6 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       markAsFinished = "I have finished this page",
       fullscreen = "Fullscreen",
       exitFullscreen = "Exit fullscreen",
-      bookProgressCompletedText = "@percent% completed",
-      progressCompletedText = '@percent% completed',
       bookProgressSubtext = "@count of @total pages",
       interactionsProgressSubtext = "@count of @total interactions",
       submitReport = "Submit Report",
@@ -860,10 +874,11 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       score = "Score",
       summaryAndSubmit = "Summary & submit",
       noChapterInteractionBoldText = "You have not interacted with any pages.",
-      noChapterInteractionText = "You have interact with at least one page before you can see the summary.",
+      noChapterInteractionText = "You have to interact with at least one page before you can see the summary.",
       yourAnswersAreSubmittedForReview = "Your answers are submitted for review!",
       bookProgress = "Book progress",
       interactionsProgress = "Interactions progress",
+      totalScoreLabel = 'Total score',
       ...config
     } = originalConfig;
 
@@ -889,8 +904,6 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       markAsFinished,
       fullscreen,
       exitFullscreen,
-      bookProgressCompletedText,
-      progressCompletedText,
       bookProgressSubtext,
       interactionsProgressSubtext,
       submitReport,
@@ -908,6 +921,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       yourAnswersAreSubmittedForReview,
       bookProgress,
       interactionsProgress,
+      totalScoreLabel,
     };
 
     return config;

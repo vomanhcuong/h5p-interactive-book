@@ -44,7 +44,13 @@
 
 .icon-chapter-done {
   &::before {
-    content: '\e904';
+    content: '\e90a';
+  }
+}
+
+.icon-check-mark {
+  &::before {
+    content: '\e910';
   }
 }
 
