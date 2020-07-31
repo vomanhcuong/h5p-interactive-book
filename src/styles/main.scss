@@ -117,7 +117,8 @@ $fullscreen-button-size: 1.8em;
   }
 }
 
-.h5p-fullscreen {
+.h5p-fullscreen,
+.h5p-semi-fullscreen {
   .h5p-interactive-book {
     display: flex;
     flex-direction: column;
