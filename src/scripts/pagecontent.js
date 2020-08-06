@@ -206,7 +206,13 @@ class PageContent extends H5P.EventDispatcher {
       const columnNode = document.createElement('div');
       this.overrideParameters(i, config.chapters[i]);
 
-      const newInstance = H5P.newRunnable(config.chapters[i], contentId, undefined, undefined, contentData);
+      const instanceContentData = {
+        ...contentData,
+        metadata: {
+          ...contentData.metadata,
+        }
+      };
+      const newInstance = H5P.newRunnable(config.chapters[i], contentId, undefined, undefined, instanceContentData);
       this.parent.bubbleUp(newInstance, 'resize', this.parent);
 
       const chapter = {
