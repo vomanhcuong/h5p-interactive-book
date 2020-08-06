@@ -247,7 +247,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
      */
     this.validateFragments = (fragments) => {
       return fragments.chapter !== undefined &&
-        fragments.h5pbookid === self.contentId;
+        String(fragments.h5pbookid) === String(self.contentId);
     };
 
     /**
@@ -615,13 +615,13 @@ export default class InteractiveBook extends H5P.EventDispatcher {
      */
     H5P.on(this, 'respondChangeHash', () => {
       const payload = URLTools.extractFragmentsFromURL(self.validateFragments, this.hashWindow);
-      if (payload.h5pbookid && payload.h5pbookid === self.contentId) {
+      if (payload.h5pbookid && String(payload.h5pbookid) === String(self.contentId)) {
         this.redirectChapter(payload);
       }
     });
 
     H5P.on(this, 'changeHash', (event) => {
-      if (event.data.h5pbookid === this.contentId) {
+      if (String(event.data.h5pbookid) === String(this.contentId)) {
         this.hashWindow.location.hash = event.data.newHash;
       }
     });
@@ -659,7 +659,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       if (!this.newHandler.redirectFromComponent) {
 
         // Assert that the handler actually is from this content type.
-        if (target.h5pbookid && target.h5pbookid === self.contentId) {
+        if (target.h5pbookid && String(target.h5pbookid) === String(self.contentId)) {
           self.newHandler = target;
         /**
          * H5p-context switch on no newhash = history backwards
