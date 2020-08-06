@@ -247,7 +247,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
      */
     this.validateFragments = (fragments) => {
       return fragments.chapter !== undefined &&
-        parseInt(fragments.h5pbookid) === self.contentId;
+        fragments.h5pbookid === self.contentId;
     };
 
     /**
@@ -386,7 +386,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       if (this.getChapterId(event.data.chapter) === this.activeChapter) {
         const fragmentsEqual = URLTools.areFragmentsEqual(
           event.data,
-          URLTools.extractFragmentsFromURL(this.validateFragments),
+          URLTools.extractFragmentsFromURL(this.validateFragments, this.hashWindow),
           ['h5pbookid', 'chapter', 'section', 'headerNumber']
         );
 
@@ -614,15 +614,15 @@ export default class InteractiveBook extends H5P.EventDispatcher {
      * Triggers whenever the hash changes, indicating that a chapter redirect is happening
      */
     H5P.on(this, 'respondChangeHash', () => {
-      const payload = URLTools.extractFragmentsFromURL(self.validateFragments);
-      if (payload.h5pbookid && parseInt(payload.h5pbookid) === self.contentId) {
+      const payload = URLTools.extractFragmentsFromURL(self.validateFragments, this.hashWindow);
+      if (payload.h5pbookid && payload.h5pbookid === self.contentId) {
         this.redirectChapter(payload);
       }
     });
 
     H5P.on(this, 'changeHash', (event) => {
       if (event.data.h5pbookid === this.contentId) {
-        top.location.hash = event.data.newHash;
+        this.hashWindow.location.hash = event.data.newHash;
       }
     });
 
@@ -659,7 +659,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       if (!this.newHandler.redirectFromComponent) {
 
         // Assert that the handler actually is from this content type.
-        if (target.h5pbookid && parseInt(target.h5pbookid) === self.contentId) {
+        if (target.h5pbookid && target.h5pbookid === self.contentId) {
           self.newHandler = target;
         /**
          * H5p-context switch on no newhash = history backwards
@@ -699,9 +699,28 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       });
     };
 
-    top.addEventListener('hashchange', (event) => {
-      H5P.trigger(this, 'respondChangeHash', event);
-    });
+    /**
+     * Add listener for hash changes to specified window
+     */
+    this.addHashListener = (hashWindow) => {
+      hashWindow.addEventListener('hashchange', (event) => {
+        H5P.trigger(this, 'respondChangeHash', event);
+      });
+      this.hashWindow = hashWindow;
+    };
+
+    try {
+      this.addHashListener(top);
+    }
+    catch (e) {
+      if (e instanceof DOMException) {
+        // Use iframe window to store book location hash
+        this.addHashListener(window);
+      }
+      else {
+        throw e;
+      }
+    }
 
     /**
      * Display book cover

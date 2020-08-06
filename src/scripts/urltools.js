@@ -5,14 +5,14 @@ class URLTools {
    *
    * @return {object} Fragments.
    */
-  static extractFragmentsFromURL(validate) {
-    if (!top.location.hash) {
+  static extractFragmentsFromURL(validate, hashWindow) {
+    if (!hashWindow.location.hash) {
       return {};
     }
 
     // Convert fragment string to object with properties
     const fragments = {};
-    top.location.hash.replace('#', '').split('&')
+    hashWindow.location.hash.replace('#', '').split('&')
       .forEach(fragment => {
         if (fragment.indexOf('=') === -1) {
           return; // Skip if incomplete pair
