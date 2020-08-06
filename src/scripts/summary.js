@@ -321,6 +321,7 @@ class Summary extends H5P.EventDispatcher {
       submitButton.classList.add('h5p-interactive-book-summary-submit');
       submitButton.onclick = () => {
         this.trigger('submitted');
+        this.parent.triggerXAPIScored(this.parent.getScore(), this.parent.getMaxScore(), 'completed');
         wrapper.classList.add('submitted');
       };
       wrapper.appendChild(submitButton);

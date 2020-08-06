@@ -556,7 +556,6 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       if (!this.completed && this.chapters.filter(chapter => !chapter.isSummary).every(chapter => chapter.completed)) {
         this.completed = true;
         this.trigger('bookCompleted', {completed: this.completed});
-        this.triggerXAPIScored(this.getScore(), this.getMaxScore(), 'completed');
       }
     };
 
