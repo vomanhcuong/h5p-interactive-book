@@ -798,7 +798,11 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       this.cover = new Cover(this.params.bookCover, contentData.metadata.title, this.l10n.read, contentId, this);
     }
 
-    this.pageContent = new PageContent(this.params, contentId, contentData, this, {
+    const childContentData = {
+      ...contentData,
+      parent: this,
+    };
+    this.pageContent = new PageContent(this.params, contentId, childContentData, this, {
       l10n: {
         markAsFinished: this.l10n.markAsFinished
       },
