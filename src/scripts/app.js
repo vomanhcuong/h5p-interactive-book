@@ -850,10 +850,16 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       this.on('coverRemoved', () => {
         this.hideAllElements(false);
         this.trigger('resize');
+        // This will happen also on retry, but that doesn't matter, since
+        // setActivityStarted() checks if it has been run before
+        this.setActivityStarted();
 
         // Focus header progress bar when cover is removed
         this.statusBarHeader.progressBar.progress.focus();
       });
+    }
+    else {
+      this.setActivityStarted();
     }
 
     if ( this.hasValidChapters() ) {
