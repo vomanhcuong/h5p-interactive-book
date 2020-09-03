@@ -258,7 +258,7 @@
     "type": "text",
     "importance": "low",
     "label": "Interaction progress",
-    "description": "\"@count\" will be replaced by page count, and \"@total\" with the total number of pages",
+    "description": "\"@count\" will be replaced by interaction count, and \"@total\" with the total number of interactions",
     "default": "@count of @total interactions",
     "common": true,
     "optional": true
