@@ -60,8 +60,8 @@
       ]
     },
     {
-      "label": "\"Loetud\" nupu tõlge",
-      "default": "Loetud"
+      "label": "\"Loe\" nupu tõlge",
+      "default": "Loe"
     },
     {
       "label": "\"Kuva 'sisukord'\" nupu tõlge",
