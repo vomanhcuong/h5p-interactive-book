@@ -1,121 +1,121 @@
 {
   "semantics": [
     {
-      "label": "Enable book cover",
-      "description": "A cover that shows info regarding the book before access"
+      "label": "Ota kansisivu käyttöön",
+      "description": "Kansisivu sisältää tietoa kirjasta ennen sen avaamista."
     },
     {
-      "label": "Cover Page",
+      "label": "Kansisivu",
       "fields": [
         {
-          "label": "Cover description",
-          "description": "This text will be the description of your book."
+          "label": "Alaotsikko",
+          "description": "Tämä teksti näkyy pienemmässä koossa pääotsikon alapuolella."
         },
         {
-          "label": "Cover image",
-          "description": "An optional background image for the introduction."
+          "label": "Kansikuva",
+          "description": "Tämä kuva näkyy kansisivulla (valinnainen)"
         },
         {
-          "label": "Cover image alternative text",
-          "description": "An alternative text for the cover image"
+          "label": "Kansikuvan vaihtoehtoinen kuvaus",
+          "description": "Tätä tekstiä käyttävät ruudunlukijasovellukset. Se näkyy myös, jos kansikuva ei lataudu."
         }
       ]
     },
     {
-      "label": "Pages",
-      "entity": "Page",
+      "label": "Kappaleet",
+      "entity": "Kappale",
       "widgets": [
         {
-          "label": "Default"
+          "label": "Oletus"
         }
       ],
       "field": {
-        "label": "Item",
+        "label": "Osio",
         "fields": [
           {
-            "label": "Page"
+            "label": "Kappale"
           }
         ]
       }
     },
     {
-      "label": "Behavioural settings",
+      "label": "Käyttäytymisasetukset",
       "fields": [
         {
-          "label": "Display table of contents as default",
-          "description": "When enabled the table of contents is showed when opening the book"
+          "label": "Sisällysluettelon näkyminen oletuksena",
+          "description": "Näyttää sisällysluettelon kirjan avaamisen yhteydessä."
         },
         {
-          "label": "Display Progress Indicators",
-          "description": "When enabled there will be indicators per page showing the user if he is done with the page or not."
+          "label": "Näytä edistymispalkki",
+          "description": "Näyttää kappaleissa palkin, joka ilmaisee, kuinka paljon kirjan sisältöä on jäljellä."
         },
         {
-          "label": "Enable automatic progress",
-          "description": "If enabled a page without tasks is considered done when viewed. A page with tasks when all tasks are done. If disabled there will be a button at the bottom of every page for the user to click when done with the page."
+          "label": "Ota automaattinen edistyminen käyttöön",
+          "description": "Merkitsee suoraan katselun yhteydessä suoritetuksi kappaleen, jolla ei ole tehtäviä. Tehtäviä sisältävät kappaleet merkitään suoritetuiksi, kun kaikki tehtävät on tehty. Jos tämä asetus on poissa käytöstä, jokaisen kappaleen alareunassa on painike, jota klikkaamalla käyttäjä merkitsee kappaleen suoritetuksi."
         },
         {
-          "label": "Display summary",
-          "description": "When enabled the user can see a summary and submit the progress/answers"
+          "label": "Näytä yhteenveto",
+          "description": "Näyttää käyttäjälle yhteenvedon vastauksista ennen kuin ne lähetetään tarkistettavaksi."
         }
       ]
     },
     {
-      "label": "Translation for \"Read\"",
-      "default": "Read"
+      "label": "\"Lue\"-painikkeen teksti",
+      "default": "Lue"
     },
     {
-      "label": "Translation for \"Display 'Table of contents'\"",
-      "default": "Display 'Table of contents'"
+      "label": "\"Näytä sisällysluettelo\" -painikkeen teksti",
+      "default": "Näytä sisällysluettelo"
     },
     {
-      "label": "Translation for \"Hide 'Table of contents'\"",
-      "default": "Hide 'Table of contents'"
+      "label": "\"Piilota sisällysluettelo\" -painikkeen teksti",
+      "default": "Piilota sisällysluettelo"
     },
     {
-      "label": "Translation for \"Next page\"",
-      "default": "Next page"
+      "label": "\"Seuraava sivu\" -painikkeen teksti",
+      "default": "Seuraava sivu"
     },
     {
-      "label": "Translation for \"Previous page\"",
-      "default": "Previous page"
+      "label": "\"Edellinen sivu\" -painikkeen teksti",
+      "default": "Edellinen sivu"
     },
     {
-      "label": "Translation for \"Page completed!\"",
-      "default": "Page completed!"
+      "label": "Käännös tekstille \"Kappale suoritettu!\"",
+      "default": "Kappale suoritettu!"
     },
     {
-      "label": "Translation for \"@pages of @total completed\" (@pages and @total will be replaced by actual values)",
-      "default": "@pages of @total completed"
+      "label": "Käännös tekstille \"@pages / @total kappaletta suoritettu\" (tekstien @pages ja @total tilalla näkyvät todelliset arvot)",
+      "default": "@pages / @total kappaletta suoritettu"
     },
     {
-      "label": "Translation for \"Incomplete page\"",
-      "default": "Incomplete page"
+      "label": "Käännös tekstille \"Keskeneräinen kappale\"",
+      "default": "Keskeneräinen kappale"
     },
     {
-      "label": "Translation for \"Navigate to the top\"",
-      "default": "Navigate to the top"
+      "label": "\"Siirry ylös\" -painikkeen teksti",
+      "default": "Siirry ylös"
     },
     {
-      "label": "Translation for \"I have finished this page\"",
-      "default": "I have finished this page"
+      "label": "\"Olen suorittanut tämän kappaleen.\" -painikkeen teksti",
+      "default": "Olen suorittanut tämän kappaleen."
     },
     {
-      "label": "Fullscreen button label",
-      "default": "Fullscreen"
+      "label": "Kokoruutu-painikkeen teksti",
+      "default": "Kokoruututila"
     },
     {
-      "label": "Exit fullscreen button label",
-      "default": "Exit fullscreen"
+      "label": "Poistu kokoruututilasta -painikkeen teksti",
+      "default": "Poistu kokoruututilasta"
     },
     {
-      "label": "Page progress in book",
-      "description": "\"@count\" will be replaced by page count, and \"@total\" with the total number of pages",
-      "default": "@count of @total pages"
+      "label": "Kappaleita suoritettu",
+      "description": "Tekstin \"@count\" tilalla on suoritettujen kappaleiden lukumäärä ja tekstin \"@total\" tilalla on kaikkien kappaleiden lukumäärä",
+      "default": "@count / @total kappaletta"
     },
     {
-      "label": "Interaction progress",
-      "description": "\"@count\" will be replaced by page count, and \"@total\" with the total number of pages",
-      "default": "@count of @total interactions"
+      "label": "Tehtäviä suoritettu",
+      "description": "Tekstin \"@count\" tilalla on suoritettujen tehtävien lukumäärä ja tekstin \"@total\" tilalla on kaikkien tehtävien lukumäärä",
+      "default": "@count / @total tehtävää"
     },
     {
       "label": "Translation for \"Submit report\"",
