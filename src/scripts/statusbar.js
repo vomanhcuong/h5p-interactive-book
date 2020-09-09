@@ -36,8 +36,8 @@ class StatusBar extends H5P.EventDispatcher {
     wrapperInfo.appendChild(this.arrows.buttonWrapperPrevious);
     wrapperInfo.appendChild(this.arrows.buttonWrapperNext);
 
-    if ( this.params.displayFullScreenButton ) {
-      wrapperInfo.appendChild(this.addFullScreenButton());
+    if (this.params.displayFullScreenButton && H5P.fullscreenSupported) {
+      wrapperInfo.appendChild(this.createFullScreenButton());
     }
 
     this.wrapper = document.createElement('div');
@@ -348,15 +348,11 @@ class StatusBar extends H5P.EventDispatcher {
   }
 
   /**
-   * Add fullscreen button.
+   * Creates the fullscreen button.
    *
-   * @param {jQuery} $wrapper HTMLElement to attach button to.
+   * @returns {Element} The button dom element
    */
-  addFullScreenButton() {
-    if (H5P.canHasFullScreen !== true) {
-      return;
-    }
-
+  createFullScreenButton() {
     const toggleFullScreen = () => {
       if (H5P.isFullscreen === true) {
         H5P.exitFullScreen();
