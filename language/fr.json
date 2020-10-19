@@ -160,7 +160,7 @@
       "default": "Résumé et transmission"
     },
     {
-      "label": "Translation for \"Vous n'avez interagi avec aucune page.\"",
+      "label": "Intitulé pour \"Vous n'avez interagi avec aucune page.\"",
       "default": "Vous n'avez interagi avec aucune page."
     },
     {
@@ -176,24 +176,24 @@
       "default": "Progression du livre"
     },
     {
-      "label": "Interactions progress label",
-      "default": "Interactions progress"
+      "label": "Intitulé pour Progression des interactions",
+      "default": "Progression des interactions"
     },
     {
-      "label": "Total score label",
-      "default": "Total score"
+      "label": "Intitulé pour Score total",
+      "default": "Score total"
     },
     {
-      "label": "Accessibility texts",
+      "label": "Textes sur l'accessibilité",
       "fields": [
         {
-          "label": "Page progress textual alternative",
-          "description": "An alternative text for the visual page progress. @page and @total variables available.",
-          "default": "Page @page of @total."
+          "label": "Alternative textuelle à l'avancement de la page",
+          "description": "Un texte alternatif pour la progression visuelle de la page. Les variables @page et @total sont disponibles.",
+          "default": "Page @page sur @total."
         },
         {
-          "label": "Label for expanding/collapsing navigation menu",
-          "default": "Toggle navigation menu"
+          "label": "Intitulé pour étendre/réduire le menu de navigation",
+          "default": "étendre/réduire"
         }
       ]
     }
