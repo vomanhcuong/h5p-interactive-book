@@ -22,18 +22,18 @@
       ]
     },
     {
-      "label": "Kapitel",
-      "entity": "Kapitel",
+      "label": "Seiten",
+      "entity": "Seite",
       "widgets": [
         {
-          "label": "Eingabemaske"
+          "label": "Voreinstellung"
         }
       ],
       "field": {
         "label": "Eintrag",
         "fields": [
           {
-            "label": "Kapitel"
+            "label": "Seite"
           }
         ]
       }
@@ -72,32 +72,32 @@
       "default": "Inhaltsverzeichnis ausblenden"
     },
     {
-      "label": "Beschriftung für \"Nächstes Kapitel\"",
-      "default": "Nächstes Kapitel"
+      "label": "Beschriftung für \"Nächste Seite\"",
+      "default": "Nächste Seite"
     },
     {
-      "label": "Beschriftung für \"Vorheriges Kapitel\"",
-      "default": "Vorheriges Kapitel"
+      "label": "Beschriftung für \"Vorherige Seite\"",
+      "default": "Vorherige Seite"
     },
     {
-      "label": "Beschriftung für \"Kapitel abgeschlossen!\"",
-      "default": "Kapitel abgeschlossen!"
+      "label": "Beschriftung für \"Seite abgeschlossen!\"",
+      "default": "Seite abgeschlossen!"
     },
     {
-      "label": "Beschriftung für \"... von ... Kapiteln abgeschlossen\" (@pages und @total sind Platzhalter und werden von den echten Werten ersetzt)",
-      "default": "@pages von @total Kapiteln abgeschlossen"
+      "label": "Beschriftung für \"@page von @total Seiten abgeschlossen\" (@pages und @total sind Platzhalter und werden von den echten Werten ersetzt)",
+      "default": "@pages von @total Seiten abgeschlossen"
     },
     {
-      "label": "Beschriftung für \"Unvollständiges Kapitel\"",
-      "default": "Unvollständiges Kapitel"
+      "label": "Beschriftung für \"Unvollständige Seite\"",
+      "default": "Unvollständige Seite"
     },
     {
       "label": "Beschriftung für \"Nach oben springen\"",
       "default": "Nach oben springen"
     },
     {
-      "label": "Beschriftung für \"Ich habe dieses Kapitel abgeschlossen\"",
-      "default": "Ich habe dieses Kapitel abgeschlossen"
+      "label": "Beschriftung für \"Ich habe diese Seite abgeschlossen\"",
+      "default": "Ich habe diese Seite abgeschlossen"
     },
     {
       "label": "Beschriftung des Vollbild-Buttons",
@@ -189,7 +189,7 @@
         {
           "label": "Textalternative für die Fortschrittsanzeige",
           "description": "Dieser Text ersetzt die grafische Fortschrittsanzeige. (Es können die Platzhalter @page und @total verwendet werden.)",
-          "default": "Kapitel @page von @total."
+          "default": "Seite @page von @total."
         },
         {
           "label": "Beschriftung des Buttons, um das Inhaltsverzeichnis ein- und auszublenden",
