@@ -22,8 +22,8 @@
       ]
     },
     {
-      "label": "Capitoli",
-      "entity": "Capitolo",
+      "label": "Pagine",
+      "entity": "Pagina",
       "widgets": [
         {
           "label": "Predefinito"
@@ -33,7 +33,7 @@
         "label": "Item",
         "fields": [
           {
-            "label": "Capitolo"
+            "label": "Pagina"
           }
         ]
       }
@@ -54,8 +54,8 @@
           "description": "Se abilitato, una pagina senza compiti è considerata fatta quando è stata visualizzata; viceversa, una pagina con compiti lo è quando tutti sono stati portati a termine. Se disabilitato, in fondo a ogni pagina ci sarà un pulsante su cui l'utente può cliccare quando ha finito con quella pagina"
         },
         {
-          "label": "Display summary",
-          "description": "When enabled the user can see a summary and submit the progress/answers"
+          "label": "Mostra sommario",
+          "description": "Quando attivo, l'utente può vedere un sommario e inviare la risposta o andare avanti"
         }
       ]
     },
@@ -84,8 +84,8 @@
       "default": "Capitolo completato!"
     },
     {
-      "label": "Traduzione per \"@pages di @total completate\" (@pages e @total sarà sostituito dai valori attuali)",
-      "default": "@pages di @total completate"
+      "label": "Traduzione per \"@pages di @total pagine completate\" (@pages e @total sarà sostituito dai valori attuali)",
+      "default": "@pages di @total pagine completate"
     },
     {
       "label": "Traduzione per \"Capitolo incompleto\"",
@@ -109,87 +109,87 @@
     },
     {
       "label": "Page progress in book",
-      "description": "\"@count\" will be replaced by page count, and \"@total\" with the total number of pages",
-      "default": "@count of @total pages"
+      "description": "\"@count\" sarà sostituito dal conteggio delle pagine e \"@total\" dal numero totale di pagine",
+      "default": "@count di @total pagine"
     },
     {
-      "label": "Interaction progress",
-      "description": "\"@count\" will be replaced by interaction count, and \"@total\" with the total number of interactions",
-      "default": "@count of @total interactions"
+      "label": "Progresso dell'interazione",
+      "description": "\"@count\" sarà sostituito dal conteggio delle pagine e \"@total\" dal numero totale di pagine",
+      "default": "@count @total interazioni"
     },
     {
-      "label": "Translation for \"Submit report\"",
-      "default": "Submit Report"
+      "label": "Traduzione per \"Invia report\"",
+      "default": "Invia report"
     },
     {
-      "label": "Label for \"restart\" button",
-      "default": "Restart"
+      "label": "Etichetta per il pulsante \"riavvia\"",
+      "default": "Riavvia"
     },
     {
-      "label": "Summary header",
-      "default": "Summary"
+      "label": "Intestazione del sommario",
+      "default": "Sommario"
     },
     {
-      "label": "Translation for \"All interactions\"",
-      "default": "All interactions"
+      "label": "Traduzione per \"Tutte le interazioni\"",
+      "default": "Tutte le interazioni"
     },
     {
-      "label": "Translation for \"Unanswered interactions\"",
-      "default": "Unanswered interactions"
+      "label": "Traduzione per \"Interazioni senza risposta\"",
+      "default": "Interazioni senza risposta"
     },
     {
-      "label": "Score",
-      "description": "\"@score\" will be replaced with current score, and \"@maxscore\" will be replaced with max achievable score",
+      "label": "Punteggio",
+      "description": "\"@score\" sarà sostituito con il punteggio del momento e \"@maxscore\" con il massimo punteggio raggiungibile",
       "default": "@score / @maxscore"
     },
     {
-      "label": "Per page interactions completion",
-      "description": "\"@left\" will be replaced with remaining interactions, and \"@max\" will be replaced with total number of interactions on the page",
-      "default": "@left of @max interactions completed"
+      "label": "Completamento di interazioni per pagina",
+      "description": "\"@left\" sarà sostituito con le interazioni restanti e \"@max\" con il numero totale di interazioni della pagina",
+      "default": "@left di @max interazioni completate"
     },
     {
-      "label": "Translation for \"No interactions\"",
-      "default": "No interactions"
+      "label": "Traduzione per \"Nessuna interazione\"",
+      "default": "Nessuna interazione"
     },
     {
-      "label": "Translation for \"Score\"",
-      "default": "Score"
+      "label": "Traduzione per \"Punteggio\"",
+      "default": "Punteggio"
     },
     {
-      "label": "Label for \"Summary & submit\" button",
-      "default": "Summary & submit"
+      "label": "Etichetta per il pulsante \"Sommario & invio\"",
+      "default": "Sommario & invio"
     },
     {
-      "label": "Translation for \"You have not interacted with any pages.\"",
-      "default": "You have not interacted with any pages."
+      "label": "Traduzione per \"Non hai interagito con alcuna pagina\"",
+      "default": "Non hai interagito con alcuna pagina"
     },
     {
-      "label": "Translation for \"You have to interact with at least one page before you can see the summary.\"",
-      "default": "You have to interact with at least one page before you can see the summary."
+      "label": "Traduzione per \"Devi interagire con almeno una pagina prima di poter vedere il sommario\"",
+      "default": "Devi interagire con almeno una pagina prima di poter vedere il sommario"
     },
     {
-      "label": "Translation for \"Your answers are submitted for review!\"",
-      "default": "Your answers are submitted for review!"
+      "label": "Traduzione per \"Le tue risposte sono state inviate per la verifica!\"",
+      "default": "Le tue risposte sono state inviate per la verifica!"
     },
     {
-      "label": "Summary progress label",
-      "default": "Book progress"
+      "label": "Etichetta di progresso del sommario",
+      "default": "Avanzamento nel libro"
     },
     {
-      "label": "Interactions progress label",
-      "default": "Interactions progress"
+      "label": "Etichetta del progresso delle interazioni",
+      "default": "Progresso delle interazioni"
     },
     {
-      "label": "Total score label",
-      "default": "Total score"
+      "label": "Etichetta del punteggio totale",
+      "default": "Punteggio totale"
     },
     {
       "label": "Testi per l'accessibilità",
       "fields": [
         {
           "label": "Alternativa testuale per la progressione di pagina",
-          "description": "Un testo alternativo alla progressione di pagina visuale. @page e @total variabili disponibili",
-          "default": "Pagine @page di @total"
+          "description": "Un testo alternativo per la vista della progressione di pagina. @page e @total variabili disponibili",
+          "default": "Pagina @page di @total"
         },
         {
           "label": "Etichetta per espandere/ridurre il menu di navigazione",
