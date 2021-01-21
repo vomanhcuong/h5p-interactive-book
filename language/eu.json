@@ -156,8 +156,8 @@
       "default": "Emaitza"
     },
     {
-      "label": "\"Laburpena & bidali\" botoiaren etiketa",
-      "default": "Laburpena & bidali"
+      "label": "\"Laburpena &amp; bidali\" botoiaren etiketa",
+      "default": "Laburpena &amp; bidali"
     },
     {
       "label": "\"You have not interacted with any pages.\" testuaren itzulpena",

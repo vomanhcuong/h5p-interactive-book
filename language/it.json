@@ -156,8 +156,8 @@
       "default": "Punteggio"
     },
     {
-      "label": "Etichetta per il pulsante \"Sommario & invio\"",
-      "default": "Sommario & invio"
+      "label": "Etichetta per il pulsante \"Sommario &amp; invio\"",
+      "default": "Sommario &amp; invio"
     },
     {
       "label": "Traduzione per \"Non hai interagito con alcuna pagina\"",

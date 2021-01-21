@@ -156,8 +156,8 @@
       "default": "Tulos"
     },
     {
-      "label": "\"Yhteenveto & lähetys\" -painikkeen teksti",
-      "default": "Yhteenveto & lähetys"
+      "label": "\"Yhteenveto &amp; lähetys\" -painikkeen teksti",
+      "default": "Yhteenveto &amp; lähetys"
     },
     {
       "label": "Käännös tekstille \"Et ole tehnyt yhtään tehtävää.\"",

@@ -156,8 +156,8 @@
       "default": "Score"
     },
     {
-      "label": "Label for \"Summary & submit\" button",
-      "default": "Summary & submit"
+      "label": "Label for \"Summary &amp; submit\" button",
+      "default": "Summary &amp; submit"
     },
     {
       "label": "Translation for \"You have not interacted with any pages.\"",

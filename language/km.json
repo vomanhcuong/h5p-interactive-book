@@ -156,8 +156,8 @@
       "default": "ពិន្ទុ"
     },
     {
-      "label": "Label for \"Summary & submit\" button",
-      "default": "សងេ្ខប & ប្រគល់កិច្ចការ"
+      "label": "Label for \"Summary &amp; submit\" button",
+      "default": "សងេ្ខប &amp; ប្រគល់កិច្ចការ"
     },
     {
       "label": "Translation for \"You have not interacted with any pages.\"",

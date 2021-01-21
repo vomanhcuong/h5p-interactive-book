@@ -156,8 +156,8 @@
       "default": "Telling"
     },
     {
-      "label": "Etiket vir \"Opsom & indien\" knoppie",
-      "default": "Opsom & indien"
+      "label": "Etiket vir \"Opsom &amp; indien\" knoppie",
+      "default": "Opsom &amp; indien"
     },
     {
       "label": "Vertaling vir \"Jy het nog nie interaksies gehad met enige bladsye nie.\"",

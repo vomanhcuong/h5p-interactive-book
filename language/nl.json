@@ -156,8 +156,8 @@
       "default": "Score"
     },
     {
-      "label": "Label voor \"Samenvatting & inzenden\" knop",
-      "default": "Samenvatting & inzenden"
+      "label": "Label voor \"Samenvatting &amp; inzenden\" knop",
+      "default": "Samenvatting &amp; inzenden"
     },
     {
       "label": "Vertaling voor \"Er zijn geen interacties met pagina's.\"",
