@@ -114,7 +114,7 @@
     },
     {
       "label": "Průběh interakce",
-      "description": "\"@count\" bude nahrazen počtem stránek, a \"@total\" celkovým počtem stránek",
+      "description": "\"@count\" bude nahrazen počtem interakcí, a \"@total\" celkovým počtem interakcí",
       "default": "@count z @total interakcí"
     },
     {
