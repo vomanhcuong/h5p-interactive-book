@@ -43,7 +43,7 @@
       "fields": [
         {
           "label": "Mostra la taula de continguts com a predeterminada",
-          "description": "Si aquesta opció està activada, l’índex es mostrarà en obrir el llibre."
+          "description": "Si aquesta opció està activada, l’índex es mostrarà en obrir el llibre"
         },
         {
           "label": "Mostra els indicadors de progrés",
@@ -55,7 +55,7 @@
         },
         {
           "label": "Mostra el resum",
-          "description": "Si aquesta opció està activada, l’usuari podrà veure un resum i enviar el progrés i les respostes."
+          "description": "Si aquesta opció està activada, l’usuari podrà veure un resum i enviar el progrés i les respostes"
         }
       ]
     },
@@ -81,7 +81,7 @@
     },
     {
       "label": "Traducció de \"Pàgina completada!\"",
-      "default": "Pàgina finalitzada."
+      "default": "Pàgina finalitzada!"
     },
     {
       "label": "Ha finalitzat la traducció de \"@pages de @total pàgines\" (@pages i @total se substituirà pels valors reals)",
