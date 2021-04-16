@@ -54,7 +54,7 @@
           "description": "If enabled a page without tasks is considered done when viewed. A page with tasks when all tasks are done. If disabled there will be a button at the bottom of every page for the user to click when done with the page."
         },
         {
-          "label": "Display summary",
+          "label": "Vis sammendrag",
           "description": "When enabled the user can see a summary and submit the progress/answers"
         }
       ]
@@ -115,11 +115,11 @@
     {
       "label": "Interaction progress",
       "description": "\"@count\" will be replaced by interaction count, and \"@total\" with the total number of interactions",
-      "default": "@count of @total interactions"
+      "default": "@count av @total oppgaver"
     },
     {
-      "label": "Translation for \"Submit report\"",
-      "default": "Submit Report"
+      "label": "Oversettelse for \"Levér rapport\"",
+      "default": "Levér rapport"
     },
     {
       "label": "Label for \"restart\" button",
