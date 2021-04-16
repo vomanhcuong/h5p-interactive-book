@@ -51,7 +51,7 @@
         },
         {
           "label": "Aktiveer outomatiese vordering",
-          "description": "Indien dit geaktiveer word, word 'n bladsy sonder take as afgehandel beskou. 'n Bladsy met take wanneer alle take gedoen is. Indien dit gedeaktiveer is, sal daar onderaan elke bladsy 'n knoppie wees waarop die gebruiker kan klik as hy klaar is met die bladsy."
+          "description": "Indien geaktiveer, word 'n bladsy sonder take as afgehandel beskou. 'n Bladsy met take wanneer alle take gedoen is. Indien gedeaktiveer, sal daar onderaan elke bladsy 'n knoppie wees waarop die gebruiker kan klik as hy klaar is met die bladsy."
         },
         {
           "label": "Vertoon opsomming",
