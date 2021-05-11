@@ -184,10 +184,10 @@
       "default": "Totaalscore"
     },
     {
-      "label": "Accessibility texts",
+      "label": "Toegankelijkheidsteksten",
       "fields": [
         {
-          "label": "Pagina voortgang tekstueel alternatieve",
+          "label": "Pagina voortgang alternatieve tekst",
           "description": "Een alternatieve tekst voor de visuele pagina voortgang. @page en @total variabelen beschikbaar",
           "default": "Pagina @page van @total."
         },
