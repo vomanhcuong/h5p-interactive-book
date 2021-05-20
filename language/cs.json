@@ -43,7 +43,7 @@
       "fields": [
         {
           "label": "Zobrazit obsah jako výchozí",
-          "description": "Je-li povoleno, zobrazí se obsah při otevření knihy "
+          "description": "Je-li povoleno, zobrazí se obsah při otevření knihy"
         },
         {
           "label": "Zobrazit indikátory průběhu",
@@ -64,12 +64,12 @@
       "default": "Číst"
     },
     {
-      "label": "Překlad pro \"Zobrazit 'Obsah'\"",
-      "default": "Zobrazit 'Obsah'"
+      "label": "Překlad pro \"Zobrazit Obsah\"",
+      "default": "Zobrazit \"Obsah\""
     },
     {
-      "label": "Překlad pro \"Skrýt 'Obsah'\"",
-      "default": "Skrýt 'Obsah'"
+      "label": "Překlad pro \"Skrýt Obsah\"",
+      "default": "Skrýt \"Obsah\""
     },
     {
       "label": "Překlad pro \"Další stránka\"",
@@ -122,7 +122,7 @@
       "default": "Odeslat zprávu"
     },
     {
-      "label": "Štítek pro tlačítko  \"Restart\" ",
+      "label": "Štítek pro tlačítko \"Restart\"",
       "default": "Restart"
     },
     {
@@ -145,7 +145,7 @@
     {
       "label": "Dokončených interakcí na stránce",
       "description": "\"@left\"budou nahrazeny zbývajícími interakcemi, a \"@max\" bude nahrazen celkovým počtem interakcí na stránce",
-      "default": "@left z @max  dokončených interakcí "
+      "default": "@left z @max dokončených interakcí"
     },
     {
       "label": "Překlad pro \"Žádné interakce\"",
@@ -156,7 +156,7 @@
       "default": "Skóre"
     },
     {
-      "label": "Štítek pro tlačítko  \"Shrnutí a odeslání\" ",
+      "label": "Štítek pro tlačítko \"Shrnutí a odeslání\"",
       "default": "Shrnutí a odeslání"
     },
     {
