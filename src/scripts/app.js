@@ -192,6 +192,28 @@ export default class InteractiveBook extends H5P.EventDispatcher {
     });
 
     /**
+     * Answer call to return the current state.
+     * @return {object} Current state.
+     */
+    this.getCurrentState = () => {
+      // Get relevant state information from non-summary chapters
+      const chapters = this.chapters
+        .filter(chapter => !chapter.isSummary)
+        .map(chapter => ({
+          completed: chapter.completed,
+          maxTasks: chapter.maxTasks,
+          tasksLeft: chapter.tasksLeft,
+          sections: chapter.sections.map(section => ({taskDone: section.taskDone})),
+          state: chapter.instance.getCurrentState()
+        }));
+
+      return {
+        urlFragments: URLTools.extractFragmentsFromURL(this.validateFragments, this.hashWindow),
+        chapters: chapters
+      };
+    };
+
+    /**
      * Check if there's a cover.
      *
      * @return {boolean} True, if there's a cover.
@@ -426,7 +448,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
      * @param {boolean} autoProgress
      * @returns {boolean}
      */
-    this.isChapterRead = (chapter, autoProgress = this.params.behaviour.progressAuto) => 
+    this.isChapterRead = (chapter, autoProgress = this.params.behaviour.progressAuto) =>
       chapter.isInitialized && (chapter.completed || (autoProgress && chapter.tasksLeft === 0));
 
     /**
@@ -689,7 +711,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
         if (sectionInstance.subContentId === sectionUUID && !section.taskDone) {
           // Check if instance has given an answer
           section.taskDone = sectionInstance.getAnswerGiven ? sectionInstance.getAnswerGiven() : true;
-                    
+
           this.sideBar.setSectionMarker(chapterId, index);
           if (section.taskDone) {
             this.chapters[chapterId].tasksLeft -= 1;
@@ -829,6 +851,11 @@ export default class InteractiveBook extends H5P.EventDispatcher {
     this.chapters = this.pageContent.getChapters();
 
     this.sideBar = new SideBar(this.params, contentId, contentData.metadata.title, this);
+
+    // Set progress (from previous state);
+    this.chapters.forEach((chapter, index) => {
+      this.setChapterRead(index, chapter.completed);
+    });
 
     this.statusBarHeader = new StatusBar(contentId, this.chapters.length, this, {
       l10n: this.l10n,
