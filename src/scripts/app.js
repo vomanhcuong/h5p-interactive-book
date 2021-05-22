@@ -17,6 +17,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
     super();
     const self = this;
     this.contentId = contentId;
+    this.previousState = contentData.previousState;
     this.activeChapter = 0;
     this.newHandler = {};
 
@@ -61,12 +62,21 @@ export default class InteractiveBook extends H5P.EventDispatcher {
      * @return {number} Latest score.
      * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-2}
      */
-    this.getScore = () => this.chapters.reduce((accu, current) => {
-      if (typeof current.instance.getScore === 'function') {
-        return accu + current.instance.getScore();
+    this.getScore = () => {
+      if (this.chapters.length > 0) {
+        return this.chapters.reduce((accu, current) => {
+          if (typeof current.instance.getScore === 'function') {
+            return accu + current.instance.getScore();
+          }
+          return accu;
+        }, 0);
       }
-      return accu;
-    }, 0);
+      else if (this.previousState) {
+        return this.previousState.score || 0;
+      }
+
+      return 0;
+    };
 
     /**
      * Get maximum possible score.
@@ -74,12 +84,21 @@ export default class InteractiveBook extends H5P.EventDispatcher {
      * @return {number} Score necessary for mastering.
      * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-3}
      */
-    this.getMaxScore = () => this.chapters.reduce((accu, current) => {
-      if (typeof current.instance.getMaxScore === 'function') {
-        return accu + current.instance.getMaxScore();
+    this.getMaxScore = () => {
+      if (this.chapters.length > 0) {
+        return this.chapters.reduce((accu, current) => {
+          if (typeof current.instance.getMaxScore === 'function') {
+            return accu + current.instance.getMaxScore();
+          }
+          return accu;
+        }, 0);
       }
-      return accu;
-    }, 0);
+      else if (this.previousState) {
+        return this.previousState.maxScore || 0;
+      }
+
+      return 0;
+    };
 
     /**
      * Show solutions.
@@ -209,7 +228,9 @@ export default class InteractiveBook extends H5P.EventDispatcher {
 
       return {
         urlFragments: URLTools.extractFragmentsFromURL(this.validateFragments, this.hashWindow),
-        chapters: chapters
+        chapters: chapters,
+        score: this.getScore(),
+        maxScore: this.getMaxScore()
       };
     };
 
