@@ -54,8 +54,8 @@
           "description": "Kui on lubatud, siis ülesanneteta lehekülg loetakse vaatamisel läbituks, ülesannetega lehekülg peale kõigi ülesannete täitmist. Kui keelatud, siis on iga lehe all nupp, mida kasutaja peab lehe läbituks märkimiseks vajutama."
         },
         {
-          "label": "Display summary",
-          "description": "When enabled the user can see a summary and submit the progress/answers"
+          "label": "Kuva kokkuvõtet",
+          "description": "Kui lubatud, siis kasutaja näeb kokkuvõtet ning saab oma tulemused edastada/vaadata"
         }
       ]
     },
