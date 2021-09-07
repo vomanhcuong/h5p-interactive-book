@@ -199,7 +199,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
      */
     this.getContext = () => {
       return {
-        statement: 'page',
+        type: 'page',
         value: (this.activeChapter + 1)
       };
     };
