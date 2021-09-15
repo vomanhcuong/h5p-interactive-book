@@ -199,7 +199,10 @@ export default class InteractiveBook extends H5P.EventDispatcher {
      */
     this.getContext = () => {
       if (this.cover && !this.cover.hidden) {
-        return {};
+        return {
+          type: 'String',
+          value: '0'
+        };
       }
 
       return {
