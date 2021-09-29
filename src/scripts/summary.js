@@ -662,15 +662,18 @@ class Summary extends H5P.EventDispatcher {
     this.wrapper = document.createElement('div');
     this.wrapper.classList.add('h5p-interactive-book-summary-page');
 
-    if ( this.chapters.filter(chapter => chapter.isInitialized).length > 0) {
-      // Initialize all the things!
-      for (const chapterId in this.chapters) {
-        this.parent.pageContent.initializeChapter(chapterId);
+    if (this.chapters.filter(chapter => chapter.isInitialized).length > 0) {
+      // Only initilize if it's actually going to be shown
+      if (this.parent.pageContent && this.parent.chapters[this.parent.getChapterId(this.parent.pageContent.targetPage.chapter)].isSummary) {
+        // Initialize all the things!
+        for (const chapterId in this.chapters) {
+          this.parent.pageContent.initializeChapter(chapterId);
+        }
+        this.addProgressIndicators();
+        this.addActionButtons();
+        this.addSummaryOverview();
+        this.addScoreBar();
       }
-      this.addProgressIndicators();
-      this.addActionButtons();
-      this.addSummaryOverview();
-      this.addScoreBar();
     }
     else {
       this.noChapterInteractions();
