@@ -668,7 +668,7 @@ class Summary extends H5P.EventDispatcher {
       this.chapters.filter(chapter => chapter.isInitialized).length > 0 ||
       this.chapters.some(chapter => {
         return chapter.sections.some(section => section.taskDone);
-      }
+      })
     ) {
       // Only initilize if it's actually going to be shown
       if (this.parent.pageContent && this.parent.chapters[this.parent.getChapterId(this.parent.pageContent.targetPage.chapter)].isSummary) {

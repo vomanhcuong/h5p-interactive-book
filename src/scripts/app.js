@@ -233,10 +233,11 @@ export default class InteractiveBook extends H5P.EventDispatcher {
         maxScore: this.getMaxScore()
       };
     };
-        
+
+    /*
      * Get context data.
      * Contract used for confusion report.
-     * 
+     *
      * @return {object}
      */
     this.getContext = () => {
