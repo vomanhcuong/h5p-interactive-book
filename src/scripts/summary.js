@@ -668,12 +668,19 @@ class Summary extends H5P.EventDispatcher {
       this.chapters.filter(chapter => chapter.isInitialized).length > 0 ||
       this.chapters.some(chapter => {
         return chapter.sections.some(section => section.taskDone);
-      })
+      }
     ) {
-      this.addProgressIndicators();
-      this.addActionButtons();
-      this.addSummaryOverview();
-      this.addScoreBar();
+      // Only initilize if it's actually going to be shown
+      if (this.parent.pageContent && this.parent.chapters[this.parent.getChapterId(this.parent.pageContent.targetPage.chapter)].isSummary) {
+        // Initialize all the things!
+        for (const chapterId in this.chapters) {
+          this.parent.pageContent.initializeChapter(chapterId);
+        }
+        this.addProgressIndicators();
+        this.addActionButtons();
+        this.addSummaryOverview();
+        this.addScoreBar();
+      }
     }
     else {
       this.noChapterInteractions();

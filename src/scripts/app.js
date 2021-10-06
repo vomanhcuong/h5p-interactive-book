@@ -233,6 +233,22 @@ export default class InteractiveBook extends H5P.EventDispatcher {
         maxScore: this.getMaxScore()
       };
     };
+        
+     * Get context data.
+     * Contract used for confusion report.
+     * 
+     * @return {object}
+     */
+    this.getContext = () => {
+      if (this.cover && !this.cover.hidden) {
+        return {};
+      }
+
+      return {
+        type: 'page',
+        value: (this.activeChapter + 1)
+      };
+    };
 
     /**
      * Check if there's a cover.
