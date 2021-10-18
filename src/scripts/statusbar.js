@@ -265,7 +265,6 @@ class StatusBar extends H5P.EventDispatcher {
     wrapper.classList.add('h5p-interactive-book-status-to-top');
     wrapper.classList.add('h5p-interactive-book-status-button');
     wrapper.classList.add('h5p-interactive-book-status-arrow');
-    wrapper.setAttribute('title', this.params.l10n.navigateToTop);
     wrapper.setAttribute('aria-label', this.params.l10n.navigateToTop);
     wrapper.onclick = () => {
       this.parent.trigger('scrollToTop');
