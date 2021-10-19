@@ -33,6 +33,11 @@ export default class InteractiveBook extends H5P.EventDispatcher {
 
     this.chapters = [];
 
+    this.isSubmitButtonEnabled = false;
+    if (H5PIntegration.reportingIsEnabled || (contentData.isScoringEnabled && contentData.isReportingEnabled)) {
+      this.isSubmitButtonEnabled = true;
+    }
+
     /*
      * this.params.behaviour.enableSolutionsButton and this.params.behaviour.enableRetry
      * are used by H5P's question type contract.
