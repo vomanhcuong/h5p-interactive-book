@@ -316,7 +316,8 @@ class Summary extends H5P.EventDispatcher {
     const wrapper = document.createElement("div");
     wrapper.classList.add('h5p-interactive-book-summary-buttons');
 
-    if (H5PIntegration.reportingIsEnabled) {
+    if (H5P.scoringFlag === undefined || H5P.isExtraReportingActive === undefined
+      || (H5P.scoringFlag && H5P.isExtraReportingActive)) {
       const submitButton = this.addButton('icon-paper-pencil', this.l10n.submitReport);
       submitButton.classList.add('h5p-interactive-book-summary-submit');
       submitButton.onclick = () => {
