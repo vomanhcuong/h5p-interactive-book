@@ -34,8 +34,11 @@ export default class InteractiveBook extends H5P.EventDispatcher {
     this.chapters = [];
 
     this.isSubmitButtonEnabled = false;
-    if (H5PIntegration.reportingIsEnabled || contentData.isScoringEnabled || contentData.isReportingEnabled) {
-      this.isSubmitButtonEnabled = true;
+    if (contentData.isScoringEnabled !== undefined || contentData.isReportingEnabled !== undefined) {
+      this.isSubmitButtonEnabled = (contentData.isScoringEnabled || contentData.isReportingEnabled);
+    }
+    else if (H5PIntegration.reportingIsEnabled !== undefined) { // (Never use H5PIntegration directly in a content type. It's only here for backwards compatibility)
+      this.isSubmitButtonEnabled = H5PIntegration.reportingIsEnabled;
     }
 
     /*
@@ -199,7 +202,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
     /**
      * Get context data.
      * Contract used for confusion report.
-     * 
+     *
      * @return {object}
      */
     this.getContext = () => {
@@ -448,7 +451,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
      * @param {boolean} autoProgress
      * @returns {boolean}
      */
-    this.isChapterRead = (chapter, autoProgress = this.params.behaviour.progressAuto) => 
+    this.isChapterRead = (chapter, autoProgress = this.params.behaviour.progressAuto) =>
       chapter.isInitialized && (chapter.completed || (autoProgress && chapter.tasksLeft === 0));
 
     /**
@@ -711,7 +714,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
         if (sectionInstance.subContentId === sectionUUID && !section.taskDone) {
           // Check if instance has given an answer
           section.taskDone = sectionInstance.getAnswerGiven ? sectionInstance.getAnswerGiven() : true;
-                    
+
           this.sideBar.setSectionMarker(chapterId, index);
           if (section.taskDone) {
             this.chapters[chapterId].tasksLeft -= 1;
