@@ -127,61 +127,61 @@
     },
     {
       "label": "Summary header",
-      "default": "Summary"
+      "default": "Kokkuvõte"
     },
     {
       "label": "Translation for \"All interactions\"",
-      "default": "All interactions"
+      "default": "Kõik harjutused"
     },
     {
       "label": "Translation for \"Unanswered interactions\"",
-      "default": "Unanswered interactions"
+      "default": "Vastamata harjutused"
     },
     {
-      "label": "Score",
+      "label": "Tulemus",
       "description": "\"@score\" will be replaced with current score, and \"@maxscore\" will be replaced with max achievable score",
       "default": "@score / @maxscore"
     },
     {
-      "label": "Per page interactions completion",
+      "label": "Harjutuste edenemine lehe kohta",
       "description": "\"@left\" will be replaced with remaining interactions, and \"@max\" will be replaced with total number of interactions on the page",
-      "default": "@left of @max interactions completed"
+      "default": "@left / @max harjutusest täidetud"
     },
     {
       "label": "Translation for \"No interactions\"",
-      "default": "No interactions"
+      "default": "Harjutused puuduvad"
     },
     {
       "label": "Translation for \"Score\"",
-      "default": "Score"
+      "default": "Tulemus"
     },
     {
       "label": "Label for \"Summary &amp; submit\" button",
-      "default": "Summary &amp; submit"
+      "default": "Kokkuvõte &amp; vastuste esitamine"
     },
     {
       "label": "Translation for \"You have not interacted with any pages.\"",
-      "default": "You have not interacted with any pages."
+      "default": "Sa ei ole veel lehtesid vaadanud."
     },
     {
       "label": "Translation for \"You have to interact with at least one page before you can see the summary.\"",
-      "default": "You have to interact with at least one page before you can see the summary."
+      "default": "Pead vähemalt ühte lehte vaatama enne kui soovid kokkuvõtte lehte vaadata."
     },
     {
       "label": "Translation for \"Your answers are submitted for review!\"",
-      "default": "Your answers are submitted for review!"
+      "default": "Vastused on edastatud ülevaatamiseks!"
     },
     {
       "label": "Summary progress label",
-      "default": "Book progress"
+      "default": "Edenemine"
     },
     {
       "label": "Interactions progress label",
-      "default": "Interactions progress"
+      "default": "Harjutuste edenemine"
     },
     {
       "label": "Total score label",
-      "default": "Total score"
+      "default": "Tulemused"
     },
     {
       "label": "Puudega inimest toetavad tekstid",
