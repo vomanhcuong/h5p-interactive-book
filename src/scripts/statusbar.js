@@ -147,6 +147,7 @@ class StatusBar extends H5P.EventDispatcher {
     acm.buttonPrevious.classList.add('navigation-button');
     acm.buttonPrevious.classList.add('icon-previous');
     acm.buttonPrevious.setAttribute('title', this.params.l10n.previousPage);
+    acm.buttonPrevious.setAttribute('aria-label', this.params.l10n.previousPage);
 
     acm.buttonWrapperPrevious = document.createElement('button');
     acm.buttonWrapperPrevious.classList.add('h5p-interactive-book-status-arrow');
@@ -163,6 +164,7 @@ class StatusBar extends H5P.EventDispatcher {
     acm.buttonNext.classList.add('navigation-button');
     acm.buttonNext.classList.add('icon-next');
     acm.buttonNext.setAttribute('title', this.params.l10n.nextPage);
+    acm.buttonNext.setAttribute('aria-label', this.params.l10n.nextPage);
 
     acm.buttonWrapperNext = document.createElement('button');
     acm.buttonWrapperNext.classList.add('h5p-interactive-book-status-arrow');
@@ -263,7 +265,7 @@ class StatusBar extends H5P.EventDispatcher {
     wrapper.classList.add('h5p-interactive-book-status-to-top');
     wrapper.classList.add('h5p-interactive-book-status-button');
     wrapper.classList.add('h5p-interactive-book-status-arrow');
-    wrapper.setAttribute('title', this.params.l10n.navigateToTop);
+    wrapper.setAttribute('aria-label', this.params.l10n.navigateToTop);
     wrapper.onclick = () => {
       this.parent.trigger('scrollToTop');
     };
