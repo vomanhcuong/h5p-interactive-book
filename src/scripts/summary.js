@@ -323,6 +323,8 @@ class Summary extends H5P.EventDispatcher {
         this.trigger('submitted');
         this.parent.triggerXAPIScored(this.parent.getScore(), this.parent.getMaxScore(), 'completed');
         wrapper.classList.add('submitted');
+        const submitText = wrapper.querySelector('.answers-submitted');
+        submitText.focus();
       };
       wrapper.appendChild(submitButton);
     }
@@ -358,6 +360,8 @@ class Summary extends H5P.EventDispatcher {
 
     const text = document.createElement("p");
     text.innerHTML = this.l10n.yourAnswersAreSubmittedForReview;
+    text.tabIndex = -1;
+    text.classList.add('answers-submitted');
     submittedContainer.appendChild(text);
 
     submittedContainer.appendChild(this.createRestartButton());
