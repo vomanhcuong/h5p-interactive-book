@@ -60,35 +60,35 @@
       ]
     },
     {
-      "label": "Traducció de \"Llegeix\"",
+      "label": "Traducció de «Llegeix»",
       "default": "Lectura"
     },
     {
-      "label": "Traducció per a \"Mostra la taula de continguts\"",
+      "label": "Traducció per a «Mostra la taula de continguts»",
       "default": "Mostra la ’Taula de continguts’"
     },
     {
-      "label": "Traducció per a \"Oculta la taula de continguts\"",
+      "label": "Traducció per a «Oculta la taula de continguts»",
       "default": "Amaga la ’Taula de continguts’"
     },
     {
-      "label": "Traducció de \"Pàgina següent\"",
+      "label": "Traducció de «Pàgina següent»",
       "default": "Pàgina següent"
     },
     {
-      "label": "Traducció de \"Pàgina anterior\"",
+      "label": "Traducció de «Pàgina anterior»",
       "default": "Pàgina anterior"
     },
     {
-      "label": "Traducció de \"Pàgina completada!\"",
-      "default": "Pàgina finalitzada!"
+      "label": "Traducció de «Pàgina completada!»",
+      "default": "Pàgina completada!"
     },
     {
-      "label": "Ha finalitzat la traducció de \"@pages de @total pàgines\" (@pages i @total se substituirà pels valors reals)",
-      "default": "@pages de @total completada"
+      "label": "Ha finalitzat la traducció de «@pages de @total pàgines» (@pages i @total se substituiran pels valors reals)",
+      "default": "@pages de @total completades"
     },
     {
-      "label": "Traducció de \"Pàgina incompleta\"",
+      "label": "Traducció de «Pàgina incompleta»",
       "default": "Pàgina incompleta"
     },
     {
@@ -96,80 +96,80 @@
       "default": "Ves a la part superior"
     },
     {
-      "label": "Traducció per a \"He finalitzat aquesta pàgina\"",
+      "label": "Traducció per a «He finalitzat aquesta pàgina»",
       "default": "He acabat aquesta pàgina"
     },
     {
-      "label": "Pantalla completa",
+      "label": "Etiqueta del botó de pantalla completa",
       "default": "Pantalla completa"
     },
     {
-      "label": "Etiqueta del botó \"Surt de la pantalla completa\"",
+      "label": "Etiqueta del botó «Surt de la pantalla completa»",
       "default": "Surt de la pantalla completa"
     },
     {
       "label": "Progrés de la pàgina al llibre",
-      "description": "\"@count\" serà substituït pel recompte de pàgines, i \"@total\" amb el nombre total de pàgines",
+      "description": "«@count» serà substituït pel recompte de pàgines, i «@total» amb el nombre total de pàgines",
       "default": "@count de @total pages"
     },
     {
       "label": "Progrés de la interacció",
-      "description": "\"@count\" serà substituït pel nombre d’interaccions, i \"@total\" amb el nombre total d’interaccions",
+      "description": "«@count» serà substituït pel nombre d’interaccions, i «@total» amb el nombre total d’interaccions",
       "default": "@count de @total interactions"
     },
     {
-      "label": "Traducció per a \"Envia l’informe\"",
-      "default": "Envia l’informe"
+      "label": "Traducció per a «Tramet l’informe»",
+      "default": "Tramet l’informe"
     },
     {
-      "label": "Etiqueta per al botó \"Reinicia\"",
+      "label": "Etiqueta per al botó «Reinicia»",
       "default": "Reinicia"
     },
     {
-      "label": "Títol del resum",
+      "label": "Capçalera del resum",
       "default": "Resum"
     },
     {
-      "label": "Traducció de \"Totes les interaccions\"",
+      "label": "Traducció de «Totes les interaccions»",
       "default": "Totes les interaccions"
     },
     {
-      "label": "Traducció de \"Interaccions sense respondre\"",
+      "label": "Traducció d'«Interaccions sense respondre»",
       "default": "Interaccions sense resposta"
     },
     {
       "label": "Puntuació",
-      "description": "\"@score\" se substituirà per la puntuació actual i \"@maxscore\", per la puntuació màxima que es pot assolir.",
+      "description": "«@score» se substituirà per la puntuació actual i «@maxscore», per la puntuació màxima que es pot assolir",
       "default": "@score / @maxscore"
     },
     {
       "label": "Compleció d’interaccions per pàgina",
-      "description": "\"@left\" se substituirà per les interaccions restants i \"@max\", pel nombre total d’interaccions a la pàgina.",
-      "default": "@index de @count draggables."
+      "description": "«@left» se substituirà per les interaccions restants i «@max», pel nombre total d’interaccions a la pàgina",
+      "default": "@left de @max interactions completed"
     },
     {
-      "label": "Traducció de \"No hi ha interaccions\"",
-      "default": "Sense interaccions"
+      "label": "Traducció de «No hi ha cap interacció»",
+      "default": "No hi ha cap interacció"
     },
     {
-      "label": "Traducció de \"Puntuació\"",
+      "label": "Traducció de «Puntuació»",
       "default": "Puntuació"
     },
     {
-      "label": "Etiqueta per al botó \"Resum i enviament\"",
-      "default": "Resum i enviament"
+      "label": "Etiqueta per al botó «Resum i tramesa»",
+      "default": "Resum i tramesa"
     },
     {
-      "label": "Traducció de \"No heu interactuat amb cap pàgina\".",
+      "label": "Traducció de «No heu interactuat amb cap pàgina»",
       "default": "No heu interactuat amb cap pàgina."
     },
     {
-      "label": "Traducció de \"Cal que interaccioneu com a mínim amb una pàgina per poder veure el resum\".",
+      "label": "Traducció de «Cal que interaccioneu com a mínim amb una pàgina per poder veure el resum»",
       "default": "Cal que interaccioneu com a mínim amb una pàgina per poder veure el resum."
     },
     {
-      "label": "Traducció de \"Les vostres respostes s’envien a revisió\".",
-      "default": "S’han enviat les respostes per a la seva revisió!"
+      "label": "Traducció de «Les vostres respostes s'han tramès per a revisió»",
+      "default": "Les vostres respostes s’han tramès per a revisió!"
     },
     {
       "label": "Etiqueta de progrés del resum",
@@ -184,7 +184,7 @@
       "default": "Puntuació total"
     },
     {
-      "label": "Text d’accessibilitat",
+      "label": "Textos d’accessibilitat",
       "fields": [
         {
           "label": "Text alternatiu per al progrés de la pàgina",
@@ -192,8 +192,8 @@
           "default": "Pàgina @page de @total."
         },
         {
-          "label": "Etiqueta per ampliar o reduir el menú de navegació",
-          "default": "Commuta el menú de navegació"
+          "label": "Etiqueta per ampliar el menú de navegació o reduir-lo",
+          "default": "Activa o desactiva el menú de navegació"
         }
       ]
     }
