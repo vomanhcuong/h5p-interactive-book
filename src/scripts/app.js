@@ -228,8 +228,6 @@ export default class InteractiveBook extends H5P.EventDispatcher {
         .filter(chapter => !chapter.isSummary)
         .map(chapter => ({
           completed: chapter.completed,
-          maxTasks: chapter.maxTasks,
-          tasksLeft: chapter.tasksLeft,
           sections: chapter.sections.map(section => ({taskDone: section.taskDone})),
           state: chapter.instance.getCurrentState()
         }));
