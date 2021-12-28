@@ -674,11 +674,19 @@ class Summary extends H5P.EventDispatcher {
         return chapter.sections.some(section => section.taskDone);
       })
     ) {
-      // Only initilize if it's actually going to be shown
-      if (this.parent.pageContent && this.parent.chapters[this.parent.getChapterId(this.parent.pageContent.targetPage.chapter)].isSummary) {
+      /*
+       * Only initilize if it's actually going to be shown
+       */
+      if (
+        this.parent.pageContent && this.parent.chapters[this.parent.getChapterId(this.parent.pageContent.targetPage.chapter)].isSummary ||
+        this.parent.chapters.length === 0
+      ) {
         // Initialize all the things!
-        for (const chapterId in this.chapters) {
-          this.parent.pageContent.initializeChapter(chapterId);
+        if (this.parent.chapters.length > 0) {
+          // Initializing from previous state, pageContent not set yet
+          for (const chapterId in this.chapters) {
+            this.parent.pageContent.initializeChapter(chapterId);
+          }
         }
         this.addProgressIndicators();
         this.addActionButtons();
