@@ -64,7 +64,7 @@
       "default": "Lire"
     },
     {
-      "label": "Intitulé pour \"Aficcher la 'Table des matières'\"",
+      "label": "Intitulé pour \"Afficher la 'Table des matières'\"",
       "default": "Afficher la 'Table des matières'"
     },
     {
@@ -108,13 +108,13 @@
       "default": "Réduire"
     },
     {
-      "label": "Progression de la page dans le livre",
-      "description": "\"@count\"  sera remplacé par le nombre de pages, et \"@total\" avec le nombre total de pages",
+      "label": "Avancement de la lecture",
+      "description": "\"@count\" sera remplacé par le nombre de pages lues et \"@total\" par le nombre total de pages",
       "default": "@count sur @total pages"
     },
     {
-      "label": "Progrès de l'interaction",
-      "description": "\"@count\" sera remplacé par le comptage des interactions, et \"@total\" avec le nombre total d'interactions",
+      "label": "Avancement dans les interactions",
+      "description": "\"@count\" sera remplacé par le nombre d'interactions accomplies et \"@total\" avec le nombre total d'interactions",
       "default": "@count sur @total interactions"
     },
     {
@@ -172,28 +172,28 @@
       "default": "Vos réponses sont soumises à examen !"
     },
     {
-      "label": "Étiquette de progrès sommaire",
-      "default": "Progression du livre"
+      "label": "Étiquette de progression dans le sommaire",
+      "default": "Avancement dans la lecture"
     },
     {
-      "label": "Intitulé pour Progression des interactions",
-      "default": "Progression des interactions"
+      "label": "Intitulé pour Avancement dans les interactions",
+      "default": "Avancement des interactions"
     },
     {
       "label": "Intitulé pour Score total",
       "default": "Score total"
     },
     {
-      "label": "Textes sur l'accessibilité",
+      "label": "Textes pour l'accessibilité",
       "fields": [
         {
-          "label": "Alternative textuelle à l'avancement de la page",
+          "label": "Texte alternatif pour l'avancement dans la lecture",
           "description": "Un texte alternatif pour la progression visuelle de la page. Les variables @page et @total sont disponibles.",
           "default": "Page @page sur @total."
         },
         {
           "label": "Intitulé pour étendre/réduire le menu de navigation",
-          "default": "étendre/réduire"
+          "default": "Étendre/Réduire le menu"
         }
       ]
     }
