@@ -146,6 +146,8 @@ export default class InteractiveBook extends H5P.EventDispatcher {
           this.setChapterRead(index, false);
         });
 
+        // Force reset activity start time
+        this.setActivityStarted(true);
         this.pageContent.resetChapters();
         this.sideBar.resetIndicators();
 
