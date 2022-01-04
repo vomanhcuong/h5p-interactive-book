@@ -252,21 +252,24 @@ class PageContent extends H5P.EventDispatcher {
       columnNode.classList.add('h5p-interactive-book-chapter');
       columnNode.id = `h5p-interactive-book-chapter-${newInstance.subContentId}`;
 
+      chapter.maxTasks = 0;
+      chapter.tasksLeft = 0;
+
       // Find sections with tasks and tracks them
       chapter.sections.forEach((section, index) => {
         if (H5P.Column.isTask(section.instance)) {
           section.isTask = true;
+          chapter.maxTasks++;
+          chapter.tasksLeft++;
 
           if (this.behaviour.progressIndicators) {
             section.taskDone = (previousState) ? previousState.chapters[i].sections[index].taskDone : false;
-            if (!previousState) {
-              chapter.tasksLeft += 1;
+            if (section.taskDone) {
+              chapter.tasksLeft--;
             }
           }
         }
       });
-
-      chapter.maxTasks = (previousState) ? previousState.chapters[i].maxTasks : chapter.tasksLeft;
 
       // Register both the HTML-element and the H5P-element
       chapters.push(chapter);
