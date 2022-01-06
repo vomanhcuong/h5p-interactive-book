@@ -495,7 +495,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
      * @returns {boolean}
      */
     this.isChapterRead = (chapter, autoProgress = this.params.behaviour.progressAuto) =>
-      chapter.isInitialized && (chapter.completed || (autoProgress && chapter.tasksLeft === 0));
+      chapter.completed || (autoProgress && chapter.tasksLeft === 0);
 
     /**
      * Check if chapter is final one, has no tasks and all other chapters are done.
