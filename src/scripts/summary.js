@@ -23,6 +23,7 @@ class Summary extends H5P.EventDispatcher {
     this.filterActionAll = 'all';
     this.filterActionUnanswered = 'unanswered';
     this.bookCompleted = false;
+    this.tempState = JSON.stringify(this.parent.previousState && this.parent.previousState.chapters ? this.parent.previousState.chapters : this.getChapterStats());
 
     parent.on('bookCompleted', event => this.setBookComplete(event.data.completed));
     parent.on('toggleMenu', () => {
@@ -317,8 +318,9 @@ class Summary extends H5P.EventDispatcher {
   addActionButtons() {
     const wrapper = document.createElement("div");
     wrapper.classList.add('h5p-interactive-book-summary-buttons');
+    this.checkTheAnswerIsUpdated();
     
-    if (this.parent.isSubmitButtonEnabled && this.parent.getAnswerGiven()) {
+    if (this.parent.isSubmitButtonEnabled && this.parent.isAnswerUpdated) {
       const submitButton = this.addButton('icon-paper-pencil', this.l10n.submitReport);
       submitButton.classList.add('h5p-interactive-book-summary-submit');
       submitButton.onclick = () => {
@@ -327,6 +329,8 @@ class Summary extends H5P.EventDispatcher {
         wrapper.classList.add('submitted');
         const submitText = wrapper.querySelector('.answers-submitted');
         submitText.focus();
+        this.tempState = JSON.stringify(this.getChapterStats());
+        this.parent.isAnswerUpdated = false;
       };
       wrapper.appendChild(submitButton);
     }
@@ -701,6 +705,73 @@ class Summary extends H5P.EventDispatcher {
     container.append(this.wrapper);
 
     return container;
+  }
+
+  /**
+   * Verify that submit button should be enabled
+   * Compare previous and current states of children to notice changes
+   */
+  checkTheAnswerIsUpdated() {
+    const chapters = this.getChapterStats();
+    const previousState = JSON.parse(this.tempState);
+    for (const index of chapters.keys()) {
+      let previousStateInstance = previousState[index].state.instances;
+      let currentStateInstance = chapters[index].state.instances;
+      let currentTaskDone = chapters[index].sections;
+      for (const internalIndex of previousStateInstance.keys()) {
+        // Skip null and undefined
+        if (previousStateInstance[internalIndex] === null || previousStateInstance[internalIndex] === undefined) {
+          continue;
+        }
+
+        // Compare array type data
+        if (Array.isArray(previousStateInstance[internalIndex]) &&
+          !this.compareStates(previousStateInstance[internalIndex], currentStateInstance[internalIndex]) &&
+          currentTaskDone[internalIndex].taskDone) {
+          this.parent.isAnswerUpdated = true;
+        }
+        // Compare object type data
+        if (typeof (previousStateInstance[internalIndex]) === 'object' &&
+          !Array.isArray(previousStateInstance[internalIndex]) &&
+          JSON.stringify(previousStateInstance[internalIndex]) !== JSON.stringify(currentStateInstance[internalIndex]) &&
+          currentTaskDone[internalIndex].taskDone) {
+          this.parent.isAnswerUpdated = true;
+        }
+      }
+
+      // Break the entire loop even if one content type has updated value
+      if (this.parent.isAnswerUpdated) {
+        break;
+      }
+    }
+  }
+
+  /**
+   * Get current state of children
+   * 
+   * @return {object} of chapters with sections and state
+   */
+  getChapterStats() {
+    return this.chapters
+      .filter(chapter => !chapter.isSummary)
+      .map(chapter => ({
+        sections: chapter.sections.map(section => ({taskDone: section.taskDone})),
+        state: chapter.instance.getCurrentState()
+      }));
+  }
+
+  /**
+   * Add the summary page to a container
+   *
+   * @param {Array} previousstate
+   * @param {Array} currentState
+   * @return {boolean}
+   */
+  compareStates(previousstate, currentState) {
+    return Array.isArray(previousstate) &&
+        Array.isArray(currentState) &&
+        previousstate.length === currentState.length &&
+        previousstate.every((val, index) => val === currentState[index] || currentState[index] === "");
   }
 }
 
