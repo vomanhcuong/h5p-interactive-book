@@ -264,6 +264,7 @@ class SideBar extends H5P.EventDispatcher {
   toggleChapter(chapterNode, collapse) {
     collapse = (collapse !== undefined) ? collapse : !(chapterNode.classList.contains('h5p-interactive-book-navigation-closed'));
 
+    const childNav = chapterNode.querySelector('.h5p-interactive-book-navigation-sectionlist');
     const arrow = chapterNode.getElementsByClassName('h5p-interactive-book-navigation-chapter-accordion')[0];
     const chapterButton = chapterNode.querySelector('.h5p-interactive-book-navigation-chapter-button');
     chapterButton.setAttribute('aria-expanded', (!collapse).toString());
@@ -273,6 +274,10 @@ class SideBar extends H5P.EventDispatcher {
       if (arrow) {
         arrow.classList.remove('icon-expanded');
         arrow.classList.add('icon-collapsed');
+        if (childNav) {
+          childNav.setAttribute('aria-hidden', true);
+          childNav.setAttribute('tabindex', '-1');
+        }
       }
     }
     else {
@@ -280,6 +285,10 @@ class SideBar extends H5P.EventDispatcher {
       if (arrow) {
         arrow.classList.remove('icon-collapsed');
         arrow.classList.add('icon-expanded');
+        if (childNav) {
+          childNav.removeAttribute('aria-hidden');
+          childNav.removeAttribute('tabindex');
+        }
       }
     }
   }
