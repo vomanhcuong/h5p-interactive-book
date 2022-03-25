@@ -9,7 +9,7 @@ class SideBar extends H5P.EventDispatcher {
     this.id = contentId;
     this.parent = parent;
     this.behaviour = config.behaviour;
-    this.content = document.createElement('div');
+    this.content = document.createElement('ul');
     this.content.classList.add('navigation-list');
     this.container = this.addSideBar();
     this.l10n = config.l10n;
