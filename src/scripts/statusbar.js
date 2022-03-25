@@ -195,7 +195,6 @@ class StatusBar extends H5P.EventDispatcher {
     buttonWrapperMenu.title = this.params.a11y.menu;
     buttonWrapperMenu.setAttribute('aria-expanded', 'false');
     buttonWrapperMenu.setAttribute('aria-controls', 'h5p-interactive-book-navigation-menu');
-
     buttonWrapperMenu.onclick = () => {
       this.parent.trigger('toggleMenu');
     };
@@ -266,9 +265,10 @@ class StatusBar extends H5P.EventDispatcher {
     wrapper.classList.add('h5p-interactive-book-status-button');
     wrapper.classList.add('h5p-interactive-book-status-arrow');
     wrapper.setAttribute('aria-label', this.params.l10n.navigateToTop);
-    wrapper.onclick = () => {
+    wrapper.addEventListener('click', () => {
       this.parent.trigger('scrollToTop');
-    };
+      document.querySelector('.h5p-interactive-book-status-menu').focus();
+    });
 
     wrapper.appendChild(button);
 
