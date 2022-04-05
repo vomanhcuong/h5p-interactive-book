@@ -1,25 +1,25 @@
 {
   "semantics": [
     {
-      "description": "A cover that shows info regarding the book before access",
-      "label": "Enable book cover"
+      "description": "పుస్తకం యాక్సెస్ చేసే ముందు కవర్ / ముఖచిత్రం పుస్తకం గురించి  సమాచారం తెలియచేస్తుంది",
+      "label": "పుస్తకం  ముఖచిత్రాన్ని ఎనేబుల్ చేయండి"
     },
     {
       "fields": [
         {
-          "label": "Cover description",
-          "description": "This text will be the description of your book."
+          "label": "కవర్ /ముఖచిత్రం  వివరణ",
+          "description": "ఈ టెక్స్ట్  మీ పుస్తకం యొక్క వివరణ"
         },
         {
-          "label": "Cover image",
-          "description": "An optional background image for the introduction."
+          "label": "కవర్ చిత్రం",
+          "description": "పరిచయం కోసం ఐచ్ఛిక నేపథ్య చిత్రం  / బాక్ గ్రౌండ్  ఇమేజ్"
         },
         {
-          "label": "Cover image alternative text",
+          "label": "కవర్ చిత్రం  యొక్క  ప్రత్యామ్నాయ టెక్స్ట్",
           "description": "An alternative text for the cover image"
         }
       ],
-      "label": "Cover Page"
+      "label": "ముఖచిత్రం  పేజీ"
     },
     {
       "label": "Pages",
