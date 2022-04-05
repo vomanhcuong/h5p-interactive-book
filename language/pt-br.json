@@ -156,8 +156,8 @@
       "default": "Pontuação"
     },
     {
-      "label": "Rótulo para o botão \"Resumo & Enviar\"",
-      "default": "Resumo & Enviar"
+      "label": "Rótulo para o botão \"Resumo &amp; Enviar\"",
+      "default": "Resumo &amp; Enviar"
     },
     {
       "label": "Tradução para \"Você não interagiu com nenhuma página.\"",
