@@ -1,15 +1,15 @@
 {
   "semantics": [
     {
-      "label": "Habilitar página de capa",
-      "description": "Habilita capa que mostra informações sobre o livro antes do acesso"
+      "label": "Ativar página de Capa do Livro",
+      "description": "Ativar capa que mostra informações sobre o livro antes do acesso"
     },
     {
-      "label": "Página de capa",
+      "label": "Página de Capa",
       "fields": [
         {
           "label": "Descrição da capa",
-          "description": "Texto exibido como descrição do livro."
+          "description": "Texto que será exibido como descrição do livro."
         },
         {
           "label": "Imagem da capa",
@@ -17,7 +17,7 @@
         },
         {
           "label": "Text alternativo da imagem de capa",
-          "description": "Descrição da imagem de capa. É exibido quando a imagem não puder ser apresentada."
+          "description": "Descrição da imagem de capa. É exibida quando a imagem não puder ser apresentada"
         }
       ]
     },
@@ -43,19 +43,19 @@
       "fields": [
         {
           "label": "Exibir Estrutura de Tópicos como padrão",
-          "description": "Exibe a Estrutra de Tópicos ao abrir o livro"
+          "description": "Quando ativado, a Estrutura de Tópicos é mostrada ao abrir o livro"
         },
         {
-          "label": "Exibir indicador de progresso",
+          "label": "Exibir Indicador de Progresso",
           "description": "Exibe indicadores por página mostrando o que o usuário já concluiu e o que está pendente."
         },
         {
-          "label": "Habilitar progresso automático",
-          "description": "Se habilitado, as páginas sem atividades são marcadas como concluídas quando são visualizadas, enquanto as páginas com atividades são marcadas apenas quando o usuário envia todas as atividades. Se desabilitado, exibe um botão no rodapé das páginas para o usuário indicar os conteúdos concluídos."
+          "label": "Ativar progresso automático",
+          "description": "Se ativado, as páginas sem atividades são marcadas como concluídas quando são visualizadas, enquanto as páginas com atividades são marcadas apenas quando o usuário envia todas as atividades. Se desativado, exibe um botão no rodapé das páginas para o usuário indicar os conteúdos concluídos."
         },
         {
-          "label": "Display summary",
-          "description": "When enabled the user can see a summary and submit the progress/answers"
+          "label": "Mostrar resumo",
+          "description": "Quando ativado, o usuário pode ver um resumo e enviar os progressos/respostas"
         }
       ]
     },
@@ -64,12 +64,12 @@
       "default": "Ler"
     },
     {
-      "label": "Tradução para \"Exibir 'Estrutura de Tópicos'\"",
-      "default": "Display 'Table of contents'"
+      "label": "Tradução para \"Mostrar 'Estrutura de Tópicos'\"",
+      "default": "Mostrar 'Tabela de conteúdos'"
     },
     {
-      "label": "Tradução para \"Hide 'Table of contents'\"",
-      "default": "Hide 'Table of contents'"
+      "label": "Tradução para \"Ocultar 'Estrutura de Tópicos'\"",
+      "default": "Ocultar 'Tabela de conteúdos'"
     },
     {
       "label": "Tradução para \"Próxima página\"",
@@ -96,103 +96,103 @@
       "default": "Retornar ao topo"
     },
     {
-      "label": "Tradução para \"Eu concluí o estudo desta página\"",
-      "default": "Eu concluí o estudo desta página"
+      "label": "Tradução para \"Eu concluí o estudo desta aula\"",
+      "default": "Eu concluí o estudo desta aula"
     },
     {
-      "label": "Texto do botão de tela cheia",
-      "default": "Tela cheia"
+      "label": "Texto do botão Tela Cheia",
+      "default": "Tela Cheia"
     },
     {
-      "label": "Texto do botão Sair da tela cheia",
-      "default": "Sair da tela cheia"
+      "label": "Texto do botão Sair da Tela Cheia",
+      "default": "Sair da Tela Cheia"
     },
     {
-      "label": "Page progress in book",
-      "description": "\"@count\" will be replaced by page count, and \"@total\" with the total number of pages",
-      "default": "@count of @total pages"
+      "label": "Progresso das aulas no livro",
+      "description": "\"@count\" será substituído pela contagem de páginas, e \"@total\" pelo número total de páginas",
+      "default": "@count de @total páginas"
     },
     {
-      "label": "Interaction progress",
-      "description": "\"@count\" will be replaced by interaction count, and \"@total\" with the total number of interactions",
-      "default": "@count of @total interactions"
+      "label": "Progresso das interações",
+      "description": "\"@count\" será substituído pela contagem de interações, e \"@total\" pelo número total de interações",
+      "default": "@count de @total interações"
     },
     {
-      "label": "Translation for \"Submit report\"",
-      "default": "Submit Report"
+      "label": "Tradução para \"Enviar relatório\"",
+      "default": "Enviar Relatório"
     },
     {
-      "label": "Label for \"restart\" button",
-      "default": "Restart"
+      "label": "Rótulo para o botão \"redefinir\"",
+      "default": "Reiniciar"
     },
     {
-      "label": "Summary header",
-      "default": "Summary"
+      "label": "Cabeçalho do resumo",
+      "default": "Resumo"
     },
     {
-      "label": "Translation for \"All interactions\"",
-      "default": "All interactions"
+      "label": "Tradução para \"Todas as interações\"",
+      "default": "Todas as interações"
     },
     {
-      "label": "Translation for \"Unanswered interactions\"",
-      "default": "Unanswered interactions"
+      "label": "Tradução para \"Interações não respondidas\"",
+      "default": "Interações não respondidas"
     },
     {
-      "label": "Score",
-      "description": "\"@score\" will be replaced with current score, and \"@maxscore\" will be replaced with max achievable score",
+      "label": "Pontuação",
+      "description": "\"@score\" será substituído pela pontuação atual, e \"@maxscore\" será substituído pela pontuação máxima possível",
       "default": "@score / @maxscore"
     },
     {
-      "label": "Per page interactions completion",
-      "description": "\"@left\" will be replaced with remaining interactions, and \"@max\" will be replaced with total number of interactions on the page",
-      "default": "@left of @max interactions completed"
+      "label": "Conclusão de interações por página",
+      "description": "\"@left\" será substituído por interações remanescentes, e \"@max\" será substituído por um número total de interações na página",
+      "default": "@left de @max interações concluídas"
     },
     {
-      "label": "Translation for \"No interactions\"",
-      "default": "No interactions"
+      "label": "Tradução para \"Sem interações\"",
+      "default": "Sem interações"
     },
     {
-      "label": "Translation for \"Score\"",
-      "default": "Score"
+      "label": "Tradução para \"Pontuação\"",
+      "default": "Pontuação"
     },
     {
-      "label": "Label for \"Summary &amp; submit\" button",
-      "default": "Summary &amp; submit"
+      "label": "Rótulo para o botão \"Resumo & Enviar\"",
+      "default": "Resumo & Enviar"
     },
     {
-      "label": "Translation for \"You have not interacted with any pages.\"",
-      "default": "You have not interacted with any pages."
+      "label": "Tradução para \"Você não interagiu com nenhuma página.\"",
+      "default": "Você não interagiu com nenhuma página."
     },
     {
-      "label": "Translation for \"You have to interact with at least one page before you can see the summary.\"",
-      "default": "You have to interact with at least one page before you can see the summary."
+      "label": "Tradução para \"Você tem que interagir com pelo menos uma página antes de poder ver o resumo.\"",
+      "default": "Você tem que interagir com pelo menos uma página antes de poder ver o resumo."
     },
     {
-      "label": "Translation for \"Your answers are submitted for review!\"",
-      "default": "Your answers are submitted for review!"
+      "label": "Tradução para \"Suas respostas serão submetidas para revisão!\"",
+      "default": "Suas respostas serão submetidas para revisão!"
     },
     {
-      "label": "Summary progress label",
-      "default": "Book progress"
+      "label": "Rótulo de Resumo do Progresso",
+      "default": "Progresso do livro"
     },
     {
-      "label": "Interactions progress label",
-      "default": "Interactions progress"
+      "label": "Rótulo de progresso das interações",
+      "default": "progresso das interações"
     },
     {
-      "label": "Total score label",
-      "default": "Total score"
+      "label": "Rótulo da pontuação total",
+      "default": "Pontuação total"
     },
     {
       "label": "Textos de acessibilidade",
       "fields": [
         {
-          "label": "Texto alternativo para progresso da página",
-          "description": "Texto alternativo para indicação visual de progresse da página. Varíaveis @page e @total disponíveis.",
+          "label": "Texto alternativo para progresso da aula",
+          "description": "Texto alternativo para indicação visual de progresse da aula. Varíaveis @page e @total disponíveis.",
           "default": "Página @page de @total."
         },
         {
-          "label": "Texto para expandir/colapsar menu de navegação",
+          "label": "Texto para expandir/contrair o menu de navegação",
           "default": "Exibir/Ocultar menu de navegação"
         }
       ]
