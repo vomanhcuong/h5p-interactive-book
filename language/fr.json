@@ -39,7 +39,7 @@
       }
     },
     {
-      "label": "Paramètres d'affichage",
+      "label": "Behavioural settings",
       "fields": [
         {
           "label": "Afficher la table des matières par défaut",
