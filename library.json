@@ -17,6 +17,11 @@
       "path": "dist/h5p-interactive-book.js"
     }
   ],
+  "preloadedCss": [
+    {
+      "path": "dist/h5p-interactive-book.css"
+    }
+  ],
   "preloadedDependencies": [
     {
       "machineName": "FontAwesome",
