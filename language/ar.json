@@ -12,12 +12,8 @@
           "description": "هذا النص سيكون وصف كتابك."
         },
         {
-          "label": "صورة الغلاف",
-          "description": "صورة خلفية اختيارية للمقدمة."
-        },
-        {
-          "label": "صورة الغلاف النص البديل",
-          "description": "نص بديل لصورة الغلاف"
+          "label": "Cover medium",
+          "description": "Optional medium for the introduction."
         }
       ]
     },

@@ -12,12 +12,8 @@
           "description": "Tämä teksti näkyy pienemmässä koossa pääotsikon alapuolella."
         },
         {
-          "label": "Kansikuva",
-          "description": "Tämä kuva näkyy kansisivulla (valinnainen)"
-        },
-        {
-          "label": "Kansikuvan vaihtoehtoinen kuvaus",
-          "description": "Tätä tekstiä käyttävät ruudunlukijasovellukset. Se näkyy myös, jos kansikuva ei lataudu."
+          "label": "Cover medium",
+          "description": "Optional medium for the introduction."
         }
       ]
     },

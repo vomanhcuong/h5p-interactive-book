@@ -12,12 +12,8 @@
           "description": "Ce texte sera la description de votre livre"
         },
         {
-          "label": "Image de couverture",
-          "description": "Une image de fond facultative pour l'introduction."
-        },
-        {
-          "label": "Texte alternatif de l'image de couverture",
-          "description": "Un texte alternatif pour l'image de couverture"
+          "label": "Cover medium",
+          "description": "Optional medium for the introduction."
         }
       ]
     },

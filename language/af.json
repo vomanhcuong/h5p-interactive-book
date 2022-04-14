@@ -12,12 +12,8 @@
           "description": "Hierdie teks sal die beskrywing van jou boek wees."
         },
         {
-          "label": "Voorblad prent",
-          "description": "'n Vrywillige agtergrondprent vir die inleiding."
-        },
-        {
-          "label": "Voorbladprent alternatiewe teks",
-          "description": "'n Alternatiewe teks vir die voorbladprent"
+          "label": "Cover medium",
+          "description": "Optional medium for the introduction."
         }
       ]
     },

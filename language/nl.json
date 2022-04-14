@@ -12,12 +12,8 @@
           "description": "Deze tekst wordt de beschrijving van je boek."
         },
         {
-          "label": "Omslagafbeelding",
-          "description": "Een optionele achtergrondafbeelding voor de inleiding."
-        },
-        {
-          "label": "Omslagafbeelding alternatieve tekst",
-          "description": "Een alternatieve tekst voor de omslagafbeelding"
+          "label": "Cover medium",
+          "description": "Optional medium for the introduction."
         }
       ]
     },

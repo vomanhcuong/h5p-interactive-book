@@ -41,20 +41,15 @@
         ]
       },
       {
-        "name": "coverImage",
-        "type": "image",
-        "label": "Cover image",
-        "importance": "low",
+        "name": "coverMedium",
+        "type": "library",
+        "label": "Cover medium",
+        "description": "Optional medium for the introduction.",
         "optional": true,
-        "description": "An optional background image for the introduction."
-      },
-      {
-        "name": "coverAltText",
-        "type": "text",
-        "label": "Cover image alternative text",
-        "importance": "low",
-        "optional": true,
-        "description": "An alternative text for the cover image"
+        "options": [
+          "H5P.Image 1.1",
+          "H5P.Video 1.6"
+        ]
       }
     ]
   },

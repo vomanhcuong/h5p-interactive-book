@@ -12,12 +12,8 @@
           "description": "This text will be the description of your book."
         },
         {
-          "label": "Cover image",
-          "description": "An optional background image for the introduction."
-        },
-        {
-          "label": "Cover image alternative text",
-          "description": "An alternative text for the cover image"
+          "label": "Cover medium",
+          "description": "Optional medium for the introduction."
         }
       ]
     },

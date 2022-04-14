@@ -12,12 +12,8 @@
           "description": "이 텍스트는 당신의 책에 대한 설명이 될 겁니다."
         },
         {
-          "label": "커버 이미지",
-          "description": "(선택사항)소개의 배경 이미지."
-        },
-        {
-          "label": "표지 이미지 대체 텍스트",
-          "description": "표지 이미지에 대한 대체 텍스트"
+          "label": "Cover medium",
+          "description": "Optional medium for the introduction."
         }
       ]
     },

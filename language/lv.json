@@ -12,23 +12,19 @@
           "description": "Šis teksts būs jūsu grāmatas apraksts."
         },
         {
-          "label": "Vāka attēls",
-          "description": "Neobligāts fona attēls ievadam."
-        },
-        {
-          "label": "Vāka attēla alternatīvais teksts",
-          "description": "Alternatīvs teksts vāka attēlam"
+          "label": "Cover medium",
+          "description": "Optional medium for the introduction."
         }
       ]
     },
     {
+      "label": "Lappuses",
       "entity": "Lappuse",
       "widgets": [
         {
           "label": "Pēc noklusējuma"
         }
       ],
-      "label": "Lappuses",
       "field": {
         "label": "Vienums",
         "fields": [
@@ -84,12 +80,12 @@
       "default": "Lappuse pabeigta!"
     },
     {
-      "default": "@pages no @total pabeigtas",
-      "label": "\"@pages no @total pabeigtas\" tulkojums (@pages un @total tiks aizstātas ar faktiskajām vērtībām)"
+      "label": "\"@pages no @total pabeigtas\" tulkojums (@pages un @total tiks aizstātas ar faktiskajām vērtībām)",
+      "default": "@pages no @total pabeigtas"
     },
     {
-      "default": "Nepabeigta lapa",
-      "label": "\"Nepabeigta lapa\" tulkojums"
+      "label": "\"Nepabeigta lapa\" tulkojums",
+      "default": "Nepabeigta lapa"
     },
     {
       "label": "\"Pāriet uz augšu\" tulkojums",
@@ -104,17 +100,17 @@
       "default": "Pilnekrāna režīms"
     },
     {
-      "default": "Iziet no pilnekrāna režīma",
-      "label": "Etiķete pogai iziešanai no pilnekrāna režīma"
+      "label": "Etiķete pogai iziešanai no pilnekrāna režīma",
+      "default": "Iziet no pilnekrāna režīma"
     },
     {
       "label": "Lappušu progress grāmatā",
-      "default": "@count no @total lappusēm",
-      "description": "\"@count\" tiks aizstāts ar lappušu skaitu un \"@total\" ar kopējo lappušu skaitu"
+      "description": "\"@count\" tiks aizstāts ar lappušu skaitu un \"@total\" ar kopējo lappušu skaitu",
+      "default": "@count no @total lappusēm"
     },
     {
-      "description": "\"@count\" tiks aizstāts ar mijiedarbību skaitu un \"@total\" ar kopējo mijiedarbību skaitu",
       "label": "Mijiedarbību progress",
+      "description": "\"@count\" tiks aizstāts ar mijiedarbību skaitu un \"@total\" ar kopējo mijiedarbību skaitu",
       "default": "@count no @total mijiedarbībām"
     },
     {
@@ -122,8 +118,8 @@
       "default": "Iesniegt ziņojumu"
     },
     {
-      "default": "Atsākt",
-      "label": "Pogas \"Atsākt\" etiķete"
+      "label": "Pogas \"Atsākt\" etiķete",
+      "default": "Atsākt"
     },
     {
       "label": "Kopsavilkuma galvene",
@@ -139,13 +135,13 @@
     },
     {
       "label": "Rezultāts",
-      "default": "@score no @maxscore",
-      "description": "\"@score\" tiks aizstāts ar pašreizējo rezultātu, un \"@maxscore\" tiks aizstāts ar maksimālo sasniedzamo punktu skaitu"
+      "description": "\"@score\" tiks aizstāts ar pašreizējo rezultātu, un \"@maxscore\" tiks aizstāts ar maksimālo sasniedzamo punktu skaitu",
+      "default": "@score no @maxscore"
     },
     {
       "label": "Lappuses mijiedarbību pabeigšana",
-      "default": "@left no @max mijiedarbībām pabeigtas",
-      "description": "\"@left\" tiks aizstāts ar atlikušajām mijiedarbībām, un \"@max\" tiks aizstāts ar kopējo mijiedarbību skaitu lappusē"
+      "description": "\"@left\" tiks aizstāts ar atlikušajām mijiedarbībām, un \"@max\" tiks aizstāts ar kopējo mijiedarbību skaitu lappusē",
+      "default": "@left no @max mijiedarbībām pabeigtas"
     },
     {
       "label": "\"Nav mijiedarbību\" tulkojums",
@@ -156,16 +152,16 @@
       "default": "Rezultāts"
     },
     {
-      "default": "Kopsavilkums un iesniegšana",
-      "label": "Pogas \"Kopsavilkums un iesniegšana\" etiķete"
+      "label": "Pogas \"Kopsavilkums un iesniegšana\" etiķete",
+      "default": "Kopsavilkums un iesniegšana"
     },
     {
       "label": "\"Jūs neesat mijiedarbojies ar nevienu lappusi.\" tulkojums",
       "default": "Jūs neesat mijiedarbojies ar nevienu lappusi."
     },
     {
-      "default": "Nepieciešama mijiedarbība ar vismaz vienu lappusi, lai redzētu kopsavilkumu.",
-      "label": "\"Nepieciešama mijiedarbība ar vismaz vienu lappusi, lai redzētu kopsavilkumu.\" tulkojums"
+      "label": "\"Nepieciešama mijiedarbība ar vismaz vienu lappusi, lai redzētu kopsavilkumu.\" tulkojums",
+      "default": "Nepieciešama mijiedarbība ar vismaz vienu lappusi, lai redzētu kopsavilkumu."
     },
     {
       "label": "\"Jūsu atbildes ir iesniegtas pārskatīšanai!\" tulkojums",
@@ -180,16 +176,16 @@
       "default": "Mijiedarbību progress"
     },
     {
-      "default": "Kopējais rezultāts",
-      "label": "Kopējā rezultāta etiķete"
+      "label": "Kopējā rezultāta etiķete",
+      "default": "Kopējais rezultāts"
     },
     {
       "label": "Pieejamības teksti",
       "fields": [
         {
-          "default": "Lappuse @page no @total.",
           "label": "Lappuses progresa teksta alternatīva",
-          "description": "Alternatīvs teksts vizuālajam lappuses progresam. Pieejami mainīgie @page un @total."
+          "description": "Alternatīvs teksts vizuālajam lappuses progresam. Pieejami mainīgie @page un @total.",
+          "default": "Lappuse @page no @total."
         },
         {
           "label": "Etiķete navigācijas izvēlnes izvēršanai/sakļaušanai",
