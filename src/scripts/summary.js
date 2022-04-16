@@ -1,4 +1,5 @@
 import 'jquery-circle-progress';
+import Colors from './colors';
 
 class Summary extends H5P.EventDispatcher {
 
@@ -167,7 +168,7 @@ class Summary extends H5P.EventDispatcher {
     circleProgress.setAttribute('data-start-angle', -Math.PI / 3);
     circleProgress.setAttribute('data-thickness', 13);
     circleProgress.setAttribute('data-empty-fill', "rgba(45, 122, 210, .1)");
-    circleProgress.setAttribute('data-fill', JSON.stringify({color: '#2d7ad2'}));
+    circleProgress.setAttribute('data-fill', JSON.stringify({color: Colors.computeContrastColor(Colors.colorBase, Colors.DEFAULT_COLOR_BG).hex()}));
 
     return circleProgress;
   }
@@ -319,7 +320,7 @@ class Summary extends H5P.EventDispatcher {
     const wrapper = document.createElement("div");
     wrapper.classList.add('h5p-interactive-book-summary-buttons');
     this.checkTheAnswerIsUpdated();
-    
+
     if (this.parent.isSubmitButtonEnabled && this.parent.isAnswerUpdated) {
       const submitButton = this.addButton('icon-paper-pencil', this.l10n.submitReport);
       submitButton.classList.add('h5p-interactive-book-summary-submit');
@@ -748,7 +749,7 @@ class Summary extends H5P.EventDispatcher {
 
   /**
    * Get current state of children
-   * 
+   *
    * @return {object} of chapters with sections and state
    */
   getChapterStats() {

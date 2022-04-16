@@ -42,6 +42,11 @@
       "label": "Nastavení chování",
       "fields": [
         {
+          "label": "Base color",
+          "description": "Set the base color that will define the overall color scheme of the book. Please ensure a high enough contrast.",
+          "default": "#1768c4"
+        },
+        {
           "label": "Zobrazit obsah jako výchozí",
           "description": "Je-li povoleno, zobrazí se obsah při otevření knihy"
         },

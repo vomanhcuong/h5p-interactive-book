@@ -42,6 +42,11 @@
       "label": "Käitumisseaded",
       "fields": [
         {
+          "label": "Base color",
+          "description": "Set the base color that will define the overall color scheme of the book. Please ensure a high enough contrast.",
+          "default": "#1768c4"
+        },
+        {
           "label": "Kuva vaikimisi sisukorda",
           "description": "Kui on lubatud, siis raamatu avamisel näidatakse sisukorda"
         },

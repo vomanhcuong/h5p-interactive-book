@@ -4,6 +4,7 @@ import StatusBar from './statusbar';
 import Cover from './cover';
 import PageContent from './pagecontent';
 import 'element-scroll-polyfill';
+import Colors from './colors';
 
 export default class InteractiveBook extends H5P.EventDispatcher {
   /**
@@ -18,6 +19,21 @@ export default class InteractiveBook extends H5P.EventDispatcher {
     const self = this;
     this.contentId = contentId;
     this.previousState = contentData.previousState;
+
+    // Apply custom base color
+    if (!Colors.isBaseColor(config.behaviour.baseColor)) {
+      Colors.setBase(config.behaviour.baseColor);
+
+      const style = document.createElement('style');
+      if (style.styleSheet) {
+        style.styleSheet.cssText = Colors.buildCSS();
+      }
+      else {
+        style.appendChild(document.createTextNode(Colors.buildCSS()));
+      }
+      document.head.appendChild(style);
+    }
+
     this.activeChapter = 0;
     this.newHandler = {};
 
