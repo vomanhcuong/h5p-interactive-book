@@ -30,6 +30,7 @@
         "importance": "medium",
         "optional": true,
         "description": "This text will be the description of your book.",
+        "default": "<p style=\"text-align: center;\"></p>",
         "enterMode": "p",
         "tags": [
           "sub",
