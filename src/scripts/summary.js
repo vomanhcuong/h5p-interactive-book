@@ -162,13 +162,14 @@ class Summary extends H5P.EventDispatcher {
    * @return {HTMLDivElement}
    */
   createCircle(progress) {
+    const color = Colors.computeContrastColor(Colors.colorBase, Colors.DEFAULT_COLOR_BG);
     const circleProgress = document.createElement("div");
     circleProgress.classList.add('h5p-interactive-book-summary-progress-circle');
     circleProgress.setAttribute('data-value', progress);
     circleProgress.setAttribute('data-start-angle', -Math.PI / 3);
     circleProgress.setAttribute('data-thickness', 13);
-    circleProgress.setAttribute('data-empty-fill', "rgba(45, 122, 210, .1)");
-    circleProgress.setAttribute('data-fill', JSON.stringify({color: Colors.computeContrastColor(Colors.colorBase, Colors.DEFAULT_COLOR_BG).hex()}));
+    circleProgress.setAttribute('data-empty-fill', `rgba(${color.rgb().array().join(', ')}, .1)`);
+    circleProgress.setAttribute('data-fill', JSON.stringify({color: color.hex()}));
 
     return circleProgress;
   }
