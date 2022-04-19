@@ -26,10 +26,10 @@ export default class InteractiveBook extends H5P.EventDispatcher {
 
       const style = document.createElement('style');
       if (style.styleSheet) {
-        style.styleSheet.cssText = Colors.buildCSS();
+        style.styleSheet.cssText = Colors.getCSS();
       }
       else {
-        style.appendChild(document.createTextNode(Colors.buildCSS()));
+        style.appendChild(document.createTextNode(Colors.getCSS()));
       }
       document.head.appendChild(style);
     }
