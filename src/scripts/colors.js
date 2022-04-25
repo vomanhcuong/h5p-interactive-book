@@ -168,6 +168,7 @@ export default class Colors {
     css.push(`.h5p-interactive-book-status-menu .icon-menu { color: ${Colors.colorBase}; }`);
     css.push(`.h5p-interactive-book-status-menu.h5p-interactive-book-status-menu-active { background-color: ${Colors.colorBase}; }`);
     css.push(`.h5p-interactive-book-status-menu.h5p-interactive-book-status-menu-active .icon-menu { color: ${Colors.colorText}; }`);
+    css.push(`.h5p-interactive-book-status-menu.h5p-interactive-book-status-menu-active:focus-visible { outline-color: ${Colors.colorBase}; }`);
     css.push(`.h5p-interactive-book-status-menu.h5p-interactive-book-status-menu-active:hover { background-color: ${Colors.getColor(Colors.colorBase, { opacity: .9 })}; }`);
     css.push(`.h5p-interactive-book-status-menu.h5p-interactive-book-status-menu-active:active { background-color: ${Colors.getColor(Colors.colorBase, { opacity: .95 })}; }`);
     css.push(`.h5p-interactive-book-status-progress-number { color: ${Colors.colorBase}; text-decoration: none solid ${Colors.colorBase}; }`);
