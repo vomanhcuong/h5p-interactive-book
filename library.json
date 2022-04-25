@@ -2,8 +2,8 @@
   "title": "Interactive Book",
   "description": "An interactive book which displays content in pages and sections",
   "majorVersion": 1,
-  "minorVersion": 4,
-  "patchVersion": 2,
+  "minorVersion": 5,
+  "patchVersion": 0,
   "runnable": 1,
   "fullscreen": 1,
   "author": "Joubel",
@@ -31,7 +31,7 @@
     {
       "machineName": "H5P.Column",
       "majorVersion": 1,
-      "minorVersion": 14
+      "minorVersion": 15
     },
     {
       "machineName": "H5P.JoubelUI",
