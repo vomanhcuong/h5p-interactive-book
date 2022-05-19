@@ -17,7 +17,9 @@ class Cover extends H5P.EventDispatcher {
     // Visual header
     if (params.coverMedium) {
       this.visuals = this.createVisualsElement(params.coverMedium);
-      this.container.appendChild(this.visuals);
+      if (this.visuals) {
+        this.container.appendChild(this.visuals);
+      }
     }
     else {
       this.container.classList.add('h5p-cover-nographics');
@@ -83,7 +85,7 @@ class Cover extends H5P.EventDispatcher {
 
     // Postparation
     if ((coverMedium.library || '').split(' ')[0] === 'H5P.Image') {
-      const image = this.visuals.querySelector('img');
+      const image = this.visuals.querySelector('img') || this.visuals.querySelector('.h5p-placeholder');
       image.style.height = 'auto';
       image.style.width = 'auto';
     }
