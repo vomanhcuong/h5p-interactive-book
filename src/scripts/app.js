@@ -35,7 +35,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
     this.chapters = [];
 
     this.isSubmitButtonEnabled = false;
-    this.isAnswerUpdated = false;
+    this.isAnswerUpdated = self.previousState && self.previousState.isAnswerUpdated ? self.previousState.isAnswerUpdated : false;
     if (contentData.isScoringEnabled !== undefined || contentData.isReportingEnabled !== undefined) {
       this.isSubmitButtonEnabled = (contentData.isScoringEnabled || contentData.isReportingEnabled);
     }
@@ -240,7 +240,8 @@ export default class InteractiveBook extends H5P.EventDispatcher {
         urlFragments: URLTools.extractFragmentsFromURL(this.validateFragments, this.hashWindow),
         chapters: chapters,
         score: this.getScore(),
-        maxScore: this.getMaxScore()
+        maxScore: this.getMaxScore(),
+        isAnswerUpdated: this.isAnswerUpdated
       };
     };
 
