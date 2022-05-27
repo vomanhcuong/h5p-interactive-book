@@ -444,7 +444,7 @@ class SideBar extends H5P.EventDispatcher {
       }
 
       // Open chapter in main content
-      if (chapterId !== this.focusedChapter && (this.isOpenOnMobile() || !isExpandable || !isExpanded)) {
+      if (this.isOpenOnMobile() || !isExpandable || !isExpanded) {
         const newChapter = {
           h5pbookid: this.parent.contentId,
           chapter: this.chapters[chapterId].id,
