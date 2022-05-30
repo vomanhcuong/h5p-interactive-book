@@ -38,6 +38,11 @@
       "label": "Настройки на поведение",
       "fields": [
         {
+          "label": "Base color",
+          "description": "Set the base color that will define the overall color scheme of the book. Please ensure a high enough contrast.",
+          "default": "#1768c4"
+        },
+        {
           "label": "Показване съдържанието по подразбиране ",
           "description": "Когато е активирано, съдържанието се показва при отваряне на книгата"
         },

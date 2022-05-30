@@ -38,6 +38,11 @@
       "label": "Opcions de comportament",
       "fields": [
         {
+          "label": "Base color",
+          "description": "Set the base color that will define the overall color scheme of the book. Please ensure a high enough contrast.",
+          "default": "#1768c4"
+        },
+        {
           "label": "Mostra la taula de continguts com a predeterminada",
           "description": "Si aquesta opció està activada, l’índex es mostrarà en obrir el llibre"
         },

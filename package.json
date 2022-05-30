@@ -1,6 +1,6 @@
 {
   "name": "h5p-interactive-book",
-  "version": "1.0.0",
+  "version": "1.6.1",
   "description": "An interactive book which displays content in pages and sections",
   "scripts": {
     "build": "cross-env NODE_ENV='production' webpack",
@@ -33,6 +33,7 @@
     "webpack-cli": "^4.9.2"
   },
   "dependencies": {
+    "color": "^4.2.3",
     "element-scroll-polyfill": "^1.0.1",
     "jquery-circle-progress": "^1.2.2"
   }

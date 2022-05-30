@@ -38,6 +38,11 @@
       "label": "الإعدادات السلوكية",
       "fields": [
         {
+          "label": "Base color",
+          "description": "Set the base color that will define the overall color scheme of the book. Please ensure a high enough contrast.",
+          "default": "#1768c4"
+        },
+        {
           "label": "عرض جدول المحتويات كافتراضي",
           "description": "عند التفعيل ، يتم عرض جدول المحتويات عند فتح الكتاب"
         },

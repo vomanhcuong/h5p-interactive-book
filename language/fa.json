@@ -38,6 +38,11 @@
       "label": "تنظیمات عملکرد",
       "fields": [
         {
+          "label": "Base color",
+          "description": "Set the base color that will define the overall color scheme of the book. Please ensure a high enough contrast.",
+          "default": "#1768c4"
+        },
+        {
           "label": "نمایش پیش‌فرض فهرست موضوعات",
           "description": "در صورت فعال‌سازی، فهرست موضوعات با باز شدن کتاب نمایش داده می‌شود"
         },

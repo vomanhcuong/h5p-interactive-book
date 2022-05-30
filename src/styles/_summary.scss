@@ -178,7 +178,7 @@
 
     .h5p-interactive-book-summary-progressbox-bigtext {
       font-size: 1.375rem;
-      color: #2d7ad2;
+      color: var(--color-contrast, #2d7ad2);
       margin: 0.4375rem auto;
       font-weight: bold;
     }
@@ -327,13 +327,13 @@
       cursor: pointer;
 
       &:hover {
-        color: #2d7ad2;
+        color: var(--color-contrast, #2d7ad2);
       }
 
       span[class^='icon-'],
       span[class*=' icon-'] {
         margin-left: auto;
-        color: #2d7ad2;
+        color: var(--color-contrast, #2d7ad2);
         font-weight: 100;
         cursor: pointer;
       }
@@ -396,7 +396,7 @@
 
   .h5p-interactive-book-summary-section-icon {
     margin-right: 0.6125rem;
-    color: #2d7ad2;
+    color: var(--color-contrast, #2d7ad2);
     font-size: 0.8125rem;
     align-items: center;
     display: flex;

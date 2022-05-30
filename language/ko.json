@@ -38,6 +38,11 @@
       "label": "동작 설정",
       "fields": [
         {
+          "label": "Base color",
+          "description": "Set the base color that will define the overall color scheme of the book. Please ensure a high enough contrast.",
+          "default": "#1768c4"
+        },
+        {
           "label": "목차를 기본값으로 표시",
           "description": "활성화했을 때 책을 열 때 목차가 표시됨"
         },
