@@ -30,6 +30,7 @@
         "importance": "medium",
         "optional": true,
         "description": "This text will be the description of your book.",
+        "default": "<p style=\"text-align: center;\"></p>",
         "enterMode": "p",
         "tags": [
           "sub",
@@ -37,8 +38,27 @@
           "strong",
           "em",
           "p",
-          "code"
-        ]
+          "code",
+          "u",
+          "del",
+          "a",
+          "ul",
+          "ol",
+          "h1",
+          "h2",
+          "h3",
+          "h4",
+          "h5",
+          "h6",
+          "pre",
+          "hr",
+          "table"
+        ],
+        "font": {
+          "size": true,
+          "color": true,
+          "background": true
+        }
       },
       {
         "name": "coverImage",

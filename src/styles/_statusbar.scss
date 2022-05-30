@@ -111,6 +111,11 @@
       background-color: var(--color-base-95, $base-color-95);
       background-size: cover;
     }
+
+    &:focus-visible {
+      outline-color: #1768C4;
+      outline-offset: 1px;
+    }
   }
 }
 

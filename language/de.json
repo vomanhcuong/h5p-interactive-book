@@ -8,8 +8,8 @@
       "label": "Titelseite",
       "fields": [
         {
-          "label": "Untertitel",
-          "description": "Dieser Text wird in kleinerer Schrift unter dem eigentlichen Titel angezeigt."
+          "label": "Beschreibung",
+          "description": "Dieser Text wird zur Beschreibung des Buchs unter dem eigentlichen Titel angezeigt."
         },
         {
           "label": "Titelbild",

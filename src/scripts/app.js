@@ -54,7 +54,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
     this.chapters = [];
 
     this.isSubmitButtonEnabled = false;
-    this.isAnswerUpdated = false;
+    this.isAnswerUpdated = true;
     if (contentData.isScoringEnabled !== undefined || contentData.isReportingEnabled !== undefined) {
       this.isSubmitButtonEnabled = (contentData.isScoringEnabled || contentData.isReportingEnabled);
     }
