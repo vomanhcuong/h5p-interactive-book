@@ -12,12 +12,8 @@
           "description": "Questo testo descriverà il tuo libro."
         },
         {
-          "label": "Immagine di copertina",
-          "description": "Un'immagine di sfondo facoltativa per l'introduzione."
-        },
-        {
-          "label": "Testo alternativo per l'immagine di copertina",
-          "description": "Un testo alternativo per l'immagine di copertina"
+          "label": "Cover medium",
+          "description": "Optional medium for the introduction."
         }
       ]
     },

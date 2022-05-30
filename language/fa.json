@@ -12,12 +12,8 @@
           "description": "این متن توصیف کتابتان خواهد بود."
         },
         {
-          "label": "تصویر جلد",
-          "description": "یک تصویر پس‌زمینه اختیاری برای مقدمه."
-        },
-        {
-          "label": "متن بدیل تصویر جلد",
-          "description": "یک متن بدیل برای تصویر جلد"
+          "label": "Cover medium",
+          "description": "Optional medium for the introduction."
         }
       ]
     },

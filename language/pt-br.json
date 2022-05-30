@@ -12,12 +12,8 @@
           "description": "Texto que será exibido como descrição do livro."
         },
         {
-          "label": "Imagem da capa",
-          "description": "Imagem opcional de fundo para a introdução."
-        },
-        {
-          "label": "Text alternativo da imagem de capa",
-          "description": "Descrição da imagem de capa. É exibida quando a imagem não puder ser apresentada"
+          "label": "Cover medium",
+          "description": "Optional medium for the introduction."
         }
       ]
     },

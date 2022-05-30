@@ -12,12 +12,8 @@
           "description": "Šis teksts būs jūsu grāmatas apraksts."
         },
         {
-          "label": "Vāka attēls",
-          "description": "Neobligāts fona attēls ievadam."
-        },
-        {
-          "label": "Vāka attēla alternatīvais teksts",
-          "description": "Alternatīvs teksts vāka attēlam"
+          "label": "Cover medium",
+          "description": "Optional medium for the introduction."
         }
       ]
     },

@@ -8,12 +8,18 @@ class Cover extends H5P.EventDispatcher {
 
     this.parent = parent;
 
+    this.params = params;
+    this.contentId = contentId;
+
     // Container
     this.container = this.createContainer();
 
     // Visual header
-    if (params.coverImage) {
-      this.container.appendChild(this.createVisualsElement(params, contentId));
+    if (params.coverMedium) {
+      this.visuals = this.createVisualsElement(params.coverMedium);
+      if (this.visuals) {
+        this.container.appendChild(this.visuals);
+      }
     }
     else {
       this.container.classList.add('h5p-cover-nographics');
@@ -46,19 +52,45 @@ class Cover extends H5P.EventDispatcher {
    * Create an element which contains both the cover image and a background bar.
    *
    * @param {object} coverImage Image object.
-   * @param {number} contentId Content Id.
    */
-  createVisualsElement(params, contentId) {
-    if (!params || !params.coverImage) {
+  createVisualsElement(params) {
+    if (!params || !params.params) {
       return null;
     }
 
     const visuals = document.createElement('div');
     visuals.classList.add('h5p-interactive-book-cover-graphics');
-    visuals.appendChild(this.createImage(params.coverImage.path, contentId, params.coverAltText));
-    visuals.appendChild(this.createCoverBar());
 
     return visuals;
+  }
+
+  /**
+   * Initialize Media.
+   * The YouTube handler requires the video wrapper to be attached to the DOM
+   * already.
+   */
+  initMedia() {
+    if (!this.visuals || !this.params.coverMedium) {
+      return;
+    }
+
+    const coverMedium = this.params.coverMedium;
+
+    // Preparation
+    if ((coverMedium.library || '').split(' ')[0] === 'H5P.Video') {
+      coverMedium.params.visuals.fit = false;
+    }
+
+    H5P.newRunnable(coverMedium, this.contentId, H5P.jQuery(this.visuals), false, { metadata: coverMedium.medatata } );
+
+    // Postparation
+    if ((coverMedium.library || '').split(' ')[0] === 'H5P.Image') {
+      const image = this.visuals.querySelector('img') || this.visuals.querySelector('.h5p-placeholder');
+      image.style.height = 'auto';
+      image.style.width = 'auto';
+    }
+
+    this.visuals.appendChild(this.createCoverBar());
   }
 
   /**

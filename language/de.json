@@ -12,12 +12,8 @@
           "description": "Dieser Text wird zur Beschreibung des Buchs unter dem eigentlichen Titel angezeigt."
         },
         {
-          "label": "Titelbild",
-          "description": "Dieses Bild wird auf der Titelseite angezeigt (optional)."
-        },
-        {
-          "label": "Alternativtext des Titelbildes",
-          "description": "Dieser Text wird von Vorlesewerkzeugen verwendet (Barrierefreiheit)"
+          "label": "Cover medium",
+          "description": "Optional medium for the introduction."
         }
       ]
     },

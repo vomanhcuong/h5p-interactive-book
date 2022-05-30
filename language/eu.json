@@ -12,12 +12,8 @@
           "description": "Testu hau zure liburuaren deskribapena izango da."
         },
         {
-          "label": "Portadaren irudia",
-          "description": "Portadarentzako atzeko planoko hautazko irudi bat."
-        },
-        {
-          "label": "Portadaren irudiaren ordezko testua",
-          "description": "Portadaren irudiarentzako ordezko testu bat"
+          "label": "Cover medium",
+          "description": "Optional medium for the introduction."
         }
       ]
     },

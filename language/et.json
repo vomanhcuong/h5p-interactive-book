@@ -12,12 +12,8 @@
           "description": "See tekst kirjeldab sinu raamatut."
         },
         {
-          "label": "Tiitellehe pilt",
-          "description": "Valikuline taustapilt tutvustusele."
-        },
-        {
-          "label": "Tiitellehe pildi alternatiivtekst",
-          "description": "Alternatiivne tekst tiitellehe pildile"
+          "label": "Cover medium",
+          "description": "Optional medium for the introduction."
         }
       ]
     },

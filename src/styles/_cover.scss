@@ -25,9 +25,31 @@
   align-items: center;
   display: flex;
   height: 15em;
+  justify-content: center;
   margin: 4.375em 0;
   position: relative;
   width: 100%;
+
+  &.h5p-image > img,
+  &.h5p-video > video,
+  &.h5p-video.h5p-youtube > div:not(.h5p-interactive-book-cover-bar) {
+    box-shadow: 0.5em 0.25em 3em 0 $black-20;
+    position: absolute;
+    left: 50%;
+    max-height: 15em;
+    min-width: 20em;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &.h5p-image > img,
+  &.h5p-video > video {
+    max-width: 85%;
+  }
+
+  &.h5p-video.h5p-youtube > div:not(.h5p-interactive-book-cover-bar) {
+    max-width: 26.666em;
+  }
 }
 
 .h5p-interactive-book-cover-bar {
