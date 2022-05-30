@@ -42,6 +42,11 @@
       "label": "Ρυθμίσεις",
       "fields": [
         {
+          "label": "Base color",
+          "description": "Set the base color that will define the overall color scheme of the book. Please ensure a high enough contrast.",
+          "default": "#1768c4"
+        },
+        {
           "label": "Προβολή πίνακα περιεχομένων ως προεπιλογή",
           "description": "Όταν είναι ενεργό, ο πίνακας περιεχομένων εμφανίζεται μόλις ανοίξει κάποιος/α το βιβλίο"
         },

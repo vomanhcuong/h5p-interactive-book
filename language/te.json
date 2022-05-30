@@ -1,10 +1,11 @@
 {
   "semantics": [
     {
-      "description": "పుస్తకం యాక్సెస్ చేసే ముందు కవర్ / ముఖచిత్రం పుస్తకం గురించి  సమాచారం తెలియచేస్తుంది",
-      "label": "పుస్తకం  ముఖచిత్రాన్ని ఎనేబుల్ చేయండి"
+      "label": "పుస్తకం  ముఖచిత్రాన్ని ఎనేబుల్ చేయండి",
+      "description": "పుస్తకం యాక్సెస్ చేసే ముందు కవర్ / ముఖచిత్రం పుస్తకం గురించి  సమాచారం తెలియచేస్తుంది"
     },
     {
+      "label": "ముఖచిత్రం  పేజీ",
       "fields": [
         {
           "label": "కవర్ /ముఖచిత్రం  వివరణ",
@@ -18,28 +19,33 @@
           "label": "కవర్ చిత్రం  యొక్క  ప్రత్యామ్నాయ టెక్స్ట్",
           "description": "An alternative text for the cover image"
         }
-      ],
-      "label": "ముఖచిత్రం  పేజీ"
+      ]
     },
     {
       "label": "Pages",
+      "entity": "Page",
       "widgets": [
         {
           "label": "Default"
         }
       ],
       "field": {
+        "label": "Item",
         "fields": [
           {
             "label": "Page"
           }
-        ],
-        "label": "Item"
-      },
-      "entity": "Page"
+        ]
+      }
     },
     {
+      "label": "Behavioural settings",
       "fields": [
+        {
+          "label": "Base color",
+          "description": "Set the base color that will define the overall color scheme of the book. Please ensure a high enough contrast.",
+          "default": "#1768c4"
+        },
         {
           "label": "Display table of contents as default",
           "description": "When enabled the table of contents is showed when opening the book"
@@ -56,8 +62,7 @@
           "label": "Display summary",
           "description": "When enabled the user can see a summary and submit the progress/answers"
         }
-      ],
-      "label": "Behavioural settings"
+      ]
     },
     {
       "label": "Translation for \"Read\"",
@@ -109,12 +114,12 @@
     },
     {
       "label": "Page progress in book",
-      "default": "@count of @total pages",
-      "description": "\"@count\" will be replaced by page count, and \"@total\" with the total number of pages"
+      "description": "\"@count\" will be replaced by page count, and \"@total\" with the total number of pages",
+      "default": "@count of @total pages"
     },
     {
-      "description": "\"@count\" will be replaced by interaction count, and \"@total\" with the total number of interactions",
       "label": "Interaction progress",
+      "description": "\"@count\" will be replaced by interaction count, and \"@total\" with the total number of interactions",
       "default": "@count of @total interactions"
     },
     {
@@ -139,12 +144,12 @@
     },
     {
       "label": "Score",
-      "default": "@score / @maxscore",
-      "description": "\"@score\" will be replaced with current score, and \"@maxscore\" will be replaced with max achievable score"
+      "description": "\"@score\" will be replaced with current score, and \"@maxscore\" will be replaced with max achievable score",
+      "default": "@score / @maxscore"
     },
     {
-      "description": "\"@left\" will be replaced with remaining interactions, and \"@max\" will be replaced with total number of interactions on the page",
       "label": "Per page interactions completion",
+      "description": "\"@left\" will be replaced with remaining interactions, and \"@max\" will be replaced with total number of interactions on the page",
       "default": "@left of @max interactions completed"
     },
     {
@@ -187,8 +192,8 @@
       "label": "Accessibility texts",
       "fields": [
         {
-          "description": "An alternative text for the visual page progress. @page and @total variables available.",
           "label": "Page progress textual alternative",
+          "description": "An alternative text for the visual page progress. @page and @total variables available.",
           "default": "Page @page of @total."
         },
         {

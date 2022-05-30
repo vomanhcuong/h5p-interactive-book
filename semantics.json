@@ -117,6 +117,37 @@
     "label": "Behavioural settings",
     "fields": [
       {
+        "name": "baseColor",
+        "type": "text",
+        "label": "Base color",
+        "description": "Set the base color that will define the overall color scheme of the book. Please ensure a high enough contrast.",
+        "optional": true,
+        "widget": "colorSelector",
+        "default": "#1768c4",
+        "spectrum": {
+          "showInput": true,
+          "showInitial": true,
+          "showPalette": true,
+          "palette": [
+            [
+              "#1768C4"
+            ],
+            [
+              "#D9B323"
+            ],
+            [
+              "#D32F2F"
+            ],
+            [
+              "#1EB224"
+            ],
+            [
+              "#7E57C2"
+            ]
+          ]
+        }
+      },
+      {
         "name": "defaultTableOfContents",
         "type": "boolean",
         "label": "Display table of contents as default",

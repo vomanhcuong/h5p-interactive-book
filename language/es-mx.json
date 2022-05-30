@@ -42,6 +42,11 @@
       "label": "Configuraciones del comportamiento",
       "fields": [
         {
+          "label": "Base color",
+          "description": "Set the base color that will define the overall color scheme of the book. Please ensure a high enough contrast.",
+          "default": "#1768c4"
+        },
+        {
           "label": "Mostrar tabla de contenidos como configuración predeterminada",
           "description": "Cuando se habilita, la tabla de contenidos es mostrada al abrir el libro"
         },
